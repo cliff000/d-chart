@@ -1,0 +1,7 @@
+<h1 class="display-4 text-primary"> Top#index </h1>
+<p><%= @msg %></p>
+<hr>
+<div><%=link_to 'login page!&gt;&gt;'.html_safe, {action: 'login'} %></div>
+<div><%=link_to "Sign out&gt;&gt;".html_safe,
+    destroy_account_session_path,
+    method: :delete %></div>

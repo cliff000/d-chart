@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  get 'userpage/login'
+  get 'userpage/form'
+  get 'userpage/myanalysis'
+  get 'userpage/totalanalysis'
   get 'top/index'
   get 'top/login'
   devise_for :accounts

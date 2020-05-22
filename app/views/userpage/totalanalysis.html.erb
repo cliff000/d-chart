@@ -1,0 +1,64 @@
+<h1>Userpage#totalanalysis</h1>
+<p>Find me in app/views/userpage/totalanalysis.html.erb</p>
+
+<div class="container text-white">
+  <div class="row">
+    <div class="col-md-6 border">
+      <canvas id="myPieChart"></canvas>
+      <script>
+        var ctx = document.getElementById("myPieChart");
+        var myPieChart = new Chart(ctx, {
+        type: 'pie',
+        data: {
+          labels: ["A型", "O型", "B型", "AB型"],
+          datasets: [{
+          backgroundColor: [
+            "#BB5179",
+            "#FAFF67",
+            "#58A27C",
+            "#3C00FF"
+          ],
+          data: [38, 31, 21, 10]
+        }]
+        },
+        options: {
+          title: {
+            display: true,
+            text: '血液型 割合'
+          }
+        }
+      });
+      </script>
+    </div>
+    <div class="col-md-6 border">
+    <canvas id="myPieChart2"></canvas>
+    <script>
+    var ctx = document.getElementById("myPieChart2");
+    var myPieChart = new Chart(ctx, {
+      type: 'pie',
+      data: {
+        labels: ["A型", "O型", "B型", "AB型"],
+        datasets: [{
+            backgroundColor: [
+                "#BB5179",
+                "#FAFF67",
+                "#58A27C",
+                "#3C00FF"
+            ],
+            data: [38, 31, 21, 10]
+        }]
+      },
+      options: {
+        title: {
+          display: true,
+          text: '血液型 割合'
+        }
+      }
+    });
+    </script>
+    </div>
+  </div>
+</div>
+
+<div><%=link_to 'form&gt;&gt;'.html_safe, {action: 'form'} %></div>
+<div><%=link_to 'myanalysis&gt;&gt;'.html_safe, {action: 'myanalysis'} %></div>

@@ -1,0 +1,113 @@
+<h1>Userpage#myanalysis</h1>
+<p>Find me in app/views/userpage/myanalysis.html.erb</p>
+
+<div class="container text-white">
+    <div class="row">
+        <div class="col-md-6 border">
+            <canvas id="myLineChart"></canvas>
+            <script>
+            var ctx = document.getElementById("myLineChart");
+            var myLineChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                labels: ['8月1日', '8月2日', '8月3日', '8月4日', '8月5日', '8月6日', '8月7日'],
+                datasets: [
+                    {
+                    label: '最高気温(度）',
+                    data: [35, 34, 37, 35, 34, 35, 34, 25],
+                    borderColor: "rgba(255,0,0,1)",
+                    backgroundColor: "rgba(0,0,0,0)"
+                    },
+                    {
+                    label: '最低気温(度）',
+                    data: [25, 27, 27, 25, 26, 27, 25, 21],
+                    borderColor: "rgba(0,0,255,1)",
+                    backgroundColor: "rgba(0,0,0,0)"
+                    }
+                ],
+                },
+                options: {
+                title: {
+                    display: true,
+                    text: '気温（8月1日~8月7日）'
+                },
+                scales: {
+                    yAxes: [{
+                    ticks: {
+                        suggestedMax: 40,
+                        suggestedMin: 0,
+                        stepSize: 10,
+                        callback: function(value, index, values){
+                        return  value +  '度'
+                        }
+                    }
+                    }]
+                },
+                }
+            });
+            </script>
+        </div>
+        <div class="col-md-6 border">
+            <canvas id="myPieChart2"></canvas>
+            <script>
+            var ctx = document.getElementById("myPieChart2");
+            var myPieChart = new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: ["A型", "O型", "B型", "AB型"],
+                datasets: [{
+                    backgroundColor: [
+                        "#BB5179",
+                        "#FAFF67",
+                        "#58A27C",
+                        "#3C00FF"
+                    ],
+                    data: [38, 31, 21, 10]
+                }]
+            },
+            options: {
+                title: {
+                display: true,
+                text: '血液型 割合'
+                }
+            }
+            });
+            </script>
+        </div>
+    </div>
+
+    <div class="row">
+        <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>自分デッキ</th>
+                <th>自分スキル</th>
+                <th>相手デッキ</th>
+                <th>相手スキル</th>
+                <th>勝敗</th>
+                <th>DP増減</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% num = 0 %>
+            <% @data.each do |obj| %>
+            <% num += 1 %>
+            <tr>
+                <td><%= num %></td>
+                <td><%= obj.mydeck %></td>
+                <td><%= obj.myskill %></td>
+                <td><%= obj.oppdeck %></td>
+                <td><%= obj.oppskill %></td>
+                <td><%= obj.victory %></td>
+                <td><%= obj.dp %></td>
+            </tr>
+            <% end %>
+        </tbody>
+        </table>
+    </div>
+</div>
+
+
+<div><%=link_to 'form&gt;&gt;'.html_safe, {action: 'form'} %></div>
+<div><%=link_to 'totalanalysis&gt;&gt;'.html_safe, {action: 'totalanalysis'} %></div>

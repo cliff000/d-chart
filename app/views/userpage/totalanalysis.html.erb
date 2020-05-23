@@ -1,0 +1,96 @@
+<h1>Userpage#totalanalysis</h1>
+<p>Find me in app/views/userpage/totalanalysis.html.erb</p>
+
+<div class="container text-white">
+    <div class="row">
+        <div class="col-md-6 border">
+        <canvas id="myPieChart"></canvas>
+        <script>
+            var ctx = document.getElementById("myPieChart");
+            var myPieChart = new Chart(ctx, {
+            type: 'pie',
+            data: {
+            labels: ["A型", "O型", "B型", "AB型"],
+            datasets: [{
+            backgroundColor: [
+                "#BB5179",
+                "#FAFF67",
+                "#58A27C",
+                "#3C00FF"
+            ],
+            data: [38, 31, 21, 10]
+            }]
+            },
+            options: {
+            title: {
+                display: true,
+                text: '血液型 割合'
+            }
+            }
+        });
+        </script>
+        </div>
+        <div class="col-md-6 border">
+        <canvas id="myPieChart2"></canvas>
+        <script>
+        var ctx = document.getElementById("myPieChart2");
+        var myPieChart = new Chart(ctx, {
+        type: 'pie',
+        data: {
+            labels: ["A型", "O型", "B型", "AB型"],
+            datasets: [{
+                backgroundColor: [
+                    "#BB5179",
+                    "#FAFF67",
+                    "#58A27C",
+                    "#3C00FF"
+                ],
+                data: [38, 31, 21, 10]
+            }]
+        },
+        options: {
+            title: {
+            display: true,
+            text: '血液型 割合'
+            }
+        }
+        });
+        </script>
+        </div>
+    </div>
+
+
+    <div class="row">
+        <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>自分デッキ</th>
+                <th>自分スキル</th>
+                <th>相手デッキ</th>
+                <th>相手スキル</th>
+                <th>勝敗</th>
+                <th>DP増減</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% num = 0 %>
+            <% @data.each do |obj| %>
+            <% num += 1 %>
+            <tr>
+                <td><%= num %></td>
+                <td><%= obj.mydeck %></td>
+                <td><%= obj.myskill %></td>
+                <td><%= obj.oppdeck %></td>
+                <td><%= obj.oppskill %></td>
+                <td><%= obj.victory %></td>
+                <td><%= obj.dp %></td>
+            </tr>
+            <% end %>
+        </tbody>
+        </table>
+    </div>
+</div>
+
+<div><%=link_to 'form&gt;&gt;'.html_safe, {action: 'form'} %></div>
+<div><%=link_to 'myanalysis&gt;&gt;'.html_safe, {action: 'myanalysis'} %></div>

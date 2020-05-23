@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  mydeck: MyText
+  myskill: MyText
+  oppdeck: MyText
+  oppskill: MyText
+  victory: MyText
+  dp: 1
+
+two:
+  mydeck: MyText
+  myskill: MyText
+  oppdeck: MyText
+  oppskill: MyText
+  victory: MyText
+  dp: 1

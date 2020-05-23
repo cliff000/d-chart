@@ -1,4 +1,28 @@
 <h1 class="display-4 text-primary"><%= @account.email %></h1>
 <p><%= @msg %></p>
-<hr>
+<p>
+<form>
+  <div class="form-group">
+    <label for="exampleInputEmail1">自分のデッキ</label>
+    <input type="email" class="form-control" id="exampleInputEmail1" placeholder="デッキ名">
+  </div>
+  <div class="form-group">
+    <label for="exampleInputPassword1">自分のスキル</label>
+    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="スキル名">
+  </div>
+  <div class="form-group">
+    <label for="exampleInputEmail1">相手のデッキ</label>
+    <input type="email" class="form-control" id="exampleInputEmail1" placeholder="デッキ名">
+  </div>
+  <div class="form-group">
+    <label for="exampleInputPassword1">相手のスキル</label>
+    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="スキル名">
+  </div>
+  <div class="form-group form-check">
+    <input type="checkbox" class="form-check-input" id="exampleCheck1">
+    <label class="form-check-label" for="exampleCheck1">自分のデッキ、スキルを記録する</label>
+  </div>
+  <button type="submit" class="btn btn-primary">送信する</button>
+</form>
+</p>
 <div><%=link_to '&lt;&lt;go back'.html_safe, {action: 'index'} %></div>

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_16_130020) do
+ActiveRecord::Schema.define(version: 2020_05_23_081730) do
 
   create_table "accounts", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "email", default: "", null: false
@@ -22,6 +22,18 @@ ActiveRecord::Schema.define(version: 2020_05_16_130020) do
     t.datetime "updated_at", null: false
     t.index ["email"], name: "index_accounts_on_email", unique: true
     t.index ["reset_password_token"], name: "index_accounts_on_reset_password_token", unique: true
+  end
+
+  create_table "matches", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.text "mydeck"
+    t.text "myskill"
+    t.text "oppdeck"
+    t.text "oppskill"
+    t.text "victory"
+    t.integer "dp"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "playerid"
   end
 
 end

@@ -1,0 +1,6 @@
+<h1 class="display-4 text-primary"><%= @account.email %>@<%= @account.id %></h1>
+<p><%= @msg %></p>
+
+<div><%=link_to 'form&gt;&gt;'.html_safe, {action: 'form'} %></div>
+<div><%=link_to 'myanalysis&gt;&gt;'.html_safe, {action: 'myanalysis'} %></div>
+<div><%=link_to 'totalanalysis&gt;&gt;'.html_safe, {action: 'totalanalysis'} %></div>

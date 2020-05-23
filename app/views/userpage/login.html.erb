@@ -1,4 +1,4 @@
-<h1 class="display-4 text-primary"><%= @account.email %></h1>
+<h1 class="display-4 text-primary"><%= @account.email %>@<%= @account.id %></h1>
 <p><%= @msg %></p>
 
 <div><%=link_to 'form&gt;&gt;'.html_safe, {action: 'form'} %></div>

@@ -81,30 +81,28 @@
         <thead>
             <tr>
                 <th>#</th>
-                <th>First Name</th>
-                <th>Last Name</th>
-                <th>Username</th>
+                <th>自分デッキ</th>
+                <th>自分スキル</th>
+                <th>相手デッキ</th>
+                <th>相手スキル</th>
+                <th>勝敗</th>
+                <th>DP増減</th>
             </tr>
         </thead>
         <tbody>
+            <% num = 0 %>
+            <% @data.each do |obj| %>
+            <% num += 1 %>
             <tr>
-                <th>1</th>
-                <td>Hanako</td>
-                <td>Qiita</td>
-                <td>@Hanaq</td>
+                <td><%= num %></td>
+                <td><%= obj.mydeck %></td>
+                <td><%= obj.myskill %></td>
+                <td><%= obj.oppdeck %></td>
+                <td><%= obj.oppskill %></td>
+                <td><%= obj.victory %></td>
+                <td><%= obj.dp %></td>
             </tr>
-            <tr>
-                <th>2</th>
-                <td>Taro</td>
-                <td>Qiita</td>
-                <td>@TaroQ</td>
-            </tr>
-            <tr>
-                <th>1</th>
-                <td>Hanako</td>
-                <td>Qiita</td>
-                <td>@Hanaq</td>
-            </tr>
+            <% end %>
         </tbody>
         </table>
     </div>

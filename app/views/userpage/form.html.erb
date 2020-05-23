@@ -1,52 +1,53 @@
 <h1 class="display-4 text-primary">Form</h1>
-<p>
-<form>
-  <div class="form-group">
-    <label for="exampleInputEmail1">自分のデッキ</label>
-    <select class="form-control" id="exampleFormControlSelect1">
-      <option>ES召喚獣</option>
-      <option>不知火</option>
-      <option>水晶機巧</option>
-      <option>サイバー・ドラゴン</option>
-      <option>HERO</option>
-    </select>
-  </div>
-  <div class="form-group">
-    <label for="exampleInputPassword1">自分のスキル</label>
-    <select class="form-control" id="exampleFormControlSelect1">
-      <option>ディスティニー・ドロー</option>
-      <option>墓所封印</option>
-      <option>現世復帰の制約</option>
-      <option>粉砕！</option>
-      <option>絆の力</option>
-    </select>
-  </div>
-  <div class="form-group">
-    <label for="exampleInputEmail1">相手のデッキ</label>
-    <select class="form-control" id="exampleFormControlSelect1">
-      <option>ES召喚獣</option>
-      <option>不知火</option>
-      <option>水晶機巧</option>
-      <option>サイバー・ドラゴン</option>
-      <option>HERO</option>
-    </select>
-  </div>
-  <div class="form-group">
-    <label for="exampleInputPassword1">相手のスキル</label>
-    <select class="form-control" id="exampleFormControlSelect1">
-      <option>ディスティニー・ドロー</option>
-      <option>墓所封印</option>
-      <option>現世復帰の制約</option>
-      <option>粉砕！</option>
-      <option>絆の力</option>
-    </select>
-  </div>
-  <div class="form-group form-check">
-    <input type="checkbox" class="form-check-input" id="exampleCheck1">
-    <label class="form-check-label" for="exampleCheck1">自分のデッキ、スキルを記録する</label>
-  </div>
-  <button type="submit" class="btn btn-primary">送信する</button>
-</form>
-</p>
+
+<%= form_for(@match, url:{controller:'userpage', action:'create'}) do |form| %>
+    <div class="form-group">
+        <label>自分：</label>
+        <%= form.select :mydeck, 
+            [["デッキ"],
+            ["ES召喚獣"],
+            ["不知火"],
+            ["水晶機巧"],
+            ["サイバー・ドラゴン"],
+            ["HERO"]],
+            class: 'form-control' %>
+        <%= form.select :myskill,
+            [["スキル"],
+            ["ディスティニー・ドロー"],
+            ["墓所封印"],
+            ["現世復帰の制約"],
+            ["粉砕！"],
+            ["絆の力"]],
+            class: 'form-control' %>
+    </div>
+    
+    <div class="form-group">
+        <label>相手：</label>
+        <%= form.select :oppdeck, 
+            [["デッキ"],
+            ["ES召喚獣"],
+            ["不知火"],
+            ["水晶機巧"],
+            ["サイバー・ドラゴン"],
+            ["HERO"]],
+            class: 'form-control' %>
+        <%= form.select :oppskill,
+            [["スキル"],
+            ["ディスティニー・ドロー"],
+            ["墓所封印"],
+            ["現世復帰の制約"],
+            ["粉砕！"],
+            ["絆の力"]],
+            class: 'form-control' %>
+    </div>
+
+    <div class="form-group">
+        <label><%= form.radio_button :victory, "勝ち",  checked: true%>勝ち</label>
+        <label><%= form.radio_button :victory, "負け" %>負け</label>
+    </div>
+
+    <%= form.submit class:"btn btn-primary" %>
+<% end %>
+<hr>
 <div><%=link_to 'myanalysis&gt;&gt;'.html_safe, {action: 'myanalysis'} %></div>
 <div><%=link_to 'totalanalysis&gt;&gt;'.html_safe, {action: 'totalanalysis'} %></div>

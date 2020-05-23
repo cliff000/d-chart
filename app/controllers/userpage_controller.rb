@@ -8,11 +8,28 @@ class UserpageController < ApplicationController
   end
 
   def form
+    @match = Match.new
+  end
+
+  def create
+    if request.post? then
+      tmp = Match.new(match_params)
+      tmp.playerid = current_account.id
+      tmp.save
+    end
+    redirect_to '/userpage/login'
   end
 
   def myanalysis
+    @data = Match.where(playerid: current_account.id)
   end
 
   def totalanalysis
+    @data = Match.all
+  end
+
+  private
+  def match_params
+    params.require(:match).permit(:playerid, :mydeck, :myskill, :oppdeck, :oppskill, :victory, :dp)
   end
 end

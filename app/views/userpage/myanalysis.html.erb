@@ -1,14 +1,37 @@
-<h1>Userpage#myanalysis</h1>
-<p>Find me in app/views/userpage/myanalysis.html.erb</p>
-<p><%= @data.group(:oppdeck).count %></p>
+<nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4">
+    <a class="navbar-brand" href="#">D-Analysis</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#Navbar" aria-controls="Navbar" aria-expanded="false" aria-label="ナビゲーションの切替">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="Navbar">
+        <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+            <a class="nav-link" href="./form">フォーム</a>
+        </li>
+        <li class="nav-item active">
+            <a class="nav-link" href="#">個人<span class="sr-only">(現位置)</span></a>
+        <li class="nav-item">
+            <a class="nav-link" href="./totalanalysis">全体</a>
+        </ul>
+    </div>
+</nav>
+
+<h1>ユーザーページ</h1>
+<p>自分の戦績の分析を行うページです</p>
 
 <div class="container text-white">
     <div class="row">
         <div class="col-md-6 border">
-            <%= pie_chart({"Football" => 10, "Basketball" => 5}) %>
+            <% dp_line = [[0, 0]] %>
+            <% num = 0 %>
+            <% @data.each do |obj| %>
+                <% num += 1 %>
+                <% dp_line.push([num, obj.dp]) %>
+            <% end %>
+            <%= line_chart  dp_line, curve: false, label: "DP" %>
         </div>
         <div class="col-md-6 border">
-            <%= pie_chart @data.group(:oppdeck).count %>
+            <%= pie_chart @data.group(:oppdeck).count.sort {|a,b| b[1]<=>a[1]} %>
         </div>
     </div>
     
@@ -43,7 +66,3 @@
         </table>
     </div>
 </div>
-
-
-<div><%=link_to 'form&gt;&gt;'.html_safe, {action: 'form'} %></div>
-<div><%=link_to 'totalanalysis&gt;&gt;'.html_safe, {action: 'totalanalysis'} %></div>

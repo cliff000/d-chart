@@ -36,6 +36,7 @@ class UserpageController < ApplicationController
   end
 
   def myanalysis
+    @account = current_account
     @data = Match.where(playerid: current_account.id)
   end
 

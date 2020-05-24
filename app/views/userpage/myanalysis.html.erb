@@ -1,81 +1,40 @@
-<h1>Userpage#myanalysis</h1>
-<p>Find me in app/views/userpage/myanalysis.html.erb</p>
+<nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4">
+    <a class="navbar-brand" href="#">D-Analysis</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#Navbar" aria-controls="Navbar" aria-expanded="false" aria-label="ナビゲーションの切替">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="Navbar">
+        <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+            <a class="nav-link" href="./form">フォーム</a>
+        </li>
+        <li class="nav-item active">
+            <a class="nav-link" href="#">個人<span class="sr-only">(現位置)</span></a>
+        <li class="nav-item">
+            <a class="nav-link" href="./totalanalysis">全体</a>
+        </ul>
+    </div>
+</nav>
+
+<h1>ユーザーページ</h1>
+<p>自分の戦績の分析を行うページです</p>
 
 <div class="container text-white">
     <div class="row">
         <div class="col-md-6 border">
-            <canvas id="myLineChart"></canvas>
-            <script>
-            var ctx = document.getElementById("myLineChart");
-            var myLineChart = new Chart(ctx, {
-                type: 'line',
-                data: {
-                labels: ['8月1日', '8月2日', '8月3日', '8月4日', '8月5日', '8月6日', '8月7日'],
-                datasets: [
-                    {
-                    label: '最高気温(度）',
-                    data: [35, 34, 37, 35, 34, 35, 34, 25],
-                    borderColor: "rgba(255,0,0,1)",
-                    backgroundColor: "rgba(0,0,0,0)"
-                    },
-                    {
-                    label: '最低気温(度）',
-                    data: [25, 27, 27, 25, 26, 27, 25, 21],
-                    borderColor: "rgba(0,0,255,1)",
-                    backgroundColor: "rgba(0,0,0,0)"
-                    }
-                ],
-                },
-                options: {
-                title: {
-                    display: true,
-                    text: '気温（8月1日~8月7日）'
-                },
-                scales: {
-                    yAxes: [{
-                    ticks: {
-                        suggestedMax: 40,
-                        suggestedMin: 0,
-                        stepSize: 10,
-                        callback: function(value, index, values){
-                        return  value +  '度'
-                        }
-                    }
-                    }]
-                },
-                }
-            });
-            </script>
+            <% dp_line = [[0, 0]] %>
+            <% num = 0 %>
+            <% @data.each do |obj| %>
+                <% num += 1 %>
+                <% dp_line.push([num, obj.dp]) %>
+            <% end %>
+            <%= line_chart  dp_line, curve: false, label: "DP" %>
         </div>
         <div class="col-md-6 border">
-            <canvas id="myPieChart2"></canvas>
-            <script>
-            var ctx = document.getElementById("myPieChart2");
-            var myPieChart = new Chart(ctx, {
-            type: 'pie',
-            data: {
-                labels: ["A型", "O型", "B型", "AB型"],
-                datasets: [{
-                    backgroundColor: [
-                        "#BB5179",
-                        "#FAFF67",
-                        "#58A27C",
-                        "#3C00FF"
-                    ],
-                    data: [38, 31, 21, 10]
-                }]
-            },
-            options: {
-                title: {
-                display: true,
-                text: '血液型 割合'
-                }
-            }
-            });
-            </script>
+            <%= pie_chart @data.group(:oppdeck).count.sort {|a,b| b[1]<=>a[1]} %>
         </div>
     </div>
-
+    
     <div class="row">
         <table class="table table-striped">
         <thead>
@@ -86,7 +45,7 @@
                 <th>相手デッキ</th>
                 <th>相手スキル</th>
                 <th>勝敗</th>
-                <th>DP増減</th>
+                <th>DP</th>
             </tr>
         </thead>
         <tbody>
@@ -107,7 +66,3 @@
         </table>
     </div>
 </div>
-
-
-<div><%=link_to 'form&gt;&gt;'.html_safe, {action: 'form'} %></div>
-<div><%=link_to 'totalanalysis&gt;&gt;'.html_safe, {action: 'totalanalysis'} %></div>

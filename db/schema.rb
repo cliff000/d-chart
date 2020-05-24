@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_23_081730) do
+ActiveRecord::Schema.define(version: 2020_05_23_213049) do
 
   create_table "accounts", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "email", default: "", null: false
@@ -25,6 +25,7 @@ ActiveRecord::Schema.define(version: 2020_05_23_081730) do
   end
 
   create_table "matches", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.integer "playerid"
     t.text "mydeck"
     t.text "myskill"
     t.text "oppdeck"
@@ -33,7 +34,6 @@ ActiveRecord::Schema.define(version: 2020_05_23_081730) do
     t.integer "dp"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "playerid"
   end
 
 end

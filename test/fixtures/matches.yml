@@ -1,6 +1,7 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
+  playerid: 1
   mydeck: MyText
   myskill: MyText
   oppdeck: MyText
@@ -9,6 +10,7 @@ one:
   dp: 1
 
 two:
+  playerid: 1
   mydeck: MyText
   myskill: MyText
   oppdeck: MyText

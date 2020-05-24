@@ -15,6 +15,21 @@ class UserpageController < ApplicationController
     if request.post? then
       tmp = Match.new(match_params)
       tmp.playerid = current_account.id
+
+      dp = 0
+      if Match.where(playerid: current_account.id).exists? then
+        dp = Match.where(playerid: current_account.id).last.dp
+      end
+      if tmp.victory == "勝ち" then
+        dp += 1000
+      else 
+        dp -= 1000
+        if dp < 0 then
+          dp = 0
+        end
+      end
+      tmp.dp = dp
+
       tmp.save
     end
     redirect_to '/userpage/login'

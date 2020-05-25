@@ -20,49 +20,94 @@
 <p>自分の戦績の分析を行うページです</p>
 
 <div class="container text-white">
+    <% oppdecks = @data.group(:oppdeck).count.sort {|a,b| b[1]<=>a[1]} %>
+    <% mydecks = @data.group(:mydeck).count.sort {|a,b| b[1]<=>a[1]} %>
     <div class="row">
         <div class="col-md-6 border">
+            <center><font color="black">デッキ分布</font></center>
+            <%= pie_chart  oppdecks %>
+        </div>
+        <div class="col-md-6 border">
+            <center><font color="black">DP推移</font></center>
             <% dp_line = [[0, 0]] %>
             <% num = 0 %>
+            <% if @data.count == 0 then %>
+                dp_line = nil
+            <% end %>
             <% @data.each do |obj| %>
                 <% num += 1 %>
                 <% dp_line.push([num, obj.dp]) %>
             <% end %>
             <%= line_chart  dp_line, curve: false, label: "DP" %>
         </div>
-        <div class="col-md-6 border">
-            <%= pie_chart @data.group(:oppdeck).count.sort {|a,b| b[1]<=>a[1]} %>
+    </div>
+
+    <div class="row">
+        <div class="table-responsive">
+            <center><font color="black">相性表</font></center>
+            <table class="table table-striped">
+            <thead>
+                <tr>
+                    <td></td>
+                    <% oppdecks.each do |hash| %>
+                        <td><%= hash[0] %></td>
+                    <% end %>
+                    <td>総計</td>
+                </tr>
+            </thead>
+            <tbody>
+                <% mydecks.each do |mhash| %>
+                    <tr>
+                        <td><%= mhash[0] %></td>
+                        <% data_md = @data.where(mydeck:mhash[0]) %>
+                        <% oppdecks.each do |ohash| %>
+                            <% data_mdod = data_md.where(oppdeck:ohash[0]) %>
+                            <% data_mdodv = data_mdod.where(victory:"勝ち") %>
+                            <% if data_mdod.count == 0 then %>
+                                <td>no data</td>
+                            <% else %>
+                                <td><%= data_mdodv.count * 100 / data_mdod.count %>%</td>
+                            <% end %>
+                        <% end %>
+                        <% data_mdv = data_md.where(victory:"勝ち") %>
+                        <td><%= data_mdv.count * 100 / data_md.count %>%</td>
+                    </tr>
+                <% end %>
+            </tbody>
+            </table>
         </div>
     </div>
     
     <div class="row">
-        <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>#</th>
-                <th>自分デッキ</th>
-                <th>自分スキル</th>
-                <th>相手デッキ</th>
-                <th>相手スキル</th>
-                <th>勝敗</th>
-                <th>DP</th>
-            </tr>
-        </thead>
-        <tbody>
-            <% num = 0 %>
-            <% @data.each do |obj| %>
-            <% num += 1 %>
-            <tr>
-                <td><%= num %></td>
-                <td><%= obj.mydeck %></td>
-                <td><%= obj.myskill %></td>
-                <td><%= obj.oppdeck %></td>
-                <td><%= obj.oppskill %></td>
-                <td><%= obj.victory %></td>
-                <td><%= obj.dp %></td>
-            </tr>
-            <% end %>
-        </tbody>
-        </table>
+        <div class="table-responsive">
+            <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>自分デッキ</th>
+                    <th>自分スキル</th>
+                    <th>相手デッキ</th>
+                    <th>相手スキル</th>
+                    <th>勝敗</th>
+                    <th>DP</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% num = 0 %>
+                <% @data.each do |obj| %>
+                    <% num += 1 %>
+                    <tr>
+                        <td><%= num %></td>
+                        <td><%= obj.mydeck %></td>
+                        <td><%= obj.myskill %></td>
+                        <td><%= obj.oppdeck %></td>
+                        <td><%= obj.oppskill %></td>
+                        <td><%= obj.victory %></td>
+                        <td><%= obj.dp %></td>
+                    </tr>
+                <% end %>
+            </tbody>
+            </table>
+        </div>
     </div>
 </div>

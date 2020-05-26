@@ -6,18 +6,43 @@
     <div class="collapse navbar-collapse" id="Navbar">
         <ul class="navbar-nav mr-auto">
         <li class="nav-item">
-            <a class="nav-link" href="./form">フォーム</a>
+            <a class="nav-link" href="./form">記録</a>
         </li>
         <li class="nav-item active">
-            <a class="nav-link" href="#">個人<span class="sr-only">(現位置)</span></a>
+            <a class="nav-link" href="#">個人分析<span class="sr-only">(現位置)</span></a>
         <li class="nav-item">
-            <a class="nav-link" href="./totalanalysis">全体</a>
+            <a class="nav-link" href="./totalanalysis">全体分析</a>
         </ul>
     </div>
 </nav>
 
-<h1>ユーザーページ</h1>
-<p>自分の戦績の分析を行うページです</p>
+<div class="row">
+    <div class="col-md-8">
+        <h1>個人分析</h1>
+        <p>　自分の戦績について分析を行うページです</p>
+    </div>
+    <div class="col-md-2">
+        <table class="table table-bordered">
+        <thead>
+            <tr><td>対戦数</td></tr>
+        </thead>
+        <tbody>
+            <tr><td><%= @data.count %></td></tr>
+        </tbody>
+        </table>
+    </div>
+    <div class="col-md-2">
+        <table class="table table-bordered">
+        <thead>
+            <tr><td>勝率</td></tr>
+        </thead>
+        <tbody>
+            <tr><td><%= (@data.where(victory: "勝ち").count.to_f * 100 / @data.count).round(1) %>%</td></tr>
+        </tbody>
+        </table>
+    </div>
+</div>
+
 
 <div class="container text-white">
     <% oppdecks = @data.group(:oppdeck).count.sort {|a,b| b[1]<=>a[1]} %>
@@ -29,15 +54,15 @@
         </div>
         <div class="col-md-6 border">
             <center><font color="black">DP推移</font></center>
-            <% dp_line = [[0, 0]] %>
-            <% num = 0 %>
-            <% if @data.count == 0 then %>
+            <% dp_line = [[0, 0]]
+            num = 0
+            if @data.count == 0 then
                 dp_line = nil
-            <% end %>
-            <% @data.each do |obj| %>
-                <% num += 1 %>
-                <% dp_line.push([num, obj.dp]) %>
-            <% end %>
+            end
+            @data.each do |obj|
+                num += 1
+                dp_line.push([num, obj.dp])
+            end %>
             <%= line_chart  dp_line, curve: false, label: "DP" %>
         </div>
     </div>
@@ -45,7 +70,7 @@
     <div class="row">
         <div class="table-responsive">
             <center><font color="black">相性表</font></center>
-            <table class="table table-striped">
+            <table class="table table-bordered">
             <thead>
                 <tr>
                     <td></td>
@@ -59,18 +84,18 @@
                 <% mydecks.each do |mhash| %>
                     <tr>
                         <td><%= mhash[0] %></td>
-                        <% data_md = @data.where(mydeck:mhash[0]) %>
-                        <% oppdecks.each do |ohash| %>
-                            <% data_mdod = data_md.where(oppdeck:ohash[0]) %>
-                            <% data_mdodv = data_mdod.where(victory:"勝ち") %>
+                        <% data_md = @data.where(mydeck:mhash[0])
+                        oppdecks.each do |ohash|
+                            data_mdod = data_md.where(oppdeck:ohash[0])
+                            data_mdodv = data_mdod.where(victory:"勝ち") %>
                             <% if data_mdod.count == 0 then %>
-                                <td>no data</td>
+                                <td>none</td>
                             <% else %>
-                                <td><%= data_mdodv.count * 100 / data_mdod.count %>%</td>
+                                <td><%= (data_mdodv.count * 100.to_f / data_mdod.count).round(1) %>%</td>
                             <% end %>
                         <% end %>
                         <% data_mdv = data_md.where(victory:"勝ち") %>
-                        <td><%= data_mdv.count * 100 / data_md.count %>%</td>
+                        <td><%= (data_mdv.count.to_f * 100 / data_md.count).round(1) %>%</td>
                     </tr>
                 <% end %>
             </tbody>

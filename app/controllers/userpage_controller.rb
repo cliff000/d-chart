@@ -9,6 +9,10 @@ class UserpageController < ApplicationController
 
   def form
     @match = Match.new
+    @lastData = Match.where(playerid: current_account.id).last
+  end
+
+  def sended_form
   end
 
   def create
@@ -32,7 +36,7 @@ class UserpageController < ApplicationController
 
       tmp.save
     end
-    redirect_to '/userpage/login'
+    redirect_to '/userpage/sended_form'
   end
 
   def myanalysis

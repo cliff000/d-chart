@@ -6,57 +6,60 @@
     <div class="collapse navbar-collapse" id="Navbar">
         <ul class="navbar-nav mr-auto">
         <li class="nav-item active">
-            <a class="nav-link" href="#">フォーム<span class="sr-only">(現位置)</span></a>
+            <a class="nav-link" href="#">記録<span class="sr-only">(現位置)</span></a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="./myanalysis">個人</a>
+            <a class="nav-link" href="./myanalysis">個人分析</a>
         <li class="nav-item">
-            <a class="nav-link" href="./totalanalysis">全体</a>
+            <a class="nav-link" href="./totalanalysis">全体分析</a>
         </ul>
     </div>
 </nav>
 
-<h1 class="display-4 text-primary">Form</h1>
+<h1>記録</h1>
+<p>　対戦結果を送信し、保存するためのページです</p>
 
 <%= form_for(@match, url:{controller:'userpage', action:'create'}) do |form| %>
     <div class="form-group">
-        <label>自分：</label>
+        <label>自分のデッキ</label>
         <%= form.select :mydeck, 
-            [["デッキ"],
-            ["ES召喚獣"],
+            [["ES召喚獣"],
             ["不知火"],
             ["水晶機巧"],
             ["サイバー・ドラゴン"],
             ["HERO"]],
-            class: 'form-control' %>
+            {include_blank: true, selected: @lastData.mydeck}, {class: 'form-control'} %>
+    </div>
+    <div class="form-group">
+        <label>自分のスキル</label>
         <%= form.select :myskill,
-            [["スキル"],
-            ["ディスティニー・ドロー"],
+            [["ディスティニー・ドロー"],
             ["墓所封印"],
             ["レベル上昇"],
             ["サイバー流奥義"],
             ["スリカエ"]],
-            class: 'form-control' %>
+            {include_blank: true, selected: @lastData.myskill}, {class: 'form-control'} %>
     </div>
     
     <div class="form-group">
-        <label>相手：</label>
+        <label>相手のデッキ</label>
         <%= form.select :oppdeck, 
-            [["デッキ"],
-            ["ES召喚獣"],
+            [["ES召喚獣"],
             ["不知火"],
             ["水晶機巧"],
             ["サイバー・ドラゴン"],
             ["HERO"]],
-            class: 'form-control' %>
+            {include_blank: true}, {class: 'form-control'} %>
+    </div>
+    <div class="form-group">
+        <label>相手のスキル</label>
         <%= form.select :oppskill,
-            [["スキル"],
-            ["ディスティニー・ドロー"],
+            [["ディスティニー・ドロー"],
             ["墓所封印"],
             ["レベル上昇"],
             ["サイバー流奥義"],
             ["スリカエ"]],
-            class: 'form-control' %>
+            {include_blank: true}, {class: 'form-control'} %>
     </div>
 
     <div class="form-group">
@@ -64,5 +67,5 @@
         <label><%= form.radio_button :victory, "負け" %>負け</label>
     </div>
 
-    <%= form.submit class:"btn btn-primary" %>
+    <%= form.submit "送信", class:"btn btn-primary" %>
 <% end %>

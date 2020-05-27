@@ -1,5 +1,5 @@
 <nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4">
-    <a class="navbar-brand" href="#">D-Analysis</a>
+    <a class="navbar-brand" href="#">D-Chart</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#Navbar" aria-controls="Navbar" aria-expanded="false" aria-label="ナビゲーションの切替">
         <span class="navbar-toggler-icon"></span>
     </button>
@@ -9,56 +9,56 @@
             <a class="nav-link" href="./form">記録</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="./myanalysis">個人分析</a>
+            <a class="nav-link" href="./me">個人</a>
         <li class="nav-item active">
-            <a class="nav-link" href="#">全体分析<span class="sr-only">(現位置)</span></a>
+            <a class="nav-link" href="">全体<span class="sr-only">(現位置)</span></a>
         </ul>
     </div>
 </nav>
 
 
-<h1>全体分析</h1>
-<p>　ユーザー全体の対戦記録をまとめて分析を行うページです</p>
+<h1>全体ページ</h1>
+<p>ユーザー全体の対戦記録をまとめて図表化するページです</p>
 
 
-<div class="container text-white">
-    <% oppdecks = @data.group(:oppdeck).count.sort {|a,b| b[1]<=>a[1]} %>
-    <% mydecks = @data.group(:mydeck).count.sort {|a,b| b[1]<=>a[1]} %>
-    <div class="row">
-        <div class="col-md-6 border">
-            <center><font color="black">デッキ分布</font></center>
-            <%= pie_chart  oppdecks %>
-        </div>
-        <div class="col-md-6 border">
-            <center><font color="black">スキル</font></center>
-            <table class="table table-bordered">
-            <thead>
-                <tr>
-                <td></td>
-                <td>1位</td>
-                <td>2位</td>
-                <td>3位</td>
-                </tr>
-            </thead>
-            <tbody>
-                <% ods = @data.group(:oppdeck).group(:oppskill).count.sort {|a,b| b[1]<=>a[1]} %>
-                <% oppdecks.each do |hash| %>
-                    <tr>
-                    <td><%= hash[0] %></td>
-                    <% data_od = @data.where(oppdeck: hash[0]) %>
-                    <% data_od.group(:oppskill).count.sort {|a,b| b[1]<=>a[1]}.each do |skill| %>
-                        <td><%= skill[0] %></td>
-                    <% end %>
-                    </tr>
-                <% end %>
-            </tbody>
-            </table>
-        </div>
+<% oppdecks = @data.group(:oppdeck).count.sort {|a,b| b[1]<=>a[1]} %>
+<% mydecks = @data.group(:mydeck).count.sort {|a,b| b[1]<=>a[1]} %>
+<div class="row">
+    <div class="col-md-6 border">
+        <center>デッキ分布</center>
+        <%= pie_chart  oppdecks %>
     </div>
+    <div class="col-md-6">
+        <center>スキル</center>
+        <table class="table table-bordered">
+        <thead>
+            <tr>
+            <td></td>
+            <td>1位</td>
+            <td>2位</td>
+            <td>3位</td>
+            </tr>
+        </thead>
+        <tbody>
+            <% ods = @data.group(:oppdeck).group(:oppskill).count.sort {|a,b| b[1]<=>a[1]} %>
+            <% oppdecks.each do |hash| %>
+                <tr>
+                <td><%= hash[0] %></td>
+                <% data_od = @data.where(oppdeck: hash[0]) %>
+                <% data_od.group(:oppskill).count.sort {|a,b| b[1]<=>a[1]}.each do |skill| %>
+                    <td><%= skill[0] %></td>
+                <% end %>
+                </tr>
+            <% end %>
+        </tbody>
+        </table>
+    </div>
+</div>
 
-    <div class="row">
-        <div class="table-responsive">
-            <center><font color="black">相性表</font></center>
+<div class="row">
+    <div class="table-responsive">
+        <div class="mt-4">
+            <center>相性表</center>
             <table class="table table-bordered">
             <thead>
                 <tr>
@@ -66,7 +66,7 @@
                     <% oppdecks.each do |hash| %>
                         <td><%= hash[0] %></td>
                     <% end %>
-                    <td>総計</td>
+                        <td>総計</td>
                 </tr>
             </thead>
             <tbody>

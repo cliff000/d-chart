@@ -1,8 +1,8 @@
-class UserpageController < ApplicationController
+class MachesController < ApplicationController
   layout 'application'
   before_action :authenticate_account!
 
-  def login
+  def index
     @account = current_account
     @msg = 'account created at: ' + @account.created_at.to_s
   end
@@ -36,15 +36,15 @@ class UserpageController < ApplicationController
 
       tmp.save
     end
-    redirect_to '/userpage/sended_form'
+    redirect_to './sended_form'
   end
 
-  def myanalysis
+  def me
     @account = current_account
     @data = Match.where(playerid: current_account.id)
   end
 
-  def totalanalysis
+  def total
     @data = Match.all
   end
 

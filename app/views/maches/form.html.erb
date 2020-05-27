@@ -1,25 +1,25 @@
 <nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4">
-    <a class="navbar-brand" href="#">D-Analysis</a>
+    <a class="navbar-brand" href="#">D-Chart</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#Navbar" aria-controls="Navbar" aria-expanded="false" aria-label="ナビゲーションの切替">
         <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="Navbar">
         <ul class="navbar-nav mr-auto">
         <li class="nav-item active">
-            <a class="nav-link" href="#">記録<span class="sr-only">(現位置)</span></a>
+            <a class="nav-link" href="">記録<span class="sr-only">(現位置)</span></a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="./myanalysis">個人分析</a>
+            <a class="nav-link" href="./me">個人</a>
         <li class="nav-item">
-            <a class="nav-link" href="./totalanalysis">全体分析</a>
+            <a class="nav-link" href="./total">全体</a>
         </ul>
     </div>
 </nav>
 
-<h1>記録</h1>
-<p>　対戦結果を送信し、保存するためのページです</p>
+<h1>対戦の記録</h1>
+<p>対戦結果を保存するためのページです</p>
 
-<%= form_for(@match, url:{controller:'userpage', action:'create'}) do |form| %>
+<%= form_for(@match, url:{controller:'maches', action:'create'}) do |form| %>
     <div class="form-group">
         <label>自分のデッキ</label>
         <%= form.select :mydeck, 

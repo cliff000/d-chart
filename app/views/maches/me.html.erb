@@ -1,5 +1,5 @@
 <nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4">
-    <a class="navbar-brand" href="#">D-Chart</a>
+    <a class="navbar-brand" href="#">KC Chart</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#Navbar" aria-controls="Navbar" aria-expanded="false" aria-label="ナビゲーションの切替">
         <span class="navbar-toggler-icon"></span>
     </button>
@@ -82,7 +82,7 @@
                             data_mdod = data_md.where(oppdeck:ohash[0])
                             data_mdodv = data_mdod.where(victory:"勝ち") %>
                             <% if data_mdod.count == 0 then %>
-                                <td>none</td>
+                                <td></td>
                             <% else %>
                                 <td><%= (data_mdodv.count * 100.to_f / data_mdod.count).round(1) %>%</td>
                             <% end %>

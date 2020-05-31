@@ -9,56 +9,90 @@
             <a class="nav-link" href="">記録<span class="sr-only">(現位置)</span></a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="./me">個人</a>
+            <a class="nav-link" href="./mychart">個人</a>
         <li class="nav-item">
-            <a class="nav-link" href="./total">全体</a>
+            <a class="nav-link" href="./totalchart">全体</a>
         </ul>
     </div>
 </nav>
 
 <h1>対戦の記録</h1>
 <p>対戦結果を保存するためのページです</p>
+<%= @deckList %>
+<%= @skillList %>
 
 <%= form_for(@match, url:{controller:'maches', action:'create'}) do |form| %>
     <div class="form-group">
         <label>自分のデッキ</label>
         <%= form.select :mydeck, 
-            [["ES召喚獣"],
+            [["水晶機巧"],
+            ["BF"],
+            ["ブラック・マジシャン", "ブラマジ"],
+            ["ES召喚獣"],
+            ["HERO"],
             ["不知火"],
-            ["水晶機巧"],
-            ["サイバー・ドラゴン"],
-            ["HERO"]],
-            {include_blank: true, selected: @lastData.mydeck}, {class: 'form-control'} %>
+            ["青眼"],
+            ["サイバー・ドラゴン", "サイドラ"],
+            ["霊獣"],
+            ["その他"]],
+            {include_blank: true, selected: @lastData.nil? ? "" : @lastData.mydeck}, {class: 'form-control'} %>
     </div>
     <div class="form-group">
         <label>自分のスキル</label>
         <%= form.select :myskill,
-            [["ディスティニー・ドロー"],
+            [["海の伝説"],
+            ["スリカエ"],
+            ["あーばよ！"],
+            ["頂に立つ者"],
+            ["ハーピィの狩場"],
             ["墓所封印"],
+            ["バランス"],
+            ["絆の力"],
+            ["ディスティニー・ドロー", 'ディスドロ'],
+            ["カモン！"],
             ["レベル上昇"],
+            ["罠戦術の使い手"],
+            ["オルタナティブ(白龍)", "オルタナ"],
+            ["粉砕！"],
             ["サイバー流奥義"],
-            ["スリカエ"]],
-            {include_blank: true, selected: @lastData.myskill}, {class: 'form-control'} %>
+            ["その他"]],
+            {include_blank: true, selected: @lastData.nil? ? "" : @lastData.myskill}, {class: 'form-control'} %>
     </div>
     
     <div class="form-group">
         <label>相手のデッキ</label>
         <%= form.select :oppdeck, 
-            [["ES召喚獣"],
+            [["水晶機巧"],
+            ["BF"],
+            ["ブラック・マジシャン", "ブラマジ"],
+            ["ES召喚獣"],
+            ["HERO"],
             ["不知火"],
-            ["水晶機巧"],
-            ["サイバー・ドラゴン"],
-            ["HERO"]],
+            ["青眼"],
+            ["サイバー・ドラゴン", "サイドラ"],
+            ["霊獣"],
+            ["その他"]],
             {include_blank: true}, {class: 'form-control'} %>
     </div>
     <div class="form-group">
         <label>相手のスキル</label>
         <%= form.select :oppskill,
-            [["ディスティニー・ドロー"],
+            [["海の伝説"],
+            ["スリカエ"],
+            ["あーばよ！"],
+            ["頂に立つ者"],
+            ["ハーピィの狩場"],
             ["墓所封印"],
+            ["バランス"],
+            ["絆の力"],
+            ["ディスティニー・ドロー", 'ディスドロ'],
+            ["カモン！"],
             ["レベル上昇"],
+            ["罠戦術の使い手"],
+            ["オルタナティブ(白龍)", "オルタナ"],
+            ["粉砕！"],
             ["サイバー流奥義"],
-            ["スリカエ"]],
+            ["その他"]],
             {include_blank: true}, {class: 'form-control'} %>
     </div>
 

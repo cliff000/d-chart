@@ -39,12 +39,12 @@ class MachesController < ApplicationController
     redirect_to './sended_form'
   end
 
-  def me
+  def mychart
     @account = current_account
     @data = Match.where(playerid: current_account.id)
   end
 
-  def total
+  def totalchart
     @data = Match.all
   end
 

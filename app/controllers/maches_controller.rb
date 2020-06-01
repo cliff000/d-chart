@@ -48,6 +48,16 @@ class MachesController < ApplicationController
     @data = Match.all
   end
 
+  def delete
+    @account = current_account
+    @match = Match.new
+
+    if request.post? then
+      Match.all.destroy_all
+      redirect_to './'
+    end
+  end
+
   private
   def match_params
     params.require(:match).permit(:playerid, :mydeck, :myskill, :oppdeck, :oppskill, :victory, :dp)

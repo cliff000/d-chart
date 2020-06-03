@@ -27,8 +27,15 @@
         <center>デッキ分布</center>
         <%= pie_chart  oppdecks %>
     </div>
-    <div class="col-md-6">
-        <center>スキル</center>
+    <div class="col-md-6 border">
+        <center>直近2時間のデッキ分布</center>
+        <%= pie_chart  @recentData.count.sort {|a,b| b[1]<=>a[1]} %>
+    </div>
+</div>
+
+<div class="mt-4">
+    <center>スキル分布</center>
+    <div class="row">
         <div class='text-nowrap table-responsive'>
             <table class="table table-bordered table-fixed">
             <thead>

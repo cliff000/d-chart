@@ -5,6 +5,7 @@ class MachesController < ApplicationController
   def index
     @account = current_account
     @msg = 'account created at: ' + @account.created_at.to_s
+    @lastData = Match.last
   end
 
   def form
@@ -48,6 +49,7 @@ class MachesController < ApplicationController
 
   def totalchart
     @data = Match.all
+    @recentData = Match.where(created_at: (Time.now - 7200)..Float::INFINITY).group(:oppdeck)
   end
 
   def delete

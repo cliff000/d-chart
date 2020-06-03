@@ -38,7 +38,7 @@ class MachesController < ApplicationController
 
       tmp.save
     end
-    redirect_to './sended_form'
+    redirect_to action: :sended_form
   end
 
   def mychart
@@ -55,8 +55,8 @@ class MachesController < ApplicationController
     @match = Match.new
 
     if request.post? then
-      #Match.all.destroy_all
-      redirect_to './mychart'
+      Match.all.destroy_all
+      redirect_to action: :index
     end
   end
 

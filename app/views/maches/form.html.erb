@@ -25,7 +25,8 @@
     <div class="form-group">
         <label>自分のデッキ</label>
         <%= form.select :mydeck, 
-            [["水晶機巧"],
+            [["", "無記入"],
+            ["水晶機巧"],
             ["BF"],
             ["ブラック・マジシャン", "ブラマジ"],
             ["ES召喚獣"],
@@ -35,12 +36,13 @@
             ["サイバー・ドラゴン", "サイドラ"],
             ["霊獣"],
             ["その他"]],
-            {include_blank: true, selected: @lastData.nil? ? "" : @lastData.mydeck}, {class: 'form-control'} %>
+            {selected: @lastData.nil? ? "" : @lastData.mydeck}, {class: 'form-control'} %>
     </div>
     <div class="form-group">
         <label>自分のスキル</label>
         <%= form.select :myskill,
-            [["海の伝説"],
+            [["", "無記入"],
+            ["海の伝説"],
             ["スリカエ"],
             ["あーばよ！"],
             ["頂に立つ者"],
@@ -56,13 +58,14 @@
             ["粉砕！"],
             ["サイバー流奥義"],
             ["その他"]],
-            {include_blank: true, selected: @lastData.nil? ? "" : @lastData.myskill}, {class: 'form-control'} %>
+            {selected: @lastData.nil? ? "" : @lastData.myskill}, {class: 'form-control'} %>
     </div>
     
     <div class="form-group">
         <label>相手のデッキ</label>
         <%= form.select :oppdeck, 
-            [["水晶機巧"],
+            [["", "無記入"],
+            ["水晶機巧"],
             ["BF"],
             ["ブラック・マジシャン", "ブラマジ"],
             ["ES召喚獣"],
@@ -72,12 +75,13 @@
             ["サイバー・ドラゴン", "サイドラ"],
             ["霊獣"],
             ["その他"]],
-            {include_blank: true}, {class: 'form-control'} %>
+            {}, {class: 'form-control'} %>
     </div>
     <div class="form-group">
         <label>相手のスキル</label>
         <%= form.select :oppskill,
-            [["海の伝説"],
+            [["", "無記入"],
+            ["海の伝説"],
             ["スリカエ"],
             ["あーばよ！"],
             ["頂に立つ者"],
@@ -93,7 +97,7 @@
             ["粉砕！"],
             ["サイバー流奥義"],
             ["その他"]],
-            {include_blank: true}, {class: 'form-control'} %>
+            {}, {class: 'form-control'} %>
     </div>
 
     <div class="form-group">

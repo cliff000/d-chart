@@ -34,6 +34,8 @@ class MachesController < ApplicationController
       end
       tmp.dp = dp
 
+      tmp.tag = "KCGT2020June"
+
       tmp.save
     end
     redirect_to './sended_form'
@@ -53,8 +55,8 @@ class MachesController < ApplicationController
     @match = Match.new
 
     if request.post? then
-      Match.all.destroy_all
-      redirect_to './'
+      #Match.all.destroy_all
+      redirect_to './mychart'
     end
   end
 

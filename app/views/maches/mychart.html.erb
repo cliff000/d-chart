@@ -134,7 +134,7 @@
                 </tr>
             </thead>
             <tbody>
-                <% num = @data.count - 5 %>
+                <% num = @data.count <= 5 ? 0 : @data.count - 5 %>
                 <% last5.each do |obj| %>
                     <% num += 1 %>
                     <tr>

@@ -10,6 +10,7 @@ class MachesController < ApplicationController
 
   def form
     @match = Match.new
+    @data = Match.all
     @lastData = Match.where(playerid: current_account.id).last
   end
 
@@ -35,7 +36,7 @@ class MachesController < ApplicationController
       end
       tmp.dp = dp
 
-      tmp.tag = "KCGT2020June"
+      tmp.tag = "KCGT"
 
       tmp.save
     end

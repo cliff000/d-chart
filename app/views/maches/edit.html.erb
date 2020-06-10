@@ -1,25 +1,6 @@
-<nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4">
-    <a class="navbar-brand" href="./">KC Chart</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#Navbar" aria-controls="Navbar" aria-expanded="false" aria-label="ナビゲーションの切替">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="Navbar">
-        <ul class="navbar-nav mr-auto">
-        <li class="nav-item active">
-            <a class="nav-link" href="">記録<span class="sr-only">(現位置)</span></a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="./mychart">個人</a>
-        <li class="nav-item">
-            <a class="nav-link" href="./totalchart">全体</a>
-        </ul>
-    </div>
-</nav>
-
-<h1>対戦の記録</h1>
-<p>対戦結果を保存するためのページです</p>
-
-<%= form_for(@match, url:{controller:'maches', action:'create'}) do |form| %>
+<h1>対戦記録の修正</h1>
+<br>
+<%= form_for(@selectedData, url:{controller:'maches', action:'update'}) do |form| %>
     <div class="form-group">
         <label>自分のデッキ</label>
         <%= form.select :mydeck, 
@@ -47,7 +28,7 @@
             ["霊獣"],
             ["六武衆"],
             ["その他"]],
-            {selected: @lastData.nil? ? "" : @lastData.mydeck}, {class: 'form-control'} %>
+            {selected: @selectedData.mydeck}, {class: 'form-control'} %>
     </div>
     <div class="form-group">
         <label>自分のスキル</label>
@@ -88,7 +69,7 @@
             ["連動トラップ"],
             ["罠戦術の使い手"],
             ["その他"]],
-            {selected: @lastData.nil? ? "" : @lastData.myskill}, {class: 'form-control'} %>
+            {selected: @selectedData.myskill}, {class: 'form-control'} %>
     </div>
     
     <div class="form-group">
@@ -118,7 +99,7 @@
             ["霊獣"],
             ["六武衆"],
             ["その他"]],
-            {}, {class: 'form-control', id:'oppdeckFrom'} %>
+            {selected: @selectedData.oppdeck}, {class: 'form-control', id:'oppdeckFrom'} %>
     </div>
     <div class="form-group">
         <label>相手のスキル</label>
@@ -159,12 +140,17 @@
             ["連動トラップ"],
             ["罠戦術の使い手"],
             ["その他"]],
-            {}, {selected: "", class: 'form-control'} %>
+            {selected: @selectedData.oppskill}, {selected: "", class: 'form-control'} %>
     </div>
 
     <div class="form-group">
-        <label><%= form.radio_button :victory, "勝ち",  checked: true%>勝ち</label>
-        <label><%= form.radio_button :victory, "負け" %>負け</label>
+        <% if @selectedData.victory == "勝ち" then %>
+            <label><%= form.radio_button :victory, "勝ち", checked: true %>勝ち</label>
+            <label><%= form.radio_button :victory, "負け" %>負け</label>
+        <% else %>
+            <label><%= form.radio_button :victory, "勝ち" %>勝ち</label>
+            <label><%= form.radio_button :victory, "負け", checked: true %>負け</label>
+        <% end %>
     </div>
 
     <%= form.submit "送信", class:"btn btn-primary" %>

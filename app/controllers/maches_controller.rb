@@ -15,6 +15,7 @@ class MachesController < ApplicationController
   end
 
   def sended_form
+    @lastData = Match.where(playerid: current_account.id).last
   end
 
   def create
@@ -51,6 +52,34 @@ class MachesController < ApplicationController
   def totalchart
     @data = Match.all
     @recentData = Match.where(created_at: (Time.now - 7200)..Float::INFINITY).group(:oppdeck)
+  end
+
+  def edit
+    @selectedData = Match.find(params[:id])
+  end
+
+  def update
+    obj = Match.find(params[:id])
+    obj.update(match_params)
+    dpUpdate()
+    redirect_to action: :mychart
+  end
+
+  def dpUpdate
+    data = Match.where(playerid: current_account.id)
+    preDP = 0
+    for obj in data do
+      if obj.victory == "勝ち" then
+        obj.dp = preDP + 1000
+      else 
+        obj.dp = preDP - 1000
+        if obj.dp < 0 then
+          obj.dp = 0
+        end
+      end
+      preDP = obj.dp
+      obj.save
+    end
   end
 
   def delete

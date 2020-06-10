@@ -16,5 +16,6 @@
     </div>
 </nav>
 
-<h2><font color="black">対戦記録が保存されました</font></h2>
-<p><div><%=link_to 'もとのページへ戻る&gt;&gt;'.html_safe, {action: 'form'} %></div></p>
+<h2>対戦記録が保存されました</h2>
+<p><a href="/edit/<%= @lastData.id %>">回答を修正する</a></p>
+<p><div><%=link_to 'もとのページへ戻る'.html_safe, {action: 'form'} %></div></p>

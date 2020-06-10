@@ -5,6 +5,8 @@ Rails.application.routes.draw do
   get 'sended_form', to:'maches#sended_form'
   get 'mychart', to:'maches#mychart'
   get 'totalchart', to:'maches#totalchart'
+  get 'edit/:id', to: 'maches#edit'
+  patch 'edit/:id', to: 'maches#update'
   get 'delete', to:'maches#delete'
   post 'delete', to:'maches#delete'
   devise_for :accounts

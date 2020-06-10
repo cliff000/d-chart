@@ -121,7 +121,7 @@
     <div class="row">
         <% last5 = @data.last(5) %>
         <div class='text-nowrap table-responsive'>
-            <table class="table table-bordered table-fixed">
+            <table class="table table-fixed">
             <thead>
                 <tr>
                     <th>#</th>
@@ -131,6 +131,7 @@
                     <th>相手スキル</th>
                     <th>勝敗</th>
                     <th>DP</th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
@@ -145,6 +146,7 @@
                         <td><%= obj.oppskill %></td>
                         <td><%= obj.victory %></td>
                         <td><%= obj.dp %></td>
+                        <td><a href="/edit/<%= obj.id %>">修正</a></td>
                     </tr>
                 <% end %>
             </tbody>

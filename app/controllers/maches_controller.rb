@@ -37,7 +37,7 @@ class MachesController < ApplicationController
       end
       tmp.dp = dp
 
-      tmp.tag = "KCGT"
+      tmp.tag = "KCGT2020"
 
       tmp.save
     end

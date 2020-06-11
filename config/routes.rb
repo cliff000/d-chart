@@ -7,8 +7,9 @@ Rails.application.routes.draw do
   get 'totalchart', to:'maches#totalchart'
   get 'edit/:id', to: 'maches#edit'
   patch 'edit/:id', to: 'maches#update'
-  get 'delete', to:'maches#delete'
-  post 'delete', to:'maches#delete'
+  get 'delete/:id', to:'maches#delete'
+  get 'all_delete', to:'maches#all_delete'
+  post 'all_delete', to:'maches#all_delete'
   devise_for :accounts
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

@@ -55,6 +55,7 @@ class MachesController < ApplicationController
   end
 
   def edit
+    @account = current_account
     @selectedData = Match.find(params[:id])
   end
 
@@ -63,6 +64,30 @@ class MachesController < ApplicationController
     obj.update(match_params)
     dpUpdate()
     redirect_to action: :mychart
+  end
+
+  def all_delete
+    @account = current_account
+    @match = Match.new
+
+    if request.post? then
+      Match.all.destroy_all
+      redirect_to action: :index
+    end
+  end
+
+  def delete
+    obj = Match.find(params[:id])
+    if obj.playerid == current_account.id then
+      obj.destroy
+      dpUpdate()
+    end
+    redirect_to action: :mychart
+  end
+
+  private
+  def match_params
+    params.require(:match).permit(:playerid, :mydeck, :myskill, :oppdeck, :oppskill, :victory, :dp)
   end
 
   def dpUpdate
@@ -80,20 +105,5 @@ class MachesController < ApplicationController
       preDP = obj.dp
       obj.save
     end
-  end
-
-  def delete
-    @account = current_account
-    @match = Match.new
-
-    if request.post? then
-      Match.all.destroy_all
-      redirect_to action: :index
-    end
-  end
-
-  private
-  def match_params
-    params.require(:match).permit(:playerid, :mydeck, :myskill, :oppdeck, :oppskill, :victory, :dp)
   end
 end

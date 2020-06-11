@@ -1,157 +1,194 @@
-<h1>対戦記録の修正</h1>
-<br>
-<%= form_for(@selectedData, url:{controller:'maches', action:'update'}) do |form| %>
-    <div class="form-group">
-        <label>自分のデッキ</label>
-        <%= form.select :mydeck, 
-            [["", "無記入"],
-            ["アロマ"],
-            ["ヴェンデット"],
-            ["ES召喚獣"],
-            ["害悪"],
-            ["水晶機巧"],
-            ["剛鬼"],
-            ["サイバー・ドラゴン", "サイドラ"],
-            ["不知火"],
-            ["超重武者"],
-            ["デスペラード", "デスぺ"],
-            ["ドラグニティ"],
-            ["ネオス"],
-            ["HERO"],
-            ["BF"],
-            ["ブラック・マジシャン", "ブラマジ"],
-            ["青眼"],
-            ["マジシャンガール", "ガール"],
-            ["魔妖"],
-            ["月光"],
-            ["ライトロード", "ライロ"],
-            ["霊獣"],
-            ["六武衆"],
-            ["その他"]],
-            {selected: @selectedData.mydeck}, {class: 'form-control'} %>
-    </div>
-    <div class="form-group">
-        <label>自分のスキル</label>
-        <%= form.select :myskill,
-            [["", "無記入"],
-            ["悪夢のショー"],
-            ["新たな宇宙！"],
-            ["あーばよ！"],
-            ["頂に立つ者"],
-            ["インチキドロー"],
-            ["海の伝説"],
-            ["オルタナティブ(白龍)", "オルタナ"],
-            ["カモン！"],
-            ["儀式の使い手"],
-            ["儀式の使い手2"],
-            ["絆の力"],
-            ["救世の導き"],
-            ["巨大決戦"],
-            ["根性"],
-            ["サイバー流奥義"],
-            ["スリカエ"],
-            ["絶対運命力！"],
-            ["ディスティニー・ドロー", 'ディスドロ'],
-            ["ディフェンスチャージ"],
-            ["ハーピィの狩場"],
-            ["バランス"],
-            ["粉砕！"],
-            ["墓所封印"],
-            ["墓地より芽吹くもの", "芽吹き"],
-            ["魔法の使い手"],
-            ["闇のゲーム"],
-            ["融合の使い手"],
-            ["融合ヒーロー"],
-            ["LP増強α"],
-            ["レベル下降"],
-            ["レベルコピー"],
-            ["レベル上昇"],
-            ["連動トラップ"],
-            ["罠戦術の使い手"],
-            ["その他"]],
-            {selected: @selectedData.myskill}, {class: 'form-control'} %>
-    </div>
-    
-    <div class="form-group">
-        <label>相手のデッキ</label>
-        <%= form.select :oppdeck, 
-            [["", "無記入"],
-            ["アロマ"],
-            ["ヴェンデット"],
-            ["ES召喚獣"],
-            ["害悪"],
-            ["水晶機巧"],
-            ["剛鬼"],
-            ["サイバー・ドラゴン", "サイドラ"],
-            ["不知火"],
-            ["超重武者"],
-            ["デスペラード", "デスぺ"],
-            ["ドラグニティ"],
-            ["ネオス"],
-            ["HERO"],
-            ["BF"],
-            ["ブラック・マジシャン", "ブラマジ"],
-            ["青眼"],
-            ["マジシャンガール", "ガール"],
-            ["魔妖"],
-            ["月光"],
-            ["ライトロード", "ライロ"],
-            ["霊獣"],
-            ["六武衆"],
-            ["その他"]],
-            {selected: @selectedData.oppdeck}, {class: 'form-control', id:'oppdeckFrom'} %>
-    </div>
-    <div class="form-group">
-        <label>相手のスキル</label>
-        <%= form.select :oppskill,
-            [["", "無記入"],
-            ["悪夢のショー"],
-            ["新たな宇宙！"],
-            ["あーばよ！"],
-            ["頂に立つ者"],
-            ["インチキドロー"],
-            ["海の伝説"],
-            ["オルタナティブ(白龍)", "オルタナ"],
-            ["カモン！"],
-            ["儀式の使い手"],
-            ["儀式の使い手2"],
-            ["絆の力"],
-            ["救世の導き"],
-            ["巨大決戦"],
-            ["根性"],
-            ["サイバー流奥義"],
-            ["スリカエ"],
-            ["絶対運命力！"],
-            ["ディスティニー・ドロー", 'ディスドロ'],
-            ["ディフェンスチャージ"],
-            ["ハーピィの狩場"],
-            ["バランス"],
-            ["粉砕！"],
-            ["墓所封印"],
-            ["墓地より芽吹くもの", "芽吹き"],
-            ["魔法の使い手"],
-            ["闇のゲーム"],
-            ["融合の使い手"],
-            ["融合ヒーロー"],
-            ["LP増強α"],
-            ["レベル下降"],
-            ["レベルコピー"],
-            ["レベル上昇"],
-            ["連動トラップ"],
-            ["罠戦術の使い手"],
-            ["その他"]],
-            {selected: @selectedData.oppskill}, {selected: "", class: 'form-control'} %>
-    </div>
+<% if @account.id == @selectedData.playerid then %>
+        <div class="float-left">
+            <h1>対戦記録の修正</h1>
+        </div>
+        <div class="float-right">
+            <div class="mt-2">
+                <button type="button" class="btn btn-outline-danger" data-toggle="modal" data-target="#exampleModal">削除</button>
+            </div>
+        </div>
+        <br><br>
 
-    <div class="form-group">
-        <% if @selectedData.victory == "勝ち" then %>
-            <label><%= form.radio_button :victory, "勝ち", checked: true %>勝ち</label>
-            <label><%= form.radio_button :victory, "負け" %>負け</label>
-        <% else %>
-            <label><%= form.radio_button :victory, "勝ち" %>勝ち</label>
-            <label><%= form.radio_button :victory, "負け", checked: true %>負け</label>
-        <% end %>
-    </div>
+    <!-- モーダルの設定 -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+    <div class="modal-dialog">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">本当にこのデータを削除しますか？</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="閉じる">
+            <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <p>削除したデータはもとには戻せません</p>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">閉じる</button>
+            <a class="btn btn-primary" href="/delete/<%= @selectedData.id %>" role="button">削除する</a>
+        </div><!-- /.modal-footer -->
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+    <br>
 
-    <%= form.submit "送信", class:"btn btn-primary" %>
+    <%= form_for(@selectedData, url:{controller:'maches', action:'update'}) do |form| %>
+        <div class="form-group">
+            <label>自分のデッキ</label>
+            <%= form.select :mydeck, 
+                [["", "無記入"],
+                ["アロマ"],
+                ["ヴェンデット"],
+                ["ES召喚獣"],
+                ["害悪"],
+                ["水晶機巧"],
+                ["剛鬼"],
+                ["サイバー・ドラゴン", "サイドラ"],
+                ["不知火"],
+                ["超重武者"],
+                ["デスペラード", "デスぺ"],
+                ["ドラグニティ"],
+                ["ネオス"],
+                ["HERO"],
+                ["BF"],
+                ["ブラック・マジシャン", "ブラマジ"],
+                ["青眼"],
+                ["マジシャンガール", "ガール"],
+                ["魔妖"],
+                ["月光"],
+                ["ライトロード", "ライロ"],
+                ["霊獣"],
+                ["六武衆"],
+                ["その他"]],
+                {selected: @selectedData.mydeck}, {class: 'form-control'} %>
+        </div>
+        <div class="form-group">
+            <label>自分のスキル</label>
+            <%= form.select :myskill,
+                [["", "無記入"],
+                ["悪夢のショー"],
+                ["新たな宇宙！"],
+                ["あーばよ！"],
+                ["頂に立つ者"],
+                ["インチキドロー"],
+                ["海の伝説"],
+                ["オルタナティブ(白龍)", "オルタナ"],
+                ["カモン！"],
+                ["儀式の使い手"],
+                ["儀式の使い手2"],
+                ["絆の力"],
+                ["救世の導き"],
+                ["巨大決戦"],
+                ["根性"],
+                ["サイバー流奥義"],
+                ["スリカエ"],
+                ["絶対運命力！"],
+                ["ディスティニー・ドロー", 'ディスドロ'],
+                ["ディフェンスチャージ"],
+                ["ハーピィの狩場"],
+                ["バランス"],
+                ["粉砕！"],
+                ["墓所封印"],
+                ["墓地より芽吹くもの", "芽吹き"],
+                ["魔法の使い手"],
+                ["闇のゲーム"],
+                ["融合の使い手"],
+                ["融合ヒーロー"],
+                ["LP増強α"],
+                ["レベル下降"],
+                ["レベルコピー"],
+                ["レベル上昇"],
+                ["連動トラップ"],
+                ["罠戦術の使い手"],
+                ["その他"]],
+                {selected: @selectedData.myskill}, {class: 'form-control'} %>
+        </div>
+        
+        <div class="form-group">
+            <label>相手のデッキ</label>
+            <%= form.select :oppdeck, 
+                [["", "無記入"],
+                ["アロマ"],
+                ["ヴェンデット"],
+                ["ES召喚獣"],
+                ["害悪"],
+                ["水晶機巧"],
+                ["剛鬼"],
+                ["サイバー・ドラゴン", "サイドラ"],
+                ["不知火"],
+                ["超重武者"],
+                ["デスペラード", "デスぺ"],
+                ["ドラグニティ"],
+                ["ネオス"],
+                ["HERO"],
+                ["BF"],
+                ["ブラック・マジシャン", "ブラマジ"],
+                ["青眼"],
+                ["マジシャンガール", "ガール"],
+                ["魔妖"],
+                ["月光"],
+                ["ライトロード", "ライロ"],
+                ["霊獣"],
+                ["六武衆"],
+                ["その他"]],
+                {selected: @selectedData.oppdeck}, {class: 'form-control', id:'oppdeckFrom'} %>
+        </div>
+        <div class="form-group">
+            <label>相手のスキル</label>
+            <%= form.select :oppskill,
+                [["", "無記入"],
+                ["悪夢のショー"],
+                ["新たな宇宙！"],
+                ["あーばよ！"],
+                ["頂に立つ者"],
+                ["インチキドロー"],
+                ["海の伝説"],
+                ["オルタナティブ(白龍)", "オルタナ"],
+                ["カモン！"],
+                ["儀式の使い手"],
+                ["儀式の使い手2"],
+                ["絆の力"],
+                ["救世の導き"],
+                ["巨大決戦"],
+                ["根性"],
+                ["サイバー流奥義"],
+                ["スリカエ"],
+                ["絶対運命力！"],
+                ["ディスティニー・ドロー", 'ディスドロ'],
+                ["ディフェンスチャージ"],
+                ["ハーピィの狩場"],
+                ["バランス"],
+                ["粉砕！"],
+                ["墓所封印"],
+                ["墓地より芽吹くもの", "芽吹き"],
+                ["魔法の使い手"],
+                ["闇のゲーム"],
+                ["融合の使い手"],
+                ["融合ヒーロー"],
+                ["LP増強α"],
+                ["レベル下降"],
+                ["レベルコピー"],
+                ["レベル上昇"],
+                ["連動トラップ"],
+                ["罠戦術の使い手"],
+                ["その他"]],
+                {selected: @selectedData.oppskill}, {selected: "", class: 'form-control'} %>
+        </div>
+
+        <div class="form-group">
+            <% if @selectedData.victory == "勝ち" then %>
+                <label><%= form.radio_button :victory, "勝ち", checked: true %>勝ち</label>
+                <label><%= form.radio_button :victory, "負け" %>負け</label>
+            <% else %>
+                <label><%= form.radio_button :victory, "勝ち" %>勝ち</label>
+                <label><%= form.radio_button :victory, "負け", checked: true %>負け</label>
+            <% end %>
+        </div>
+
+        <%= form.submit "送信", class:"btn btn-primary" %>
+    <% end %>
+
+<% else %>
+    <h1>対戦記録の修正</h1>
+    <br>
+    <p>別ユーザのデータを編集することはできません</p>
 <% end %>

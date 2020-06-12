@@ -44,7 +44,23 @@
 <div class="row">
     <div class="col-md-6 border">
         <center>デッキ分布</center>
-        <%= pie_chart  oppdecks %>
+        <%
+        others_val = 0
+        oppdecks2 = Hash.new()
+        i = 0
+        oppdecks.each{|key, value|
+            if !(key == "その他") && (i < 9) then
+                oppdecks2[key] = value
+                i += 1
+            else
+                others_val += value
+            end
+        }
+        if !(others_val == 0) then
+            oppdecks2["その他(少数テーマ含む)"] = others_val
+        end
+        %>
+        <%= pie_chart  oppdecks2 %>
     </div>
     <div class="col-md-6 border">
         <center>DP推移</center>

@@ -140,8 +140,13 @@
                     <tr>
                     <td><%= hash[0] %></td>
                     <% data_od = @data.where(oppdeck: hash[0]) %>
+                    <% i = 0 %>
                     <% data_od.group(:oppskill).count.sort {|a,b| b[1]<=>a[1]}.each do |skill| %>
                         <td><%= skill[0] %> : <%= (skill[1] * 100.to_f / data_od.count).round(1) %>%</td>
+                        <% i += 1
+                        if i >= 3 then
+                            break;
+                        end %>
                     <% end %>
                     </tr>
                 <% end %>

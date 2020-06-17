@@ -20,6 +20,7 @@
     <div class="col-md-10">
         <h1>個人ページ</h1>
         <p>自分の戦績について図表化するページです</p>
+        <p><%= link_to('全件データをCSV形式でダウンロード','/mychart/mydata.csv',{format: :csv}) %></p>
     </div>
     <div class="col-md-2">
         <table class="table table-bordered">
@@ -133,7 +134,7 @@
 </div>
 
 <div class="mt-4">
-    <center>直近の対戦履歴</center>
+    <p class="text-center">直近の対戦履歴</p>
     <div class="row">
         <% last5 = @data.last(5) %>
         <div class='text-nowrap table-responsive'>

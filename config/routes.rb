@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   post 'form', to:'maches#create'
   get 'sended_form', to:'maches#sended_form'
   get 'mychart', to:'maches#mychart'
+  get 'mychart/mydata.csv', to:'maches#mydata_csv'
   get 'totalchart', to:'maches#totalchart'
   get 'edit/:id', to: 'maches#edit'
   patch 'edit/:id', to: 'maches#update'

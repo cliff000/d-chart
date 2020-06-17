@@ -37,7 +37,7 @@ class MachesController < ApplicationController
       end
       tmp.dp = dp
 
-      tmp.tag = "KCGT2020"
+      tmp.tag = "NONE"
 
       tmp.save
     end
@@ -46,6 +46,10 @@ class MachesController < ApplicationController
 
   def mychart
     @account = current_account
+    @data = Match.where(playerid: current_account.id)
+  end
+
+  def mydata_csv
     @data = Match.where(playerid: current_account.id)
   end
 

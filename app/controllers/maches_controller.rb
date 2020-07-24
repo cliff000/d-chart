@@ -61,7 +61,7 @@ class MachesController < ApplicationController
       end
     }
     if !(others_val == 0) then
-      oppdecks2.push({"category" => "その他(少数テーマ含む)", "column-1" => others_value})
+      oppdecks2.push({"category" => "その他(少数テーマ含む)", "column-1" => others_val})
     end
 
     gon.oppdecks2 = oppdecks2

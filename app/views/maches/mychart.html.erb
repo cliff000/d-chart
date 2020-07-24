@@ -45,31 +45,38 @@
 <% mydecks = @data.group(:mydeck).count.sort {|a,b| b[1]<=>a[1]} %>
 <div class="row">
     <div class="col-md-6 border">
-        <center>デッキ分布</center>
         <!-- amCharts javascript code -->
 		<script type="text/javascript">
 			AmCharts.makeChart("chartdiv",
 				{
 					"type": "pie",
 					"balloonText": "[[title]]<br><span style='font-size:14px'><b>[[percents]]%</b></span>",
-                    "labelText": "[[title]]",
-                    "minRadius": 80,
+					"labelRadius": 18,
+					"minRadius": 100,
+					"radius": 0,
+					"pullOutEffect": "elastic",
+					"startEffect": "easeInSine",
 					"titleField": "category",
 					"valueField": "column-1",
 					"allLabels": [],
 					"balloon": {},
 					"legend": {
-						"enabled": true,
+						"enabled": false,
 						"align": "center",
+						"labelWidth": 0,
 						"markerType": "circle",
-						"tabIndex": 0,
 						"valueText": ""
 					},
-					"titles": [],
+					"titles": [
+						{
+							"id": "Title-1",
+							"text": "デッキ分布"
+						}
+					],
 					"dataProvider": gon.oppdecks2
 				}
 			);
-        </script>
+		</script>
 
         <div id="chartdiv" style="width: 100%; height: 300px; background-color: #FFFFFF;" ></div>
     </div>

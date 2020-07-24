@@ -16,6 +16,7 @@
     </div>
 </nav>
 
+
 <div class="row">
     <div class="col-md-10">
         <h1>個人ページ</h1>
@@ -45,23 +46,32 @@
 <div class="row">
     <div class="col-md-6 border">
         <center>デッキ分布</center>
-        <%
-        others_val = 0
-        oppdecks2 = Hash.new()
-        i = 0
-        oppdecks.each{|key, value|
-            if !(key == "その他") && (i < 9) then
-                oppdecks2[key] = value
-                i += 1
-            else
-                others_val += value
-            end
-        }
-        if !(others_val == 0) then
-            oppdecks2["その他(少数テーマ含む)"] = others_val
-        end
-        %>
-        <%= pie_chart  oppdecks2 %>
+        <!-- amCharts javascript code -->
+		<script type="text/javascript">
+			AmCharts.makeChart("chartdiv",
+				{
+					"type": "pie",
+					"balloonText": "[[title]]<br><span style='font-size:14px'><b>[[percents]]%</b></span>",
+                    "labelText": "[[title]]",
+                    "minRadius": 80,
+					"titleField": "category",
+					"valueField": "column-1",
+					"allLabels": [],
+					"balloon": {},
+					"legend": {
+						"enabled": true,
+						"align": "center",
+						"markerType": "circle",
+						"tabIndex": 0,
+						"valueText": ""
+					},
+					"titles": [],
+					"dataProvider": gon.oppdecks2
+				}
+			);
+        </script>
+
+        <div id="chartdiv" style="width: 100%; height: 300px; background-color: #FFFFFF;" ></div>
     </div>
     <div class="col-md-6 border">
         <center>DP推移</center>

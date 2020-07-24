@@ -39,6 +39,8 @@ gem 'bootsnap', '>= 1.1.0', require: false
 gem 'chartkick'
 gem 'chartable'
 
+gem 'gon'
+
 # Devise
 gem 'devise'
 gem 'omniauth-twitter'

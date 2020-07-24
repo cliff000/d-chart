@@ -47,6 +47,24 @@ class MachesController < ApplicationController
   def mychart
     @account = current_account
     @data = Match.where(playerid: current_account.id)
+    oppdecks = @data.group(:oppdeck).count.sort {|a,b| b[1]<=>a[1]}
+
+    others_val = 0
+    oppdecks2 = Array.new()
+    i = 0
+    oppdecks.each{|key, value|
+      if !(key == "その他") && (i < 9) then
+        oppdecks2.push({"category" => key, "column-1" => value})
+        i += 1
+      else
+        others_val += value
+      end
+    }
+    if !(others_val == 0) then
+      oppdecks2.push({"category" => "その他(少数テーマ含む)", "column-1" => others_value})
+    end
+
+    gon.oppdecks2 = oppdecks2
   end
 
   def mydata_csv

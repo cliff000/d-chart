@@ -63,8 +63,16 @@ class MachesController < ApplicationController
     if !(others_val == 0) then
       oppdecks2.push({"category" => "その他(少数テーマ含む)", "column-1" => others_val})
     end
-
     gon.oppdecks2 = oppdecks2
+
+
+    dp_line = Array.new()
+    i = 0
+    for obj in @data do
+      i += 1
+      dp_line.push({"category" => i, "column-1" => obj.dp})
+    end
+    gon.dp_line = dp_line
   end
 
   def mydata_csv

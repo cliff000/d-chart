@@ -1,3 +1,17 @@
+<% card_image = {
+    "HERO":"hero.jpg", 
+    "ES召喚獣":"elementsaber.jpg", 
+    "サイドラ":"cyber-dragon.jpg",
+    "ブラマジ":"black-magician.jpg",
+    "BF":"blackwing.jpg",
+    "青眼":"blue-eyes.jpg",
+    "ネオス":"neos.jpg",
+    "霊獣":"ritual-beast.jpg",
+    "不知火":"shiranui.jpg",
+    "ドラグニティ":"dragunity.jpg",
+    "ウィッチクラフト":"witchcraft.jpg" %>
+
+
 <nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4">
     <a class="navbar-brand" href="./">KC Chart</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#Navbar" aria-controls="Navbar" aria-expanded="false" aria-label="ナビゲーションの切替">
@@ -146,8 +160,13 @@
             <thead>
                 <tr>
                     <td></td>
-                    <% oppdecks.each do |hash| %>
-                        <td><%= hash[0] %></td>
+                    <% oppdecks.each do |obj| %>
+                        <!-- カード画像表示 -->
+                        <% if card_image.has_key?(obj[0].to_sym)%>
+                            <td><img src=<%= "/assets/card/#{card_image[obj[0].to_sym]}" %> width="48" height="48" alt=""></td>
+                        <% else %>
+                            <td><%= obj[0] %></td>
+                        <% end %>
                     <% end %>
                     <td>総計</td>
                 </tr>
@@ -155,7 +174,13 @@
             <tbody>
                 <% mydecks.each do |mhash| %>
                     <tr>
-                        <td><%= mhash[0] %></td>
+                        <!-- カード画像表示 -->
+                        <% if card_image.has_key?(mhash[0].to_sym)%>
+                            <td><img src=<%= "/assets/card/#{card_image[mhash[0].to_sym]}" %> width="48" height="48" alt=""></td>
+                        <% else %>
+                            <td><%= mhash[0] %></td>
+                        <% end %>
+
                         <% data_md = @data.where(mydeck:mhash[0])
                         oppdecks.each do |ohash|
                             data_mdod = data_md.where(oppdeck:ohash[0])
@@ -193,6 +218,14 @@
     </div>
 </div>
 
+<div class="row">
+    <img src="/assets/verre.jpg" width="64" height="64" alt="">
+    <div class="float-left">
+        <p>ウィッチクラフト</p>    
+        <p><img src="/assets/skill.png" width="24" height="24" alt=""> 悪夢のショー</p>
+    </div>
+</div>
+
 <div class="mt-4">
     <p class="text-center">直近の対戦履歴</p>
     <div class="row">
@@ -217,10 +250,20 @@
                     <% num += 1 %>
                     <tr>
                         <td><%= num %></td>
-                        <td><%= obj.mydeck %></td>
-                        <td><%= obj.myskill %></td>
-                        <td><%= obj.oppdeck %></td>
-                        <td><%= obj.oppskill %></td>
+                        <!-- カード画像表示 -->
+                        <% if card_image.has_key?(obj.mydeck.to_sym)%>
+                            <td><img src=<%= "/assets/card/#{card_image[obj.mydeck.to_sym]}" %> width="48" height="48" alt=""></td>
+                        <% else %>
+                            <td><%= obj.mydeck %></td>
+                        <% end %>
+                        <td><img src="/assets/skill.png" width="24" height="24" alt=""> <%= obj.myskill %></td>
+                        <!-- カード画像表示 -->
+                        <% if card_image.has_key?(obj.oppdeck.to_sym)%>
+                            <td><img src=<%= "/assets/card/#{card_image[obj.oppdeck.to_sym]}" %> width="48" height="48" alt=""></td>
+                        <% else %>
+                            <td><%= obj.oppdeck %></td>
+                        <% end %>
+                        <td><img src="/assets/skill.png" width="24" height="24" alt=""> <%= obj.oppskill %></td>
                         <td><%= obj.victory %></td>
                         <td><%= obj.dp %></td>
                         <td><a href="/edit/<%= obj.id %>">修正</a></td>

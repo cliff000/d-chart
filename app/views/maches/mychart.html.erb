@@ -156,7 +156,7 @@
     <center>相性表</center>
     <div class="row">
         <div class='text-nowrap table-responsive'>
-            <table class="table table-bordered table-fixed">
+            <table class="table table-bordered table-fixed table-compatibility">
             <thead>
                 <tr>
                     <td></td>
@@ -223,14 +223,16 @@
     <div class="row">
         <% last5 = @data.last(5) %>
         <div class='text-nowrap table-responsive'>
-            <table class="table table-fixed">
+            <table class="table table-fixed table-matchresult">
             <thead>
                 <tr>
                     <th>#</th>
-                    <th>自</th>
-                    <th>分</th>
-                    <th>相</th>
-                    <th>手</th>
+                    <th></th>
+                    <th>自分</th>
+                    <th></th>
+                    <th></th>
+                    <th>相手</th>
+                    <th></th>
                     <th>勝敗</th>
                     <th>DP</th>
                     <th></th>
@@ -248,13 +250,15 @@
                         <% else %>
                             <td><%= obj.mydeck %></td>
                         <% end %>
+                        <td></td>
                         <td><img src="/assets/skill.png" width="24" height="24" alt=""> <%= obj.myskill %></td>
                         <!-- カード画像表示 -->
                         <% if card_image.has_key?(obj.oppdeck.to_sym)%>
-                            <td><img src=<%= "/assets/card/#{card_image[obj.oppdeck.to_sym]}" %> width="64" height="64" alt=""></td>
+                            <td><img src=<%= "/assets/card/#{card_image[obj.oppdeck.to_sym]}" %> width="48" height="48" alt=""></td>
                         <% else %>
                             <td><%= obj.oppdeck %></td>
                         <% end %>
+                        <td></td>
                         <td><img src="/assets/skill.png" width="24" height="24" alt=""> <%= obj.oppskill %></td>
                         <td><%= obj.victory %></td>
                         <td><%= obj.dp %></td>

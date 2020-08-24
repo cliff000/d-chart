@@ -251,7 +251,7 @@
                         <td><img src="/assets/skill.png" width="24" height="24" alt=""> <%= obj.myskill %></td>
                         <!-- カード画像表示 -->
                         <% if card_image.has_key?(obj.oppdeck.to_sym)%>
-                            <td><img src=<%= "/assets/card/#{card_image[obj.oppdeck.to_sym]}" %> width="48" height="48" alt=""></td>
+                            <td><img src=<%= "/assets/card/#{card_image[obj.oppdeck.to_sym]}" %> width="64" height="64" alt=""></td>
                         <% else %>
                             <td><%= obj.oppdeck %></td>
                         <% end %>

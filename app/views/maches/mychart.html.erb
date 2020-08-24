@@ -163,7 +163,7 @@
                     <% oppdecks.each do |obj| %>
                         <!-- カード画像表示 -->
                         <% if card_image.has_key?(obj[0].to_sym)%>
-                            <td><img src=<%= "/assets/card/#{card_image[obj[0].to_sym]}" %> width="48" height="48" alt=""></td>
+                            <td><img src=<%= "/assets/card/#{card_image[obj[0].to_sym]}" %> width="64" height="64" alt=""></td>
                         <% else %>
                             <td><%= obj[0] %></td>
                         <% end %>
@@ -176,7 +176,7 @@
                     <tr>
                         <!-- カード画像表示 -->
                         <% if card_image.has_key?(mhash[0].to_sym)%>
-                            <td><img src=<%= "/assets/card/#{card_image[mhash[0].to_sym]}" %> width="48" height="48" alt=""></td>
+                            <td><img src=<%= "/assets/card/#{card_image[mhash[0].to_sym]}" %> width="64" height="64" alt=""></td>
                         <% else %>
                             <td><%= mhash[0] %></td>
                         <% end %>
@@ -218,14 +218,6 @@
     </div>
 </div>
 
-<div class="row">
-    <img src="/assets/verre.jpg" width="64" height="64" alt="">
-    <div class="float-left">
-        <p>ウィッチクラフト</p>    
-        <p><img src="/assets/skill.png" width="24" height="24" alt=""> 悪夢のショー</p>
-    </div>
-</div>
-
 <div class="mt-4">
     <p class="text-center">直近の対戦履歴</p>
     <div class="row">
@@ -235,10 +227,10 @@
             <thead>
                 <tr>
                     <th>#</th>
-                    <th>自分デッキ</th>
-                    <th>自分スキル</th>
-                    <th>相手デッキ</th>
-                    <th>相手スキル</th>
+                    <th>自</th>
+                    <th>分</th>
+                    <th>相</th>
+                    <th>手</th>
                     <th>勝敗</th>
                     <th>DP</th>
                     <th></th>

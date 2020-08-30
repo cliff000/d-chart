@@ -1,3 +1,17 @@
+<% card_image = {
+    "HERO":"hero.jpg", 
+    "ES召喚獣":"elementsaber.jpg", 
+    "サイドラ":"cyber-dragon.jpg",
+    "ブラマジ":"black-magician.jpg",
+    "BF":"blackwing.jpg",
+    "青眼":"blue-eyes.jpg",
+    "ネオス":"neos.jpg",
+    "霊獣":"ritual-beast.jpg",
+    "不知火":"shiranui.jpg",
+    "ドラグニティ":"dragunity.jpg",
+    "ウィッチクラフト":"witchcraft.jpg"} %>
+
+
 <nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4">
     <a class="navbar-brand" href="./">KC Chart</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#Navbar" aria-controls="Navbar" aria-expanded="false" aria-label="ナビゲーションの切替">
@@ -70,52 +84,59 @@
     <center>相性表</center>
     <div class="row">
         <div class='text-nowrap table-responsive'>
-            <table class="table table-bordered table-fixed">
-            <thead>
-                <tr>
-                    <td></td>
-                    <% oppdecks.each do |hash| %>
-                        <td><%= hash[0] %></td>
-                    <% end %>
-                        <td>総計</td>
-                </tr>
-            </thead>
-            <tbody>
-                <% mydecks.each do |mhash| %>
-                    <tr>
-                        <td><%= mhash[0] %></td>
-                        <% data_md = @data.where(mydeck:mhash[0]) %>
-                        <% oppdecks.each do |ohash| %>
-                            <% data_mdod = data_md.where(oppdeck:ohash[0]) %>
-                            <% data_mdodv = data_mdod.where(victory:"勝ち") %>
-                            <% if data_mdod.count == 0 then %>
-                                <td></td>
-                            <% else %>
-                                <td><%= (data_mdodv.count * 100.to_f / data_mdod.count).round(1) %>%</td>
-                            <% end %>
-                        <% end %>
-                        <% data_mdv = data_md.where(victory:"勝ち") %>
-                        <td><%= (data_mdv.count.to_f * 100 / data_md.count).round(1) %>%</td>
-                    </tr>
+            <table class="table table-bordered table-fixed table-compatibility">
+            <tr>
+            <td></td>
+            <% oppdecks.each do |obj| %>
+                <!-- カード画像表示 -->
+                <% if card_image.has_key?(obj[0].to_sym)%>
+                    <td><img src=<%= "/assets/card/#{card_image[obj[0].to_sym]}" %> width="64" height="64" alt=""></td>
+                <% else %>
+                    <td cellpadding="5">　<%= obj[0] %>　</td>
                 <% end %>
-                <tr>
-                    <td>総計</td>
-                    <% oppdecks.each do |ohash|
-                        data_od = @data.where(oppdeck:ohash[0])
-                        data_odv = data_od.where(victory:"勝ち") %>
-                        <% if data_od.count == 0 then %>
-                            <td></td>
-                        <% else %>
-                            <td><%= (data_odv.count * 100.to_f / data_od.count).round(1) %>%</td>
-                        <% end %>
-                    <% end %>
-                    <% if @data.count == 0 then %>
+            <% end %>
+            <td>　総計　</td>
+            </tr>
+            <% mydecks.each do |mhash| %>
+            <tr>
+                <!-- カード画像表示 -->
+                <% if card_image.has_key?(mhash[0].to_sym)%>
+                    <td><img src=<%= "/assets/card/#{card_image[mhash[0].to_sym]}" %> width="64" height="64" alt=""></td>
+                <% else %>
+                    <td cellpadding="5"><%= mhash[0] %></td>
+                <% end %>
+
+                <% data_md = @data.where(mydeck:mhash[0])
+                oppdecks.each do |ohash|
+                    data_mdod = data_md.where(oppdeck:ohash[0])
+                    data_mdodv = data_mdod.where(victory:"勝ち") %>
+                    <% if data_mdod.count == 0 then %>
                         <td></td>
                     <% else %>
-                        <td><%= (@data.where(victory:"勝ち").count * 100.to_f / @data.count).round(1) %>%</td>
+                        <td><%= (data_mdodv.count * 100.to_f / data_mdod.count).round(1) %>%</td>
                     <% end %>
-                </tr>
-            </tbody>
+                <% end %>
+                <% data_mdv = data_md.where(victory:"勝ち") %>
+                <td><%= (data_mdv.count.to_f * 100 / data_md.count).round(1) %>%</td>
+            </tr>
+            <% end %>
+            <tr>
+            <td>総計</td>
+            <% oppdecks.each do |ohash|
+                data_od = @data.where(oppdeck:ohash[0])
+                data_odv = data_od.where(victory:"勝ち") %>
+                <% if data_od.count == 0 then %>
+                    <td></td>
+                <% else %>
+                    <td><%= (data_odv.count * 100.to_f / data_od.count).round(1) %>%</td>
+                <% end %>
+            <% end %>
+            <% if @data.count == 0 then %>
+                <td></td>
+            <% else %>
+                <td><%= (@data.where(victory:"勝ち").count * 100.to_f / @data.count).round(1) %>%</td>
+            <% end %>
+            </tr>
             </table>
         </div>
     </div>

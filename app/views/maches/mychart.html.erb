@@ -157,7 +157,6 @@
     <div class="row">
         <div class='text-nowrap table-responsive'>
             <table class="table table-bordered table-fixed table-compatibility">
-            <thead>
                 <tr>
                     <td></td>
                     <% oppdecks.each do |obj| %>
@@ -165,20 +164,18 @@
                         <% if card_image.has_key?(obj[0].to_sym)%>
                             <td><img src=<%= "/assets/card/#{card_image[obj[0].to_sym]}" %> width="64" height="64" alt=""></td>
                         <% else %>
-                            <td><%= obj[0] %></td>
+                            <td cellpadding="5">　<%= obj[0] %>　</td>
                         <% end %>
                     <% end %>
-                    <td>総計</td>
+                    <td>　総計　</td>
                 </tr>
-            </thead>
-            <tbody>
                 <% mydecks.each do |mhash| %>
                     <tr>
                         <!-- カード画像表示 -->
                         <% if card_image.has_key?(mhash[0].to_sym)%>
                             <td><img src=<%= "/assets/card/#{card_image[mhash[0].to_sym]}" %> width="64" height="64" alt=""></td>
                         <% else %>
-                            <td><%= mhash[0] %></td>
+                            <td cellpadding="5"><%= mhash[0] %></td>
                         <% end %>
 
                         <% data_md = @data.where(mydeck:mhash[0])
@@ -212,7 +209,6 @@
                         <td><%= (@data.where(victory:"勝ち").count * 100.to_f / @data.count).round(1) %>%</td>
                     <% end %>
                 </tr>
-            </tbody>
             </table>
         </div>
     </div>
@@ -227,11 +223,11 @@
             <thead>
                 <tr>
                     <th>#</th>
-                    <th></th>
                     <th>自分</th>
                     <th></th>
                     <th></th>
                     <th>相手</th>
+                    <th></th>
                     <th></th>
                     <th>勝敗</th>
                     <th>DP</th>
@@ -250,16 +246,16 @@
                         <% else %>
                             <td><%= obj.mydeck %></td>
                         <% end %>
-                        <td></td>
                         <td><img src="/assets/skill.png" width="24" height="24" alt=""> <%= obj.myskill %></td>
+                        <th></th>
                         <!-- カード画像表示 -->
                         <% if card_image.has_key?(obj.oppdeck.to_sym)%>
                             <td><img src=<%= "/assets/card/#{card_image[obj.oppdeck.to_sym]}" %> width="48" height="48" alt=""></td>
                         <% else %>
                             <td><%= obj.oppdeck %></td>
                         <% end %>
-                        <td></td>
                         <td><img src="/assets/skill.png" width="24" height="24" alt=""> <%= obj.oppskill %></td>
+                        <th></th>
                         <td><%= obj.victory %></td>
                         <td><%= obj.dp %></td>
                         <td><a href="/edit/<%= obj.id %>">修正</a></td>

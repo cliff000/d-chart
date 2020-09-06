@@ -19,7 +19,7 @@
 <h1>対戦の記録</h1>
 <p>対戦結果を保存するためのページです</p>
 
-<%= form_for(@match, url:{controller:'maches', action:'create'}) do |form| %>
+<%= form_with model: @match, url:{controller:'maches', action:'create'} do |form| %>
     <div class="form-group">
         <label>自分のデッキ</label>
         <%= form.select :mydeck, 
@@ -121,7 +121,7 @@
             ["霊獣"],
             ["六武衆"],
             ["その他"]],
-            {}, {class: 'form-control', id: "oppdeck_select"} %>
+            {}, {class: 'form-control'} %>
     </div>
 
     <div class="form-group">
@@ -168,3 +168,13 @@
 
     <%= form.submit "送信", class:"btn btn-primary" %>
 <% end %>
+
+<script>
+    $('#match_mydeck').change(function(){
+        $('#match_myskill > option').remove();
+        $('#match_myskill').append($('<option>').html("海の伝説").val("海の伝説"));
+        $('#match_myskill').append($('<option>').html("レベルコピー").val("レベルコピー"));
+        $('#match_myskill').append($('<option>').html("その他").val("その他"));
+    });
+</script>
+

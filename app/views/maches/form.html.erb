@@ -166,15 +166,35 @@
         <label><%= form.radio_button :victory, "負け" %>負け</label>
     </div>
 
+    <div class="form-group">
+        <label>DP増減</label><br>
+        <label>
+            <font size='5' id=DP_plus align='center'>+</font>
+            <font size='6' id=DP_minus align='center'>-</font> 
+            <%= form.text_field :cats_dont_have_gills , value: "1000" %>
+        </label>
+    </div>
+
     <%= form.submit "送信", class:"btn btn-primary" %>
 <% end %>
 
 <script>
+    $('#DP_minus').hide();
+
     $('#match_mydeck').change(function(){
         $('#match_myskill > option').remove();
         $('#match_myskill').append($('<option>').html("海の伝説").val("海の伝説"));
         $('#match_myskill').append($('<option>').html("レベルコピー").val("レベルコピー"));
         $('#match_myskill').append($('<option>').html("その他").val("その他"));
+    });
+
+    $('#match_victory_勝ち').change(function(){
+        $('#DP_plus').show();
+        $('#DP_minus').hide();
+    });
+    $('#match_victory_負け').change(function(){
+        $('#DP_plus').hide();
+        $('#DP_minus').show();
     });
 </script>
 

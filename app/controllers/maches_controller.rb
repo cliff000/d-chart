@@ -44,6 +44,9 @@ class MachesController < ApplicationController
     redirect_to action: :sended_form
   end
 
+  def test
+  end
+
   def mychart
     @account = current_account
     @data = Match.where(playerid: current_account.id)

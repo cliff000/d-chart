@@ -11,6 +11,13 @@ Rails.application.routes.draw do
   get 'delete/:id', to:'maches#delete'
   get 'all_delete', to:'maches#all_delete'
   post 'all_delete', to:'maches#all_delete'
+
+  get 'test', to:'maches#test'
+  
   devise_for :accounts
+
+  Rails.application.routes.draw do
+    root 'chart#index'
+  end
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

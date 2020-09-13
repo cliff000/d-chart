@@ -10,6 +10,13 @@
  * files in this directory. Styles in this file should be added after the last require_* statement.
  * It is generally better to create a new file per style scope.
  *
+ *= require_ sb-admin-2.min.css
  *= require_tree .
  *= require_self
  */
+
+@import "bootstrap";
+
+@import 'font-awesome-sprockets';
+@import 'font-awesome';
+@import "https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i";

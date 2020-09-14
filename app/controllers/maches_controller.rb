@@ -28,9 +28,9 @@ class MachesController < ApplicationController
         dp = Match.where(playerid: current_account.id).last.dp
       end
       if tmp.victory == "勝ち" then
-        dp += 1000
+        dp += tmp.dpChanging
       else 
-        dp -= 1000
+        dp -= tmp.dpChanging
         if dp < 0 then
           dp = 0
         end
@@ -64,18 +64,18 @@ class MachesController < ApplicationController
       end
     }
     if !(others_val == 0) then
-      oppdecks2.push({"category" => "その他(少数テーマ含む)", "column-1" => others_val})
+      oppdecks2.push({"category" => "その他", "column-1" => others_val})
     end
-    gon.oppdecks2 = oppdecks2
+    gon.oppdecks_mychart = oppdecks2
 
 
-    dp_line = Array.new()
+    dpline = Array.new()
     i = 0
     for obj in @data do
       i += 1
-      dp_line.push({"category" => i, "column-1" => obj.dp})
+      dpline.push({"category" => i, "column-1" => obj.dp})
     end
-    gon.dp_line = dp_line
+    gon.dpline_mychart = dpline
   end
 
   def mydata_csv
@@ -84,7 +84,43 @@ class MachesController < ApplicationController
 
   def totalchart
     @data = Match.all
-    @recentData = Match.where(created_at: (Time.now - 7200)..Float::INFINITY).group(:oppdeck)
+    oppdecks = @data.group(:oppdeck).count.sort {|a,b| b[1]<=>a[1]}
+
+    others_val = 0
+    oppdecks2 = Array.new()
+    i = 0
+    oppdecks.each{|key, value|
+      if !(key == "その他") && (i < 9) then
+        oppdecks2.push({"category" => key, "column-1" => value})
+        i += 1
+      else
+        others_val += value
+      end
+    }
+    if !(others_val == 0) then
+      oppdecks2.push({"category" => "その他", "column-1" => others_val})
+    end
+    gon.oppdecks_totalchart = oppdecks2
+
+
+    @recentData = Match.where(created_at: (Time.now - 7200)..Float::INFINITY)
+    oppdecks = @recentData.group(:oppdeck).count.sort {|a,b| b[1]<=>a[1]}
+
+    others_val = 0
+    oppdecks2 = Array.new()
+    i = 0
+    oppdecks.each{|key, value|
+      if !(key == "その他") && (i < 9) then
+        oppdecks2.push({"category" => key, "column-1" => value})
+        i += 1
+      else
+        others_val += value
+      end
+    }
+    if !(others_val == 0) then
+      oppdecks2.push({"category" => "その他", "column-1" => others_val})
+    end
+    gon.recent_oppdecks_totalchart = oppdecks2
   end
 
   def edit
@@ -120,7 +156,7 @@ class MachesController < ApplicationController
 
   private
   def match_params
-    params.require(:match).permit(:playerid, :mydeck, :myskill, :oppdeck, :oppskill, :victory, :dp)
+    params.require(:match).permit(:mydeck, :myskill, :oppdeck, :oppskill, :victory, :dpChanging)
   end
 
   def dpUpdate
@@ -128,9 +164,9 @@ class MachesController < ApplicationController
     preDP = 0
     for obj in data do
       if obj.victory == "勝ち" then
-        obj.dp = preDP + 1000
+        obj.dp = preDP + obj.dpChanging
       else 
-        obj.dp = preDP - 1000
+        obj.dp = preDP - obj.dpChanging
         if obj.dp < 0 then
           obj.dp = 0
         end

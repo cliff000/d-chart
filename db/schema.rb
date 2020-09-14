@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_06_03_070754) do
+ActiveRecord::Schema.define(version: 2020_09_14_083819) do
 
   create_table "accounts", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "email", default: "", null: false
@@ -35,6 +35,7 @@ ActiveRecord::Schema.define(version: 2020_06_03_070754) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "tag"
+    t.integer "dpChanging", default: 1000
   end
 
 end

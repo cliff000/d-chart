@@ -1,21 +1,3 @@
-<nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4">
-    <a class="navbar-brand" href="./">KC Chart</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#Navbar" aria-controls="Navbar" aria-expanded="false" aria-label="ナビゲーションの切替">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="Navbar">
-        <ul class="navbar-nav mr-auto">
-        <li class="nav-item active">
-            <a class="nav-link" href="">記録<span class="sr-only">(現位置)</span></a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="./mychart">個人</a>
-        <li class="nav-item">
-            <a class="nav-link" href="./totalchart">全体</a>
-        </ul>
-    </div>
-</nav>
-
 <h1>対戦の記録</h1>
 <p>対戦結果を保存するためのページです</p>
 
@@ -169,9 +151,8 @@
     <div class="form-group">
         <label>DP増減</label><br>
         <label>
-            <font size='5' id=DP_plus align='center'>+</font>
-            <font size='6' id=DP_minus align='center'>-</font> 
-            <%= form.text_field :cats_dont_have_gills , value: "1000" %>
+            <font size='5' id=dp_pm align='center'>+</font>
+            <%= form.text_field :dpChanging , value: "1000" %>
         </label>
     </div>
 
@@ -179,22 +160,11 @@
 <% end %>
 
 <script>
-    $('#DP_minus').hide();
-
-    $('#match_mydeck').change(function(){
-        $('#match_myskill > option').remove();
-        $('#match_myskill').append($('<option>').html("海の伝説").val("海の伝説"));
-        $('#match_myskill').append($('<option>').html("レベルコピー").val("レベルコピー"));
-        $('#match_myskill').append($('<option>').html("その他").val("その他"));
-    });
-
     $('#match_victory_勝ち').change(function(){
-        $('#DP_plus').show();
-        $('#DP_minus').hide();
+        $('#dp_pm').text("+")
     });
     $('#match_victory_負け').change(function(){
-        $('#DP_plus').hide();
-        $('#DP_minus').show();
+        $('#dp_pm').text(" - ")
     });
 </script>
 

@@ -5,7 +5,8 @@ class MachesController < ApplicationController
   layout 'maches'
   before_action :authenticate_account!
 
-  $kc = 'KC2020Sep'
+  #現在のKC
+  $kc = 'Free'
 
   def index
     @account = current_account
@@ -18,6 +19,11 @@ class MachesController < ApplicationController
     @lastData = Match.where(tag: $kc).where(playerid: current_account.id).last
     @decks = CSV.read("#{Rails.root}/config_duellinks/"+$kc+"/decks.csv")
     @skills = CSV.read("#{Rails.root}/config_duellinks/"+$kc+"/skills.csv")
+
+    #スキルリスト読み込み
+    File.open("#{Rails.root}/config_duellinks/"+$kc+"/major_skill.json") do |file|
+      gon.major_skill = JSON.load(file)
+    end
   end
 
   def sended_form

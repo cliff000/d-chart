@@ -25,14 +25,16 @@
             {}, {selected: "", class: 'form-control'} %>
     </div>
 
-    <div class="form-group">
-        <label><%= form.radio_button :victory, "勝ち",  checked: true%>勝ち</label>
-        <label><%= form.radio_button :victory, "負け" %>負け</label>
+    <div class="form-check">
+        <label><%= form.radio_button :victory, "勝ち", :class => 'form-check-input', checked: true%>勝ち</label>
+    </div>
+    <div class="form-check">
+        <label><%= form.radio_button :victory, "負け", :class => 'form-check-input' %>負け</label>
     </div>
 
     <div class="form-group">
-        <label>DP増減</label><br>
         <label>
+            <font size='4' align='center'>DP</font>
             <font size='5' id=dp_pm align='center'>+</font>
             <%= form.text_field :dpChanging , value: "1000" %>
         </label>
@@ -47,6 +49,10 @@
     });
     $('#match_victory_負け').change(function(){
         $('#dp_pm').text(" - ")
+    });
+
+    $('#match_oppdeck').change(function(){
+        $('#match_oppskill').val(gon.major_skill[$('#match_oppdeck').val()]);
     });
 </script>
 

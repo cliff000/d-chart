@@ -65,7 +65,7 @@
 </div>
 
 <div class="row">
-    <div class="col-md-6">
+    <div class="col-xl-6">
       <div class="card shadow mb-4">
         <!-- Card Header - Dropdown -->
         <div class="card-header py-3">
@@ -78,7 +78,7 @@
       </div>
     </div>
 
-    <div class="col-md-6">
+    <div class="col-xl-6">
       <div class="card shadow mb-4">
         <!-- Card Header - Dropdown -->
         <div class="card-header py-3">
@@ -212,23 +212,29 @@
           <% @data.each do |obj| %>
             <% num += 1 %>
               <tr>
+                <!-- 番号 -->
                 <td><%= num %></td>
-                <!-- カード画像表示 -->
+                <!-- 自分のデッキ -->
                 <% if card_image.has_key?(obj.mydeck.to_sym)%>
                     <td><img src=<%= "/assets/card/#{card_image[obj.mydeck.to_sym]}" %> width="48" height="48" alt=""></td>
                 <% else %>
                   <td><%= obj.mydeck %></td>
                 <% end %>
+                <!-- 自分のスキル -->
                 <td><img src="/assets/skill.png" width="24" height="24" alt=""> <%= obj.myskill %></td>
-                <!-- カード画像表示 -->
+                <!-- 相手のデッキ -->
                 <% if card_image.has_key?(obj.oppdeck.to_sym)%>
                   <td><img src=<%= "/assets/card/#{card_image[obj.oppdeck.to_sym]}" %> width="48" height="48" alt=""></td>
                 <% else %>
                   <td><%= obj.oppdeck %></td>
                 <% end %>
+                <!-- 相手のスキル -->
                 <td><img src="/assets/skill.png" width="24" height="24" alt=""> <%= obj.oppskill %></td>
+                <!-- 勝敗 -->
                 <td><%= obj.victory %></td>
+                <!-- DP -->
                 <td><%= obj.dp %></td>
+                <!-- エディット -->
                 <td><a href="/edit/<%= obj.id %>"><i class="fas fa-edit fa-1x"></i></a></td>
               </tr>
           <% end %>

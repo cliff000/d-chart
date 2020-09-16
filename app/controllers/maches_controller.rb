@@ -1,6 +1,11 @@
+require 'csv'
+require "execjs"
+
 class MachesController < ApplicationController
-  layout 'application'
+  layout 'maches'
   before_action :authenticate_account!
+
+  $kc = 'KCGT2020'
 
   def index
     @account = current_account
@@ -12,6 +17,8 @@ class MachesController < ApplicationController
     @match = Match.new
     @data = Match.all
     @lastData = Match.where(playerid: current_account.id).last
+    @decks = CSV.read("#{Rails.root}/csv/"+$kc+"/decks.csv")
+    @skills = CSV.read("#{Rails.root}/csv/"+$kc+"/skills.csv")
   end
 
   def sended_form
@@ -37,7 +44,7 @@ class MachesController < ApplicationController
       end
       tmp.dp = dp
 
-      tmp.tag = "NONE"
+      tmp.tag = $kc
 
       tmp.save
     end
@@ -49,7 +56,7 @@ class MachesController < ApplicationController
 
   def mychart
     @account = current_account
-    @data = Match.where(playerid: current_account.id)
+    @data = Match.where(tag: $kc).where(playerid: current_account.id)
     oppdecks = @data.group(:oppdeck).count.sort {|a,b| b[1]<=>a[1]}
 
     others_val = 0
@@ -83,7 +90,7 @@ class MachesController < ApplicationController
   end
 
   def totalchart
-    @data = Match.all
+    @data = Match.where(tag: $kc)
     oppdecks = @data.group(:oppdeck).count.sort {|a,b| b[1]<=>a[1]}
 
     others_val = 0
@@ -103,7 +110,7 @@ class MachesController < ApplicationController
     gon.oppdecks_totalchart = oppdecks2
 
 
-    @recentData = Match.where(created_at: (Time.now - 7200)..Float::INFINITY)
+    @recentData = @data.where(created_at: (Time.now - 7200)..Float::INFINITY)
     oppdecks = @recentData.group(:oppdeck).count.sort {|a,b| b[1]<=>a[1]}
 
     others_val = 0
@@ -123,9 +130,15 @@ class MachesController < ApplicationController
     gon.recent_oppdecks_totalchart = oppdecks2
   end
 
+  def select_kc
+    $kc = params[:kc]
+  end
+
   def edit
     @account = current_account
     @selectedData = Match.find(params[:id])
+    @decks = CSV.read("#{Rails.root}/csv/"+$kc+"/decks.csv")
+    @skills = CSV.read("#{Rails.root}/csv/"+$kc+"/skills.csv")
   end
 
   def update

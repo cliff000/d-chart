@@ -34,151 +34,47 @@
     <%= form_for(@selectedData, url:{controller:'maches', action:'update'}) do |form| %>
         <div class="form-group">
             <label>自分のデッキ</label>
-            <%= form.select :mydeck, 
-                [["", "無記入"],
-                ["アロマ"],
-                ["ヴェンデット"],
-                ["ES召喚獣"],
-                ["害悪"],
-                ["水晶機巧"],
-                ["剛鬼"],
-                ["サイバー・ドラゴン", "サイドラ"],
-                ["不知火"],
-                ["不知火(30枚)", "30不知火"],
-                ["超重武者"],
-                ["DD"],
-                ["デスペラード", "デスぺ"],
-                ["ドラグニティ"],
-                ["ネオス"],
-                ["HERO(ファリス型)", "HERO"],
-                ["BF"],
-                ["ブラック・マジシャン", "ブラマジ"],
-                ["青眼"],
-                ["マジシャンガール", "ガール"],
-                ["魔妖"],
-                ["月光"],
-                ["ユベル"],
-                ["妖仙獣"],
-                ["ライトロード", "ライロ"],
-                ["霊獣"],
-                ["六武衆"],
-                ["その他"]],
+            <%= form.select :mydeck, @decks,
                 {selected: @selectedData.mydeck}, {class: 'form-control'} %>
         </div>
         <div class="form-group">
             <label>自分のスキル</label>
-            <%= form.select :myskill,
-                [["", "無記入"],
-                ["新たな宇宙！"],
-                ["あーばよ！"],
-                ["頂に立つ者"],
-                ["海の伝説"],
-                ["オルタナティブ(白龍)", "オルタナ"],
-                ["カモン！"],
-                ["儀式の使い手"],
-                ["儀式の使い手2"],
-                ["絆の力"],
-                ["現世復帰の制約"],
-                ["根性"],
-                ["サイバー流奥義"],
-                ["スリカエ"],
-                ["絶対運命力！"],
-                ["ディスティニー・ドロー", 'ディスドロ'],
-                ["ディフェンスチャージ"],
-                ["ハーピィの狩場"],
-                ["バランス"],
-                ["粉砕！"],
-                ["ヘビースターター", "ヘビスタ"],
-                ["墓所封印"],
-                ["魔法の使い手"],
-                ["闇のゲーム"],
-                ["融合の使い手"],
-                ["レベル下降"],
-                ["レベルコピー"],
-                ["レベル上昇"],
-                ["連動トラップ"],
-                ["罠戦術の使い手"],
-                ["その他"]],
+            <%= form.select :myskill, @skills,
                 {selected: @selectedData.myskill}, {class: 'form-control'} %>
         </div>
         
         <div class="form-group">
             <label>相手のデッキ</label>
-            <%= form.select :oppdeck, 
-                [["", "無記入"],
-                ["アロマ"],
-                ["ヴェンデット"],
-                ["ES召喚獣"],
-                ["害悪"],
-                ["水晶機巧"],
-                ["剛鬼"],
-                ["サイバー・ドラゴン", "サイドラ"],
-                ["不知火"],
-                ["不知火(30枚)", "30不知火"],
-                ["超重武者"],
-                ["DD"],
-                ["デスペラード", "デスぺ"],
-                ["ドラグニティ"],
-                ["ネオス"],
-                ["HERO(ファリス型)", "HERO"],
-                ["BF"],
-                ["ブラック・マジシャン", "ブラマジ"],
-                ["青眼"],
-                ["マジシャンガール", "ガール"],
-                ["魔妖"],
-                ["月光"],
-                ["ユベル"],
-                ["妖仙獣"],
-                ["ライトロード", "ライロ"],
-                ["霊獣"],
-                ["六武衆"],
-                ["その他"]],
-                {selected: @selectedData.oppdeck}, {class: 'form-control', id:'oppdeckFrom'} %>
+            <%= form.select :oppdeck, @decks,
+                {selected: @selectedData.oppdeck}, {class: 'form-control'} %>
         </div>
         <div class="form-group">
             <label>相手のスキル</label>
-            <%= form.select :oppskill,
-                [["", "無記入"],
-                ["新たな宇宙！"],
-                ["あーばよ！"],
-                ["頂に立つ者"],
-                ["海の伝説"],
-                ["オルタナティブ(白龍)", "オルタナ"],
-                ["カモン！"],
-                ["儀式の使い手"],
-                ["儀式の使い手2"],
-                ["絆の力"],
-                ["現世復帰の制約"],
-                ["根性"],
-                ["サイバー流奥義"],
-                ["スリカエ"],
-                ["絶対運命力！"],
-                ["ディスティニー・ドロー", 'ディスドロ'],
-                ["ディフェンスチャージ"],
-                ["ハーピィの狩場"],
-                ["バランス"],
-                ["粉砕！"],
-                ["ヘビースターター", "ヘビスタ"],
-                ["墓所封印"],
-                ["魔法の使い手"],
-                ["闇のゲーム"],
-                ["融合の使い手"],
-                ["レベル下降"],
-                ["レベルコピー"],
-                ["レベル上昇"],
-                ["連動トラップ"],
-                ["罠戦術の使い手"],
-                ["その他"]],
-                {selected: @selectedData.oppskill}, {selected: "", class: 'form-control'} %>
+            <%= form.select :oppskill, @skills,
+                {selected: @selectedData.oppskill}, {class: 'form-control'} %>
         </div>
 
         <div class="form-group">
             <% if @selectedData.victory == "勝ち" then %>
                 <label><%= form.radio_button :victory, "勝ち", checked: true %>勝ち</label>
                 <label><%= form.radio_button :victory, "負け" %>負け</label>
+                <div class="form-group">
+                    <label>DP増減</label><br>
+                    <label>
+                        <font size='5' id=dp_pm align='center'>+</font>
+                        <%= form.text_field :dpChanging , value: @selectedData.dpChanging %>
+                    </label>
+                </div>
             <% else %>
                 <label><%= form.radio_button :victory, "勝ち" %>勝ち</label>
                 <label><%= form.radio_button :victory, "負け", checked: true %>負け</label>
+                <div class="form-group">
+                    <label>DP増減</label><br>
+                    <label>
+                        <font size='5' id=dp_pm align='center'> - </font>
+                        <%= form.text_field :dpChanging , value: @selectedData.dpChanging %>
+                    </label>
+                </div>
             <% end %>
         </div>
 
@@ -190,3 +86,13 @@
     <br>
     <p>別ユーザのデータを編集することはできません</p>
 <% end %>
+
+
+<script>
+    $('#match_victory_勝ち').change(function(){
+        $('#dp_pm').text("+")
+    });
+    $('#match_victory_負け').change(function(){
+        $('#dp_pm').text(" - ")
+    });
+</script>

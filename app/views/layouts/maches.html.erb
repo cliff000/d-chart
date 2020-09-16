@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>KC Chart</title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= include_gon %>
+
+    <%= javascript_include_tag "application" %>
+    <%= stylesheet_link_tag "application" %>
+
+    <!-- amCharts javascript sources -->
+    <script type="text/javascript" src="https://www.amcharts.com/lib/3/amcharts.js"></script>
+    <script type="text/javascript" src="https://www.amcharts.com/lib/3/pie.js"></script>
+    <script type="text/javascript" src="https://www.amcharts.com/lib/3/serial.js"></script>
+
+    <style>
+      .table-fixed th:first-child, td:first-child {
+        position: sticky;  position: -webkit-sticky;
+        left: 0;
+      }
+      .table-fixed tr:nth-of-type(odd) th:first-child {
+        background-color: #fff;
+      }
+      .table-fixed tr:nth-of-type(odd) td:first-child {
+        background-color: #fff;
+      }
+      .table-fixed tr:nth-of-type(even) td:first-child {
+        background-color: #fff;
+      }
+
+      .table-compatibility td{
+        height: 64px;
+        padding: 0px;
+        vertical-align: middle;
+        text-align: center;
+      }
+
+      .table-matchresult td{
+        padding: 0px 10px;
+        vertical-align: middle;
+      }
+
+      .table-skilllist td{
+        height: 64px;
+        padding: 0px 10px;
+        vertical-align: middle;
+        text-align: center;
+      }
+    </style>
+  
+  </head>
+
+  <body>
+
+  <!-- Page Wrapper -->
+  <div id="wrapper">
+
+    <!-- Sidebar -->
+    <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+
+      <!-- Sidebar - Brand -->
+      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/mychart">
+        <div class="sidebar-brand-icon rotate-n-15">
+          <i class="fas fa-chart-pie"></i>
+        </div>
+        <div class="sidebar-brand-text mx-3">KC Chart</div>
+      </a>
+
+      <!-- Divider -->
+      <hr class="sidebar-divider my-0">
+
+      <!-- Heading -->
+      <div class="sidebar-heading">
+        Pages
+      </div>
+
+      <!-- Nav Item - Form -->
+      <li class="nav-item">
+        <a class="nav-link" href="/form">
+          <i class="fas fa-fw fa-paper-plane"></i>
+          <span>Form</span></a>
+      </li>
+
+      <!-- Nav Item - My Charts -->
+      <li class="nav-item">
+        <a class="nav-link" href="/mychart">
+          <i class="fas fa-fw fa-user"></i>
+          <span>My Page</span></a>
+      </li>
+
+      <!-- Nav Item - Total Charts -->
+      <li class="nav-item">
+        <a class="nav-link" href="/totalchart">
+          <i class="fas fa-fw fa-users"></i>
+          <span>Total Page</span></a>
+      </li>
+
+      <!-- Divider -->
+      <hr class="sidebar-divider d-none d-md-block">
+
+      <!-- Sidebar Toggler (Sidebar) -->
+      <div class="text-center d-none d-md-inline">
+        <button class="rounded-circle border-0" id="sidebarToggle"></button>
+      </div>
+
+    </ul>
+    <!-- End of Sidebar -->
+
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+
+      <!-- Main Content -->
+      <div id="content">
+
+        <!-- Topbar -->
+        <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+
+          <!-- Sidebar Toggle (Topbar) -->
+          <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+            <i class="fa fa-bars"></i>
+          </button>
+
+          <!-- Topbar Search -->
+          <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+            <div class="input-group">
+              <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
+              <div class="input-group-append">
+                <button class="btn btn-primary" type="button">
+                  <i class="fas fa-search fa-sm"></i>
+                </button>
+              </div>
+            </div>
+          </form>
+
+          <!-- Topbar Navbar -->
+          <ul class="navbar-nav ml-auto">
+
+            <div class="topbar-divider d-none d-sm-block"></div>
+
+            <!-- KC選択 -->
+            <div class="dropdown">
+              <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><%= $kc %></button>
+              <ul class="dropdown-menu dropdown-menu-right">
+                  <li><button class="dropdown-item" value="KCGT2020">KCGT2020</button></li>
+                  <li><button class="dropdown-item" value="KC2020Sep">KC2020Sep</button></li>
+              </ul>
+            </div>
+
+            <!-- KC選択のスクリプト -->
+            <script>
+              $(function(){
+                $('.dropdown-menu .dropdown-item').click(function(){
+                  $.ajax({
+                    url:'/select_kc', type:"POST", data:{kc:$(this).attr('value')}
+                  }).done(function(html) {
+                    location.reload();
+                  }).fail(function() {
+                    alert('エラーが起きました。ページを更新してください');
+                  });
+                })
+              });
+            </script>
+
+          </ul>
+
+        </nav>
+        <!-- End of Topbar -->
+
+        <!-- Begin Page Content -->
+        <div class="container-fluid">
+          <%= yield %>
+        </div>
+        <!-- /.container-fluid -->
+
+      </div>
+      <!-- End of Main Content -->
+
+      <!-- Footer -->
+      <footer class="sticky-footer bg-white">
+        <div class="container my-auto">
+          <div class="copyright text-center my-auto">
+            <span>Copyright &copy; KC Chart</span>
+          </div>
+        </div>
+      </footer>
+      <!-- End of Footer -->
+
+    </div>
+    <!-- End of Content Wrapper -->
+
+  </div>
+  <!-- End of Page Wrapper -->
+
+  <!-- Scroll to Top Button-->
+  <a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+  </a>
+
+  <!-- Custom scripts for all pages-->
+  <script src="/assets/sb-admin-2/sb-admin-2.min.js"></script>
+
+  </body>
+</html>

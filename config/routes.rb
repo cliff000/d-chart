@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  root 'maches#index'
+  root 'maches#mychart'
   get 'form', to:'maches#form'
   post 'form', to:'maches#create'
   get 'sended_form', to:'maches#sended_form'
@@ -11,6 +11,7 @@ Rails.application.routes.draw do
   get 'delete/:id', to:'maches#delete'
   get 'all_delete', to:'maches#all_delete'
   post 'all_delete', to:'maches#all_delete'
+  post 'select_kc', to:'maches#select_kc'
 
   get 'test', to:'maches#test'
   
@@ -19,5 +20,6 @@ Rails.application.routes.draw do
   Rails.application.routes.draw do
     root 'chart#index'
   end
+
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

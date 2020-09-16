@@ -1,11 +1,11 @@
 require 'csv'
-require "execjs"
+require "json"
 
 class MachesController < ApplicationController
   layout 'maches'
   before_action :authenticate_account!
 
-  $kc = 'KCGT2020'
+  $kc = 'KC2020Sep'
 
   def index
     @account = current_account
@@ -15,10 +15,9 @@ class MachesController < ApplicationController
 
   def form
     @match = Match.new
-    @data = Match.all
-    @lastData = Match.where(playerid: current_account.id).last
-    @decks = CSV.read("#{Rails.root}/csv/"+$kc+"/decks.csv")
-    @skills = CSV.read("#{Rails.root}/csv/"+$kc+"/skills.csv")
+    @lastData = Match.where(tag: $kc).where(playerid: current_account.id).last
+    @decks = CSV.read("#{Rails.root}/config_duellinks/"+$kc+"/decks.csv")
+    @skills = CSV.read("#{Rails.root}/config_duellinks/"+$kc+"/skills.csv")
   end
 
   def sended_form
@@ -31,8 +30,8 @@ class MachesController < ApplicationController
       tmp.playerid = current_account.id
 
       dp = 0
-      if Match.where(playerid: current_account.id).exists? then
-        dp = Match.where(playerid: current_account.id).last.dp
+      if Match.where(tag: $kc).where(playerid: current_account.id).exists? then
+        dp = Match.where(tag: $kc).where(playerid: current_account.id).last.dp
       end
       if tmp.victory == "勝ち" then
         dp += tmp.dpChanging
@@ -59,6 +58,7 @@ class MachesController < ApplicationController
     @data = Match.where(tag: $kc).where(playerid: current_account.id)
     oppdecks = @data.group(:oppdeck).count.sort {|a,b| b[1]<=>a[1]}
 
+    #デッキ分布のデータ作成
     others_val = 0
     oppdecks2 = Array.new()
     i = 0
@@ -75,7 +75,7 @@ class MachesController < ApplicationController
     end
     gon.oppdecks_mychart = oppdecks2
 
-
+    #DP推移のデータ作成
     dpline = Array.new()
     i = 0
     for obj in @data do
@@ -83,16 +83,23 @@ class MachesController < ApplicationController
       dpline.push({"category" => i, "column-1" => obj.dp})
     end
     gon.dpline_mychart = dpline
+
+    #画像リスト読み込み
+    @deck_image = {}
+    File.open("#{Rails.root}/config_duellinks/deck_image.json") do |file|
+      @deck_image = JSON.load(file)
+    end
   end
 
   def mydata_csv
-    @data = Match.where(playerid: current_account.id)
+    @data = Match.where(tag: $kc).where(playerid: current_account.id)
   end
 
   def totalchart
     @data = Match.where(tag: $kc)
     oppdecks = @data.group(:oppdeck).count.sort {|a,b| b[1]<=>a[1]}
 
+    #デッキ分布のデータ作成
     others_val = 0
     oppdecks2 = Array.new()
     i = 0
@@ -109,10 +116,9 @@ class MachesController < ApplicationController
     end
     gon.oppdecks_totalchart = oppdecks2
 
-
+    #直近のデッキ分布のデータ作成
     @recentData = @data.where(created_at: (Time.now - 7200)..Float::INFINITY)
     oppdecks = @recentData.group(:oppdeck).count.sort {|a,b| b[1]<=>a[1]}
-
     others_val = 0
     oppdecks2 = Array.new()
     i = 0
@@ -128,6 +134,12 @@ class MachesController < ApplicationController
       oppdecks2.push({"category" => "その他", "column-1" => others_val})
     end
     gon.recent_oppdecks_totalchart = oppdecks2
+
+    #画像リスト読み込み
+    @deck_image = {}
+    File.open("#{Rails.root}/config_duellinks/deck_image.json") do |file|
+      @deck_image = JSON.load(file)
+    end
   end
 
   def select_kc
@@ -137,8 +149,8 @@ class MachesController < ApplicationController
   def edit
     @account = current_account
     @selectedData = Match.find(params[:id])
-    @decks = CSV.read("#{Rails.root}/csv/"+$kc+"/decks.csv")
-    @skills = CSV.read("#{Rails.root}/csv/"+$kc+"/skills.csv")
+    @decks = CSV.read("#{Rails.root}/config_duellinks/"+$kc+"/decks.csv")
+    @skills = CSV.read("#{Rails.root}/config_duellinks/"+$kc+"/skills.csv")
   end
 
   def update
@@ -173,7 +185,7 @@ class MachesController < ApplicationController
   end
 
   def dpUpdate
-    data = Match.where(playerid: current_account.id)
+    data = Match.where(tag: $kc).where(playerid: current_account.id)
     preDP = 0
     for obj in data do
       if obj.victory == "勝ち" then

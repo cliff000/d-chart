@@ -1,16 +1,3 @@
-<% card_image = {
-    "HERO":"hero.jpg", 
-    "ES召喚獣":"elementsaber.jpg", 
-    "サイドラ":"cyber-dragon.jpg",
-    "ブラマジ":"black-magician.jpg",
-    "BF":"blackwing.jpg",
-    "青眼":"blue-eyes.jpg",
-    "ネオス":"neos.jpg",
-    "霊獣":"ritual-beast.jpg",
-    "不知火":"shiranui.jpg",
-    "ドラグニティ":"dragunity.jpg",
-    "ウィッチクラフト":"witchcraft.jpg"} %>
-
 <!-- Page Heading -->
 <div class="d-sm-flex align-items-center justify-content-between mb-4">
   <h1>マイページ</h1>
@@ -107,8 +94,8 @@
             <td></td>
             <% oppdecks.each do |obj| %>
               <!-- カード画像表示 -->
-              <% if card_image.has_key?(obj[0].to_sym)%>
-                <td><img src=<%= "/assets/card/#{card_image[obj[0].to_sym]}" %> width="64" height="64" alt=""></td>
+              <% if @deck_image.has_key?(obj[0])%>
+                <td><img src=<%= "/assets/card/#{@deck_image[obj[0]]}" %> width="64" height="64" alt=""></td>
               <% else %>
                 <td cellpadding="5">　<%= obj[0] %>　</td>
               <% end %>
@@ -118,8 +105,8 @@
           <% mydecks.each do |mhash| %>
             <tr>
               <!-- カード画像表示 -->
-              <% if card_image.has_key?(mhash[0].to_sym)%>
-                <td><img src=<%= "/assets/card/#{card_image[mhash[0].to_sym]}" %> width="64" height="64" alt=""></td>
+              <% if @deck_image.has_key?(mhash[0])%>
+                <td><img src=<%= "/assets/card/#{@deck_image[mhash[0]]}" %> width="64" height="64" alt=""></td>
               <% else %>
                 <td cellpadding="5"><%= mhash[0] %></td>
               <% end %>
@@ -215,16 +202,16 @@
                 <!-- 番号 -->
                 <td><%= num %></td>
                 <!-- 自分のデッキ -->
-                <% if card_image.has_key?(obj.mydeck.to_sym)%>
-                    <td><img src=<%= "/assets/card/#{card_image[obj.mydeck.to_sym]}" %> width="48" height="48" alt=""></td>
+                <% if @deck_image.has_key?(obj.mydeck)%>
+                    <td><img src=<%= "/assets/card/#{@deck_image[obj.mydeck]}" %> width="48" height="48" alt=""></td>
                 <% else %>
                   <td><%= obj.mydeck %></td>
                 <% end %>
                 <!-- 自分のスキル -->
                 <td><img src="/assets/skill.png" width="24" height="24" alt=""> <%= obj.myskill %></td>
                 <!-- 相手のデッキ -->
-                <% if card_image.has_key?(obj.oppdeck.to_sym)%>
-                  <td><img src=<%= "/assets/card/#{card_image[obj.oppdeck.to_sym]}" %> width="48" height="48" alt=""></td>
+                <% if @deck_image.has_key?(obj.oppdeck)%>
+                  <td><img src=<%= "/assets/card/#{@deck_image[obj.oppdeck]}" %> width="48" height="48" alt=""></td>
                 <% else %>
                   <td><%= obj.oppdeck %></td>
                 <% end %>

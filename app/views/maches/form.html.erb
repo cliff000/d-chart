@@ -1,7 +1,7 @@
 <h1>対戦の記録</h1>
 <p>対戦結果を保存するためのページです</p>
 
-<%= form_with model: @match, url:{controller:'maches', action:'create'} do |form| %>
+<%= form_for(@match, url:{controller:'maches', action:'create'}) do |form| %>
     <div class="form-group">
         <label>自分のデッキ</label>
         <%= form.select :mydeck, @decks,

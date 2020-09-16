@@ -2,6 +2,7 @@ AmCharts.makeChart("deck_pie_totalchart",
 {
 	"type": "pie",
 	"balloonText": "[[title]]<br><span style='font-size:14px'><b>[[percents]]%</b></span>",
+	"labelText": "[[title]]",
 	"labelRadius": 18,
 	"minRadius": 100,
 	"radius": 0,

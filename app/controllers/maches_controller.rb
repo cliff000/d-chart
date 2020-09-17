@@ -5,8 +5,7 @@ class MachesController < ApplicationController
   layout 'maches'
   before_action :authenticate_account!
 
-  #現在のKC
-  $kc = 'Free'
+  $kc = Hash.new()
 
   def index
     @account = current_account
@@ -16,12 +15,12 @@ class MachesController < ApplicationController
 
   def form
     @match = Match.new
-    @lastData = Match.where(tag: $kc).where(playerid: current_account.id).last
-    @decks = CSV.read("#{Rails.root}/config_duellinks/"+$kc+"/decks.csv")
-    @skills = CSV.read("#{Rails.root}/config_duellinks/"+$kc+"/skills.csv")
+    @lastData = Match.where(tag: kc()).where(playerid: current_account.id).last
+    @decks = CSV.read("#{Rails.root}/config_duellinks/"+kc()+"/decks.csv")
+    @skills = CSV.read("#{Rails.root}/config_duellinks/"+kc()+"/skills.csv")
 
     #スキルリスト読み込み
-    File.open("#{Rails.root}/config_duellinks/"+$kc+"/major_skill.json") do |file|
+    File.open("#{Rails.root}/config_duellinks/"+kc()+"/major_skill.json") do |file|
       gon.major_skill = JSON.load(file)
     end
   end
@@ -36,8 +35,8 @@ class MachesController < ApplicationController
       tmp.playerid = current_account.id
 
       dp = 0
-      if Match.where(tag: $kc).where(playerid: current_account.id).exists? then
-        dp = Match.where(tag: $kc).where(playerid: current_account.id).last.dp
+      if Match.where(tag: kc()).where(playerid: current_account.id).exists? then
+        dp = Match.where(tag: kc()).where(playerid: current_account.id).last.dp
       end
       if tmp.victory == "勝ち" then
         dp += tmp.dpChanging
@@ -49,7 +48,7 @@ class MachesController < ApplicationController
       end
       tmp.dp = dp
 
-      tmp.tag = $kc
+      tmp.tag = kc()
 
       tmp.save
     end
@@ -61,7 +60,7 @@ class MachesController < ApplicationController
 
   def mychart
     @account = current_account
-    @data = Match.where(tag: $kc).where(playerid: current_account.id)
+    @data = Match.where(tag: kc()).where(playerid: current_account.id)
     oppdecks = @data.group(:oppdeck).count.sort {|a,b| b[1]<=>a[1]}
 
     #デッキ分布のデータ作成
@@ -98,11 +97,11 @@ class MachesController < ApplicationController
   end
 
   def mydata_csv
-    @data = Match.where(tag: $kc).where(playerid: current_account.id)
+    @data = Match.where(tag: kc()).where(playerid: current_account.id)
   end
 
   def totalchart
-    @data = Match.where(tag: $kc)
+    @data = Match.where(tag: kc())
     oppdecks = @data.group(:oppdeck).count.sort {|a,b| b[1]<=>a[1]}
 
     #デッキ分布のデータ作成
@@ -149,14 +148,22 @@ class MachesController < ApplicationController
   end
 
   def select_kc
-    $kc = params[:kc]
+    $kc[current_account] = params[:kc]
   end
+  def kc
+    if $kc.key?(current_account) then
+      return $kc[current_account]
+    else
+      return "Free"
+    end
+  end
+  helper_method :kc
 
   def edit
     @account = current_account
     @selectedData = Match.find(params[:id])
-    @decks = CSV.read("#{Rails.root}/config_duellinks/"+$kc+"/decks.csv")
-    @skills = CSV.read("#{Rails.root}/config_duellinks/"+$kc+"/skills.csv")
+    @decks = CSV.read("#{Rails.root}/config_duellinks/"+kc()+"/decks.csv")
+    @skills = CSV.read("#{Rails.root}/config_duellinks/"+kc()+"/skills.csv")
   end
 
   def update
@@ -191,7 +198,7 @@ class MachesController < ApplicationController
   end
 
   def dpUpdate
-    data = Match.where(tag: $kc).where(playerid: current_account.id)
+    data = Match.where(tag: kc()).where(playerid: current_account.id)
     preDP = 0
     for obj in data do
       if obj.victory == "勝ち" then

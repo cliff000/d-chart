@@ -5,6 +5,12 @@
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
     <%= include_gon %>
 
     <%= javascript_include_tag "application" %>
@@ -142,9 +148,9 @@
 
             <!-- KC選択 -->
             <div class="dropdown">
-              <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><%= $kc %></button>
+              <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><%= kc() %></button>
               <ul class="dropdown-menu dropdown-menu-right">
-                <li><button class="dropdown-item" value="KCGT2020">Free</button></li>
+                <li><button class="dropdown-item" value="Free">Free</button></li>
                 <li><button class="dropdown-item" value="KCGT2020">KCGT2020</button></li>
                 <li><button class="dropdown-item" value="KC2020Sep">KC2020Sep</button></li>
               </ul>

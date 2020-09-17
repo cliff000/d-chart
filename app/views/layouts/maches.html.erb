@@ -150,16 +150,16 @@
             <div class="dropdown">
               <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><%= kc() %></button>
               <ul class="dropdown-menu dropdown-menu-right">
-                <li><button class="dropdown-item" value="Free">Free</button></li>
-                <li><button class="dropdown-item" value="KCGT2020">KCGT2020</button></li>
-                <li><button class="dropdown-item" value="KC2020Sep">KC2020Sep</button></li>
+                <li><button class="dropdown-item select_kc" value="Free">Free</button></li>
+                <li><button class="dropdown-item select_kc" value="KCGT2020">KCGT2020</button></li>
+                <li><button class="dropdown-item select_kc" value="KC2020Sep">KC2020Sep</button></li>
               </ul>
             </div>
 
             <!-- KC選択のスクリプト -->
             <script>
               $(function(){
-                $('.dropdown-menu .dropdown-item').click(function(){
+                $('.select_kc').click(function(){
                   $.ajax({
                     url:'/select_kc', type:"POST", data:{kc:$(this).attr('value')}
                   }).done(function(html) {
@@ -207,7 +207,7 @@
   </a>
 
   <!-- Custom scripts for all pages-->
-  <script src="/assets/sb-admin-2/sb-admin-2.min.js"></script>
+  <script src="/assets/sb-admin-2/sb-admin-2.js"></script>
 
   </body>
 </html>

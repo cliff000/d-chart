@@ -6,6 +6,7 @@ class MachesController < ApplicationController
   before_action :authenticate_account!
 
   $kc = Hash.new()
+  $date = Hash.new()
 
   def index
     @account = current_account
@@ -14,6 +15,7 @@ class MachesController < ApplicationController
   end
 
   def form
+    $kc[current_account] = "KC2020Sep"
     @match = Match.new
     @lastData = Match.where(tag: kc()).where(playerid: current_account.id).last
     @decks = CSV.read("#{Rails.root}/config_duellinks/"+kc()+"/decks.csv")
@@ -147,6 +149,7 @@ class MachesController < ApplicationController
     end
   end
 
+  #KC選択関係
   def select_kc
     $kc[current_account] = params[:kc]
   end
@@ -154,10 +157,35 @@ class MachesController < ApplicationController
     if $kc.key?(current_account) then
       return $kc[current_account]
     else
-      return "Free"
+      return "KC2020Sep"
     end
   end
   helper_method :kc
+
+  #日付関係
+  def select_date
+    $date[current_account] = params[:date]
+  end
+  def date
+    if $date.key?(current_account) then
+      return $date[current_account]
+    else
+      return "全日程"
+    end
+  end
+  def date_detail
+    @tmp_json = {}
+    File.open("#{Rails.root}/config_duellinks/"+kc()+"/date.json") do |file|
+      @tmp_json = JSON.load(file)
+    end
+
+    if $date.key?(current_account) || $date[current_account] != "全日程" then
+      return Time.parse(@tmp_json[$date])
+    else
+      return [-Float::INFINITY, Float::INFINITY]
+    end
+  end
+  helper_method :date
 
   def edit
     @account = current_account
@@ -169,6 +197,8 @@ class MachesController < ApplicationController
   def update
     obj = Match.find(params[:id])
     obj.update(match_params)
+    obj.tag = kc()
+    obj.save()
     dpUpdate()
     redirect_to action: :mychart
   end

@@ -99,7 +99,7 @@ class MachesController < ApplicationController
   end
 
   def mydata_csv
-    @data = Match.where(tag: kc()).where(playerid: current_account.id)
+    @data = Match.where(tag: kc()).where(playerid: current_account.id).where(created_at: datetime_detail()[0]..datetime_detail()[1])
   end
 
   def totalchart
@@ -195,12 +195,12 @@ class MachesController < ApplicationController
     @skills = CSV.read("#{Rails.root}/config_duellinks/"+kc()+"/skills.csv")
   end
 
-  def updatetime
+  def update
     obj = Match.find(params[:id])
-    obj.updatetime(match_params)
+    obj.update(match_params)
     obj.tag = kc()
     obj.save()
-    dpUpdatetime()
+    dpUpdate()
     redirect_to action: :mychart
   end
 
@@ -218,7 +218,7 @@ class MachesController < ApplicationController
     obj = Match.find(params[:id])
     if obj.playerid == current_account.id then
       obj.destroy
-      dpUpdatetime()
+      dpUpdate()
     end
     redirect_to action: :mychart
   end
@@ -228,7 +228,7 @@ class MachesController < ApplicationController
     params.require(:match).permit(:mydeck, :myskill, :oppdeck, :oppskill, :victory, :dpChanging)
   end
 
-  def dpUpdatetime
+  def dpUpdate
     data = Match.where(tag: kc()).where(playerid: current_account.id)
     preDP = 0
     for obj in data do

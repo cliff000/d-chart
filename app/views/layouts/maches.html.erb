@@ -164,9 +164,21 @@
               </ul>
             </div>
 
-            <!-- KC選択のスクリプト -->
+            <div class="dropdown">
+              <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><%= datetime() %></button>
+              <ul class="dropdown-menu dropdown-menu-right">
+                  <li><button class="dropdown-item select_datetime" value="全日程">全日程</button></li>
+                  <div class="dropdown-divider"></div>
+                  <li><button class="dropdown-item select_datetime" value="1日目">1日目</button></li>
+                  <li><button class="dropdown-item select_datetime" value="2日目">2日目</button></li>
+                  <li><button class="dropdown-item select_datetime" value="3日目">3日目</button></li>
+                  <li><button class="dropdown-item select_datetime" value="4日目">4日目</button></li>
+              </ul>
+            </div>
+
             <script>
               $(function(){
+                <!-- KC選択のスクリプト -->
                 $('.select_kc').click(function(){
                   $.ajax({
                     url:'/select_kc', type:"POST", data:{kc:$(this).attr('value')}
@@ -174,6 +186,17 @@
                     location.reload();
                   }).fail(function() {
                     alert('エラーが起きました。ページを更新してください');
+                  });
+                })
+
+                <!-- 日付のスクリプト -->
+                $('.select_datetime').click(function(){
+                  $.ajax({
+                      url:'/select_datetime', type:"POST", data:{datetime:$(this).attr('value')}
+                  }).done(function(html) {
+                      location.reload();
+                  }).fail(function() {
+                      alert('エラーが起きました');
                   });
                 })
               });

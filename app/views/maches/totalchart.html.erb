@@ -7,19 +7,6 @@
             <!-- Card Header - Dropdown -->
             <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                 <h6 class="m-0 font-weight-bold text-primary">デッキ分布</h6>
-                <!--
-                <div class="dropdown">
-                    <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><%= date() %></button>
-                    <ul class="dropdown-menu dropdown-menu-right">
-                        <li><button class="dropdown-item select_date" value="全日程">全日程</button></li>
-                        <div class="dropdown-divider"></div>
-                        <li><button class="dropdown-item select_date" value="1日目">1日目</button></li>
-                        <li><button class="dropdown-item select_date" value="2日目">2日目</button></li>
-                        <li><button class="dropdown-item select_date" value="3日目">3日目</button></li>
-                        <li><button class="dropdown-item select_date" value="4日目">4日目</button></li>
-                    </ul>
-                </div>
-                -->
             </div>
             <!-- Card Body -->
             <div class="card-body">
@@ -27,21 +14,6 @@
             </div>
         </div>
     </div>
-
-    <!-- 日付のスクリプト -->
-    <script>
-        $(function(){
-        $('.select_date').click(function(){
-            $.ajax({
-                url:'/select_date', type:"POST", data:{date:$(this).attr('value')}
-            }).done(function(html) {
-                location.reload();
-            }).fail(function() {
-                alert('エラーが起きました');
-            });
-        })
-        });
-    </script>
 
     <div class="col-xl-6">
         <div class="card shadow mb-4">
@@ -54,7 +26,7 @@
             <div id="deck_pie_recent" style="width: 100%; height: 300px; background-color: #FFFFFF;" ></div>
             </div>
         </div>
-        </div>
+    </div>
 </div>
 
 <% oppdecks = @data.group(:oppdeck).count.sort {|a,b| b[1]<=>a[1]} %>

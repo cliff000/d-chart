@@ -13,7 +13,7 @@ Rails.application.routes.draw do
   post 'all_delete', to:'maches#all_delete'
 
   post 'select_kc', to:'maches#select_kc'
-  post 'select_date', to:'maches#select_date'
+  post 'select_datetime', to:'maches#select_datetime'
 
   get 'test', to:'maches#test'
   

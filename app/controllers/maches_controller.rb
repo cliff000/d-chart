@@ -6,7 +6,7 @@ class MachesController < ApplicationController
   before_action :authenticate_account!
 
   $kc = Hash.new()
-  $date = Hash.new()
+  $datetime = Hash.new()
 
   def index
     @account = current_account
@@ -62,7 +62,7 @@ class MachesController < ApplicationController
 
   def mychart
     @account = current_account
-    @data = Match.where(tag: kc()).where(playerid: current_account.id)
+    @data = Match.where(tag: kc()).where(playerid: current_account.id).where(created_at: datetime_detail()[0]..datetime_detail()[1])
     oppdecks = @data.group(:oppdeck).count.sort {|a,b| b[1]<=>a[1]}
 
     #デッキ分布のデータ作成
@@ -103,7 +103,7 @@ class MachesController < ApplicationController
   end
 
   def totalchart
-    @data = Match.where(tag: kc())
+    @data = Match.where(tag: kc()).where(created_at: datetime_detail()[0]..datetime_detail()[1])
     oppdecks = @data.group(:oppdeck).count.sort {|a,b| b[1]<=>a[1]}
 
     #デッキ分布のデータ作成
@@ -163,29 +163,30 @@ class MachesController < ApplicationController
   helper_method :kc
 
   #日付関係
-  def select_date
-    $date[current_account] = params[:date]
+  def select_datetime
+    $datetime[current_account] = params[:datetime]
   end
-  def date
-    if $date.key?(current_account) then
-      return $date[current_account]
+  def datetime
+    if $datetime.key?(current_account) then
+      return $datetime[current_account]
     else
       return "全日程"
     end
   end
-  def date_detail
+  def datetime_detail
     @tmp_json = {}
-    File.open("#{Rails.root}/config_duellinks/"+kc()+"/date.json") do |file|
+    File.open("#{Rails.root}/config_duellinks/"+kc()+"/datetime.json") do |file|
       @tmp_json = JSON.load(file)
     end
 
-    if $date.key?(current_account) || $date[current_account] != "全日程" then
-      return Time.parse(@tmp_json[$date])
+    if $datetime.key?(current_account) && $datetime[current_account] != "全日程" then
+      return [Time.parse(@tmp_json[$datetime[current_account]][0]), Time.parse(@tmp_json[$datetime[current_account]][1])]
     else
       return [-Float::INFINITY, Float::INFINITY]
     end
   end
-  helper_method :date
+  helper_method :datetime
+  helper_method :datetime_detail
 
   def edit
     @account = current_account
@@ -194,12 +195,12 @@ class MachesController < ApplicationController
     @skills = CSV.read("#{Rails.root}/config_duellinks/"+kc()+"/skills.csv")
   end
 
-  def update
+  def updatetime
     obj = Match.find(params[:id])
-    obj.update(match_params)
+    obj.updatetime(match_params)
     obj.tag = kc()
     obj.save()
-    dpUpdate()
+    dpUpdatetime()
     redirect_to action: :mychart
   end
 
@@ -217,7 +218,7 @@ class MachesController < ApplicationController
     obj = Match.find(params[:id])
     if obj.playerid == current_account.id then
       obj.destroy
-      dpUpdate()
+      dpUpdatetime()
     end
     redirect_to action: :mychart
   end
@@ -227,7 +228,7 @@ class MachesController < ApplicationController
     params.require(:match).permit(:mydeck, :myskill, :oppdeck, :oppskill, :victory, :dpChanging)
   end
 
-  def dpUpdate
+  def dpUpdatetime
     data = Match.where(tag: kc()).where(playerid: current_account.id)
     preDP = 0
     for obj in data do

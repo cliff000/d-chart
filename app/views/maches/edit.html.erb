@@ -54,29 +54,48 @@
                 {selected: @selectedData.oppskill}, {class: 'form-control'} %>
         </div>
 
-        <div class="form-group">
-            <% if @selectedData.victory == "勝ち" then %>
-                <label><%= form.radio_button :victory, "勝ち", checked: true %>勝ち</label>
-                <label><%= form.radio_button :victory, "負け" %>負け</label>
-                <div class="form-group">
-                    <label>DP増減</label><br>
-                    <label>
-                        <font size='5' id=dp_pm align='center'>+</font>
-                        <%= form.text_field :dpChanging , value: @selectedData.dpChanging %>
-                    </label>
+        
+        <% if @selectedData.victory == "勝ち" then %>
+            <div class="form-group">
+                <label>勝敗</label>
+                <div class="form-check">
+                    <label><%= form.radio_button :victory, "勝ち", :class => 'form-check-input', checked: true%>勝ち</label>
                 </div>
-            <% else %>
-                <label><%= form.radio_button :victory, "勝ち" %>勝ち</label>
-                <label><%= form.radio_button :victory, "負け", checked: true %>負け</label>
-                <div class="form-group">
-                    <label>DP増減</label><br>
-                    <label>
-                        <font size='5' id=dp_pm align='center'> - </font>
-                        <%= form.text_field :dpChanging , value: @selectedData.dpChanging %>
-                    </label>
+                <div class="form-check">
+                    <label><%= form.radio_button :victory, "負け", :class => 'form-check-input' %>負け</label>
                 </div>
-            <% end %>
-        </div>
+            </div>
+        
+            <div class="form-group">
+                <label>DP増減</label>
+                <div class="form-inline">
+                    <i id=dp_plus class="fas fa-plus"></i>
+                    <i id=dp_minus class="fas fa-minus"></i> &nbsp;
+                    <%= form.text_field :dpChanging , value: "1000", class: 'form-control' %>
+                </div>
+            </div>
+            <script> $('#dp_minus').hide(); </script>
+        <% else %>
+            <div class="form-group">
+                <label>勝敗</label>
+                <div class="form-check">
+                    <label><%= form.radio_button :victory, "勝ち", :class => 'form-check-input' %>勝ち</label>
+                </div>
+                <div class="form-check">
+                    <label><%= form.radio_button :victory, "負け", :class => 'form-check-input', checked: true %>負け</label>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>DP増減</label>
+                <div class="form-inline">
+                    <i id=dp_plus class="fas fa-plus"></i>
+                    <i id=dp_minus class="fas fa-minus"></i> &nbsp;
+                    <%= form.text_field :dpChanging , value: "1000", class: 'form-control' %>
+                </div>
+            </div>
+            <script> $('#dp_plus').hide(); </script>
+        <% end %>
 
         <%= form.submit "送信", class:"btn btn-primary" %>
     <% end %>
@@ -90,9 +109,18 @@
 
 <script>
     $('#match_victory_勝ち').change(function(){
-        $('#dp_pm').text("+")
+        $('#dp_plus').show();
+        $('#dp_minus').hide();
     });
     $('#match_victory_負け').change(function(){
-        $('#dp_pm').text(" - ")
+        $('#dp_plus').hide();
+        $('#dp_minus').show();
+    });
+
+    $('#match_oppdeck').change(function(){
+        $('#match_oppskill').val(gon.major_skill[$('#match_oppdeck').val()]);
+    });
+    $('#match_mydeck').change(function(){
+        $('#match_myskill').val(gon.major_skill[$('#match_mydeck').val()]);
     });
 </script>

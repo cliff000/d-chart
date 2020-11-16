@@ -1,7 +1,7 @@
 <!-- Page Heading -->
 <div class="d-sm-flex align-items-center justify-content-between mb-4">
   <h1>マイページ</h1>
-  <a href="/mychart/my_duel_data.csv" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i> Generate CSV Data</a>
+  <a href="/mychart/my_duel_data.csv" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i> データをCSV形式でダウンロード</a>
 </div>
 
 <!-- Content Row -->
@@ -95,7 +95,9 @@
             <% oppdecks.each do |obj| %>
               <!-- カード画像表示 -->
               <% if @deck_image.has_key?(obj[0])%>
-                <td><img src=<%= "/assets/card/#{@deck_image[obj[0]]}" %> width="64" height="64" alt=""></td>
+                <td><a class="showTooltip" href="/chart/<%= obj[0] %>">
+                  <img src=<%= "/assets/card/#{@deck_image[obj[0]]}" %> width="64" height="64" alt="">
+                </a></td>
               <% else %>
                 <td cellpadding="5">　<%= obj[0] %>　</td>
               <% end %>
@@ -106,7 +108,9 @@
             <tr>
               <!-- カード画像表示 -->
               <% if @deck_image.has_key?(mhash[0])%>
-                <td><img src=<%= "/assets/card/#{@deck_image[mhash[0]]}" %> width="64" height="64" alt=""></td>
+                <td><a href="/chart/<%= mhash[0] %>">
+                  <img src=<%= "/assets/card/#{@deck_image[mhash[0]]}" %> width="64" height="64" alt="">
+                </a></td>
               <% else %>
                 <td cellpadding="5"><%= mhash[0] %></td>
               <% end %>

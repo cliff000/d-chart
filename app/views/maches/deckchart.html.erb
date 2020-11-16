@@ -1,0 +1,63 @@
+<!-- Page Heading -->
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1><% if @deck_image.has_key?(@deckName)%>
+        <img src=<%= "/assets/card/#{@deck_image[@deckName]}" %> width="128" height="128" alt="">
+    <% end %>
+    <%= @deckName %></h1>
+</div>
+
+<div class="row">
+    <div class="col-12">
+    <div class="card shadow mb-4">
+        <!-- Card Header - Dropdown -->
+        <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">スキル分布</h6>
+        </div>
+        <!-- Card Body -->
+        <div class="card-body">
+        <div id="skillchart" style="width: 100%; height: 300px; background-color: #FFFFFF;" ></div>
+        </div>
+    </div>
+    </div>
+</div>
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">相性表</h6>
+    </div>
+    <div class="card-body">
+        <div class="text-nowrap table-responsive">
+            <table class="table table-bordered table-fixed table-compatibility" id="dataTable_compatibility" width="100%" cellspacing="0">
+            <tbody><tr>
+                <td></td>
+                <% @winRateHash.each do |obj| %>
+                    <% if @deck_image.has_key?(obj[0])%>
+                        <td><a class="showTooltip" href="/chart/<%= obj[0] %>">
+                        <img src=<%= "/assets/card/#{@deck_image[obj[0]]}" %> width="64" height="64" alt="">
+                        </a></td>
+                    <% else %>
+                        <td cellpadding="5">　<%= obj[0] %>　</td>
+                    <% end %>
+                <% end %>
+            </tr>
+            <tr>
+                <td><img src=<%= "/assets/card/#{@deck_image[@deckName]}" %> width="64" height="64" alt=""></td>
+                <% @winRateHash.each do |obj| %>
+                    <% if obj[1] >= 55 then %>
+                        <td><font color='blue' ><%= obj[1] %>%</font></td>
+                    <% elsif obj[1] <= 45 then %>
+                        <td><font color='red'><%= obj[1] %>%</font></td>
+                    <% else %>
+                        <td><%= obj[1] %>%</font></td>
+                    <% end %>
+                <% end %>
+            </tr></tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+<!-- Draw Chart -->
+<script src="/assets/maches/skillchart.js"></script>
+<script src="/assets/maches/dpline_mychart.js"></script>

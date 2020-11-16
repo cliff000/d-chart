@@ -44,7 +44,9 @@
                 <% oppdecks.each do |obj| %>
                     <!-- カード画像表示 -->
                     <% if @deck_image.has_key?(obj[0])%>
-                        <td><img src=<%= "/assets/card/#{@deck_image[obj[0]]}" %> width="64" height="64" alt=""></td>
+                        <td><a href="/chart/<%= obj[0] %>">
+                            <img src=<%= "/assets/card/#{@deck_image[obj[0]]}" %> width="64" height="64" alt="">
+                        </a></td>
                     <% else %>
                         <td cellpadding="5">　<%= obj[0] %>　</td>
                     <% end %>
@@ -55,7 +57,9 @@
                 <tr>
                 <!-- カード画像表示 -->
                 <% if @deck_image.has_key?(mhash[0])%>
-                    <td><img src=<%= "/assets/card/#{@deck_image[mhash[0]]}" %> width="64" height="64" alt=""></td>
+                    <td><a href="/chart/<%= mhash[0] %>">
+                        <img src=<%= "/assets/card/#{@deck_image[mhash[0]]}" %> width="64" height="64" alt="">
+                    </a></td>
                 <% else %>
                     <td cellpadding="5"><%= mhash[0] %></td>
                 <% end %>

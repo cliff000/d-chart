@@ -162,6 +162,16 @@ class MachesController < ApplicationController
   end
   helper_method :kc
 
+  def deckList
+    return CSV.read("#{Rails.root}/config_duellinks/"+kc()+"/decks.csv")
+  end
+  helper_method :deckList
+
+  #KC作成
+  def create_kc
+    @match = Match.new
+  end
+
   #日付関係
   def select_datetime
     $datetime[current_account] = params[:datetime]
@@ -202,6 +212,44 @@ class MachesController < ApplicationController
     obj.save()
     dpUpdate()
     redirect_to action: :mychart
+  end
+
+  def deckchart
+    @deckName = params[:deck]
+    @mydata = Match.where(tag: kc()).where(created_at: datetime_detail()[0]..datetime_detail()[1]).where(mydeck: params[:deck])
+    @oppdata = Match.where(tag: kc()).where(created_at: datetime_detail()[0]..datetime_detail()[1]).where(oppdeck: params[:deck])
+    
+    #画像リスト読み込み
+    @deck_image = {}
+    File.open("#{Rails.root}/config_duellinks/deck_image.json") do |file|
+      @deck_image = JSON.load(file)
+    end
+
+    #相性表のデータ作成
+    ahash1 = @mydata.group(:oppdeck).count
+    ahash2 = @oppdata.group(:mydeck).count
+    allHash = ahash1.merge(ahash2) {|key, oldval, newval| oldval + newval}
+    allHash = allHash.sort {|a,b| b[1]<=>a[1]}.to_h
+    whash1 = @mydata.where(victory: "勝ち").group(:oppdeck).count
+    whash2 = @oppdata.where(victory: "負け").group(:mydeck).count
+    winHash = whash1.merge(whash2) {|key, oldval, newval| oldval + newval}
+    @winRateHash = Hash.new()
+    allHash.each do |obj|
+      if winHash.has_key?(obj[0])
+        @winRateHash[obj[0]] = (winHash[obj[0]] * 100.to_f / obj[1]).round(1)
+      else
+        @winRateHash[obj[0]] = 0
+      end
+    end
+
+    #スキルリスト
+    oppskills = @oppdata.group(:oppskill).count.sort {|a,b| b[1]<=>a[1]}
+    skilllist = Array.new()
+    i = 0
+    oppskills.each{|key, value|
+      skilllist.push({"category" => key, "column-1" => value})
+    }
+    gon.skilllist = skilllist
   end
 
   def all_delete

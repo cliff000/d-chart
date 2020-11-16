@@ -105,6 +105,25 @@
       </li>
 
       <!-- Divider -->
+      <hr class="sidebar-divider my-0">
+
+      <!-- Heading -->
+      <div class="sidebar-heading">
+        Decks
+      </div>
+
+      <!-- デッキリスト -->
+      <% deckList().each do |obj| %>
+        <% if obj[0] != nil %>
+          <li class="nav-item">
+            <a class="nav-link" href="/chart/<%= obj[0] %>">
+              <%= obj[0] %>
+            </a>
+          </li>
+        <% end %>
+      <% end %>
+
+      <!-- Divider -->
       <hr class="sidebar-divider d-none d-md-block">
 
       <!-- Sidebar Toggler (Sidebar) -->
@@ -161,6 +180,7 @@
                 <li><button class="dropdown-item select_kc" value="Free">Free</button></li>
                 <li><button class="dropdown-item select_kc" value="KCGT2020">KCGT2020</button></li>
                 <li><button class="dropdown-item select_kc" value="KC2020Sep">KC2020Sep</button></li>
+                <!-- <li><button class="dropdown-item select_kc" value="create">新しく作る</button></li> -->
               </ul>
             </div>
 
@@ -180,13 +200,17 @@
               $(function(){
                 <!-- KC選択のスクリプト -->
                 $('.select_kc').click(function(){
-                  $.ajax({
-                    url:'/select_kc', type:"POST", data:{kc:$(this).attr('value')}
-                  }).done(function(html) {
-                    location.reload();
-                  }).fail(function() {
-                    alert('エラーが起きました。ページを更新してください');
-                  });
+                  if($(this).attr('value') == "create"){
+                    window.location.href = "/create_kc";
+                  }else{
+                    $.ajax({
+                      url:'/select_kc', type:"POST", data:{kc:$(this).attr('value')}
+                    }).done(function(html) {
+                      window.location.href = "/mychart";
+                    }).fail(function() {
+                      alert('エラーが起きました。ページを更新してください');
+                    });
+                    }
                 })
 
                 <!-- 日付のスクリプト -->

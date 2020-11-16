@@ -1,0 +1,140 @@
+<%= form_for(@match, url:{controller:'maches', action:'create'}) do |form| %>
+    <%= form.label :名前 %>
+    <%= form.text_field :mydeck, {class: 'form-control'} %>
+    <br>
+
+    <div class="row">
+        <div class="col-5">
+            <%= form.label :開始時刻 %>
+            <%= form.date_field :dp, {class: 'form-control'} %>
+            <%= form.time_field :dp, {class: 'form-control'} %>
+        </div>
+        <div class="col-2">
+        </div>
+        <div class="col-5">
+            <%= form.label :終了時刻 %>
+            <%= form.date_field :dp, {class: 'form-control'} %>
+            <%= form.time_field :dp, {class: 'form-control'} %>
+        </div>
+    </div>
+    <br>
+
+    <div id="box1">
+        <hr>
+        <%= form.label :区間1 %>
+        <%= form.text_field :mydeck, {class: 'form-control'} %>
+        <br>
+
+        <div class="row">
+            <div class="col-5">
+                <%= form.label :開始時刻 %>
+                <%= form.date_field :dp, {class: 'form-control'} %>
+                <%= form.time_field :dp, {class: 'form-control'} %>
+            </div>
+            <div class="col-2">
+            </div>
+            <div class="col-5">
+                <%= form.label :終了時刻 %>
+                <%= form.date_field :dp, {class: 'form-control'} %>
+                <%= form.time_field :dp, {class: 'form-control'} %>
+            </div>
+        </div>
+        <br>
+    </div>
+
+    <div id="box2">
+        <%= form.label :区間2 %>
+        <%= form.text_field :mydeck, {class: 'form-control'} %>
+        <br>
+
+        <div class="row">
+            <div class="col-5">
+                <%= form.label :開始時刻 %>
+                <%= form.date_field :dp, {class: 'form-control'} %>
+                <%= form.time_field :dp, {class: 'form-control'} %>
+            </div>
+            <div class="col-2">
+            </div>
+            <div class="col-5">
+                <%= form.label :終了時刻 %>
+                <%= form.date_field :dp, {class: 'form-control'} %>
+                <%= form.time_field :dp, {class: 'form-control'} %>
+            </div>
+        </div>
+        <br>
+    </div>
+
+    <div id="box3">
+        <%= form.label :区間3 %>
+        <%= form.text_field :mydeck, {class: 'form-control'} %>
+        <br>
+
+        <div class="row">
+            <div class="col-5">
+                <%= form.label :開始時刻 %>
+                <%= form.date_field :dp, {class: 'form-control'} %>
+                <%= form.time_field :dp, {class: 'form-control'} %>
+            </div>
+            <div class="col-2">
+            </div>
+            <div class="col-5">
+                <%= form.label :終了時刻 %>
+                <%= form.date_field :dp, {class: 'form-control'} %>
+                <%= form.time_field :dp, {class: 'form-control'} %>
+            </div>
+        </div>
+        <br>
+    </div>
+
+    <div id="box4">
+        <%= form.label :区間4 %>
+        <%= form.text_field :mydeck, {class: 'form-control'} %>
+        <br>
+
+        <div class="row">
+            <div class="col-5">
+                <%= form.label :開始時刻 %>
+                <%= form.date_field :dp, {class: 'form-control'} %>
+                <%= form.time_field :dp, {class: 'form-control'} %>
+            </div>
+            <div class="col-2">
+            </div>
+            <div class="col-5">
+                <%= form.label :終了時刻 %>
+                <%= form.date_field :dp, {class: 'form-control'} %>
+                <%= form.time_field :dp, {class: 'form-control'} %>
+            </div>
+        </div>
+        <br>
+    </div>
+
+    <button type="button" class="btn btn-link" id="plus"><i class="fas fa-plus-circle"></i> 区間分けを追加</button>
+    <button type="button" class="btn btn-link" id="minus"><i class="fas fa-minus-circle"></i> 区間分けを削除</button>
+
+<% end %>
+
+<script>
+    $('#box1').hide();
+    $('#box2').hide();
+    $('#box3').hide();
+    $('#box4').hide();
+    $('#minus').hide();
+
+    var num = 1;
+    $('#plus').on('click', function() {
+        $('#minus').show();
+        $('#box' + String(num)).slideDown();
+        num++;
+        if(num == 5){
+            $('#plus').hide();
+        }
+    });
+    $('#minus').on('click', function() {
+        $('#plus').show();
+        num--;
+        $('#box' + String(num)).slideUp();
+        if(num == 1){
+            $('#minus').hide();
+        }
+    });
+</script>

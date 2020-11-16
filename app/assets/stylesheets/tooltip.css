@@ -1,0 +1,10 @@
+.ui-tooltip {
+    font-size: 14px;
+    width: 250px;
+}
+.main {
+    background:#fffacd;
+    margin:30px;
+    width:400px;
+    height:200px;
+}

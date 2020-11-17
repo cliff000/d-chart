@@ -36,12 +36,10 @@
     </div>
 
     <div class="form-group">
-        <label>DP増減</label>
-        <div class="form-inline">
-            <i id=dp_plus class="fas fa-plus"></i>
-            <i id=dp_minus class="fas fa-minus"></i> &nbsp;
-            <%= form.text_field :dpChanging , value: "1000", class: 'form-control' %>
-        </div>
+        DP増減値<br>
+        <i id=dp_plus class="fas fa-plus"></i>
+        <i id=dp_minus class="fas fa-minus"></i>
+        <%= form.text_field :dpChanging , value: "1000" %>
     </div>
 
     <%= form.submit "送信", class:"btn btn-primary" %>

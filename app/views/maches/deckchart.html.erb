@@ -1,9 +1,9 @@
 <!-- Page Heading -->
 <div class="d-sm-flex align-items-center justify-content-between mb-4">
-    <h1><% if @deck_image.has_key?(@deckName)%>
+    <% if @deck_image.has_key?(@deckName)%>
         <img src=<%= "/assets/card/#{@deck_image[@deckName]}" %> width="128" height="128" alt="">
     <% end %>
-    <%= @deckName %></h1>
+    <h1 style="white-space: nowrap;  font-family: SmartFontUI;"><%= @deckName %></h1>
 </div>
 
 <div class="row">

@@ -15,7 +15,6 @@ class MachesController < ApplicationController
   end
 
   def form
-    $kc[current_account] = "KC2020Sep"
     @match = Match.new
     @lastData = Match.where(tag: kc()).where(playerid: current_account.id).last
     @decks = CSV.read("#{Rails.root}/config_duellinks/"+kc()+"/decks.csv")
@@ -157,7 +156,7 @@ class MachesController < ApplicationController
     if $kc.key?(current_account) then
       return $kc[current_account]
     else
-      return "KC2020Sep"
+      return "Free"
     end
   end
   helper_method :kc

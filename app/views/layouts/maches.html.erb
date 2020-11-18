@@ -210,7 +210,7 @@
                     $.ajax({
                       url:'/select_kc', type:"POST", data:{kc:$(this).attr('value')}
                     }).done(function(html) {
-                      window.location.href = "/mychart";
+                      window.location.reload();
                     }).fail(function() {
                       alert('エラーが起きました。ページを更新してください');
                     });

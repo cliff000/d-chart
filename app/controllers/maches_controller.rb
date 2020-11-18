@@ -20,6 +20,27 @@ class MachesController < ApplicationController
     @decks = CSV.read("#{Rails.root}/config_duellinks/"+kc()+"/decks.csv")
     @skills = CSV.read("#{Rails.root}/config_duellinks/"+kc()+"/skills.csv")
 
+    #初期値の設定
+    @defaultDeck = "自分で入力する"
+    @defaultSkill = "自分で入力する"
+    if @lastData.nil?
+      @defaultDeck = ""
+      @defaultSkill = ""
+    else
+      @decks.each do |obj|
+        if obj[0] == @lastData.mydeck
+          @defaultDeck = @lastData.mydeck
+          break
+        end
+      end
+      @skills.each do |obj|
+        if obj[0] == @lastData.myskill
+          @defaultSkill = @lastData.myskill
+          break
+        end
+      end
+    end
+
     #スキルリスト読み込み
     File.open("#{Rails.root}/config_duellinks/"+kc()+"/major_skill.json") do |file|
       gon.major_skill = JSON.load(file)
@@ -211,6 +232,32 @@ class MachesController < ApplicationController
     @selectedData = Match.find(params[:id])
     @decks = CSV.read("#{Rails.root}/config_duellinks/"+kc()+"/decks.csv")
     @skills = CSV.read("#{Rails.root}/config_duellinks/"+kc()+"/skills.csv")
+
+    #初期値の設定
+    @defaultMyDeck = "自分で入力する"
+    @defaultMySkill = "自分で入力する"
+    @defaultOppDeck = "自分で入力する"
+    @defaultOppSkill = "自分で入力する"
+    @decks.each do |obj|
+      if obj[0] == @selectedData.mydeck
+        @defaultMyDeck = @selectedData.mydeck
+        break
+      end
+      if obj[0] == @selectedData.oppdeck
+        @defaultOppDeck = @selectedData.oppdeck
+        break
+      end
+    end
+    @skills.each do |obj|
+      if obj[0] == @selectedData.myskill
+        @defaultMySkill = @selectedData.myskill
+        break
+      end
+      if obj[0] == @selectedData.oppskill
+        @defaultOppSkill = @selectedData.oppskill
+        break
+      end
+    end
   end
 
   def update

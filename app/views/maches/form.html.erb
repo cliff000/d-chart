@@ -13,24 +13,31 @@
     <div class="form-group">
         <label>自分のデッキ</label>
         <%= form.select :mydeck, @decks,
-            {selected: @lastData.nil? ? "" : @lastData.mydeck}, {class: 'form-control'} %>
+            {selected: @defaultDeck}, {class: 'form-control'} %>
+        <%= form.text_field :mydeck, :placeholder => "デッキ名", 
+            :value => @defaultDeck=="自分で入力する" ? @lastData.mydeck : "", :id => 'textfield_mydeck', :class => 'form-control' %>
     </div>
+    
     <div class="form-group">
         <label>自分のスキル</label>
         <%= form.select :myskill, @skills,
-            {selected: @lastData.nil? ? "" : @lastData.myskill}, {class: 'form-control'} %>
+            {selected: @defaultSkill}, {class: 'form-control'} %>
+        <%= form.text_field :myskill, :placeholder => "スキル名",
+            :value => @defaultSkill=="自分で入力する" ? @lastData.myskill : "", :id => 'textfield_myskill', :class => 'form-control' %>
     </div>
     
     <div class="form-group">
         <label>相手のデッキ</label>
-        <%= form.select :oppdeck, @decks,
-            {}, {class: 'form-control'} %>
+        <%= form.select :oppdeck, @decks, {}, {class: 'form-control'} %>
+        <%= form.text_field :oppdeck, :placeholder => "デッキ名",
+            :id => 'textfield_oppdeck', :class => 'form-control' %>
     </div>
 
     <div class="form-group">
         <label>相手のスキル</label>
-        <%= form.select :oppskill, @skills,
-            {}, {selected: "", class: 'form-control'} %>
+        <%= form.select :oppskill, @skills, {}, {selected: "", class: 'form-control'} %>
+        <%= form.text_field :oppskill, :placeholder => "スキル名",
+            :id => 'textfield_oppskill', :class => 'form-control' %>
     </div>
 
     <div class="form-group">
@@ -54,6 +61,7 @@
 <% end %>
 
 <script>
+    //DPのプラス、マイナス切り替え
     $('#dp_minus').hide();
     $('#match_victory_勝ち').change(function(){
         $('#dp_plus').show();
@@ -64,11 +72,60 @@
         $('#dp_minus').show();
     });
 
-    $('#match_oppdeck').change(function(){
-        $('#match_oppskill').val(gon.major_skill[$('#match_oppdeck').val()]);
-    });
+    //「自分で入力する」以外ならテキストボックスを無効化
+    if($('#match_mydeck').val() != "自分で入力する"){ $('#textfield_mydeck').prop('disabled', true);  $('#textfield_mydeck').hide();}
+    if($('#match_myskill').val() != "自分で入力する"){ $('#textfield_myskill').prop('disabled', true); $('#textfield_myskill').hide();}
+    if($('#match_oppdeck').val() != "自分で入力する"){ $('#textfield_oppdeck').prop('disabled', true); $('#textfield_oppdeck').hide();}
+    if($('#match_oppskill').val() != "自分で入力する"){ $('#textfield_oppskill').prop('disabled', true); $('#textfield_oppskill').hide();}
+
     $('#match_mydeck').change(function(){
+        //スキルの自動入力
         $('#match_myskill').val(gon.major_skill[$('#match_mydeck').val()]);
+        $('#textfield_myskill').prop('disabled', true);
+        $('#textfield_myskill').hide();
+
+        //「自分で入力する」ならテキストボックス表示
+        if($('#match_mydeck').val() == "自分で入力する"){
+            $('#textfield_mydeck').prop('disabled', false);
+            $('#textfield_mydeck').show();
+        }else{
+            $('#textfield_mydeck').prop('disabled', true);
+            $('#textfield_mydeck').hide();
+        }
     });
+    $('#match_myskill').change(function(){
+        //「自分で入力する」ならテキストボックス表示
+        if($('#match_myskill').val() == "自分で入力する"){
+            $('#textfield_myskill').prop('disabled', false);
+            $('#textfield_myskill').show();
+        }else{
+            $('#textfield_myskill').prop('disabled', true);
+            $('#textfield_myskill').hide();
+        }
+    });
+    $('#match_oppdeck').change(function(){
+        //スキルの自動入力
+        $('#match_oppskill').val(gon.major_skill[$('#match_oppdeck').val()]);
+
+        //「自分で入力する」ならテキストボックス表示
+        if($('#match_oppdeck').val() == "自分で入力する"){
+            $('#textfield_oppdeck').prop('disabled', false);
+            $('#textfield_oppdeck').show();
+        }else{
+            $('#textfield_oppdeck').prop('disabled', true);
+            $('#textfield_oppdeck').hide();
+        }
+    });
+    $('#match_oppskill').change(function(){
+        //「自分で入力する」ならテキストボックス表示
+        if($('#match_oppskill').val() == "自分で入力する"){
+            $('#textfield_oppskill').prop('disabled', false);
+            $('#textfield_oppskill').show();
+        }else{
+            $('#textfield_oppskill').prop('disabled', true);
+            $('#textfield_oppskill').hide();
+        }
+    });
+    
 </script>
 

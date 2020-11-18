@@ -24,6 +24,14 @@ class MachesController < ApplicationController
     File.open("#{Rails.root}/config_duellinks/"+kc()+"/major_skill.json") do |file|
       gon.major_skill = JSON.load(file)
     end
+
+    #KC区間取得
+    tmp_json = {}
+    File.open("#{Rails.root}/config_duellinks/"+kc()+"/datetime.json") do |file|
+      tmp_json = JSON.load(file)
+    end
+    @kcRange = [Time.parse(tmp_json["1日目"][0]), Time.parse(tmp_json["4日目"][1])]
+    @now = Time.now
   end
 
   def sended_form
@@ -84,6 +92,7 @@ class MachesController < ApplicationController
     #DP推移のデータ作成
     dpline = Array.new()
     i = 0
+    dpline.push({"category" => 0, "column-1" => 0})
     for obj in @data do
       i += 1
       dpline.push({"category" => i, "column-1" => obj.dp})
@@ -156,7 +165,7 @@ class MachesController < ApplicationController
     if $kc.key?(current_account) then
       return $kc[current_account]
     else
-      return "Free"
+      return "KC2020Nov"
     end
   end
   helper_method :kc

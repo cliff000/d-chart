@@ -223,7 +223,7 @@ class MachesController < ApplicationController
   end
 
   def deckchart
-    @deckName = params[:deck]
+    @deckName = URI.unescape(params[:deck])
     @mydata = Match.where(tag: kc()).where(created_at: datetime_detail()[0]..datetime_detail()[1]).where(mydeck: params[:deck])
     @oppdata = Match.where(tag: kc()).where(created_at: datetime_detail()[0]..datetime_detail()[1]).where(oppdeck: params[:deck])
     

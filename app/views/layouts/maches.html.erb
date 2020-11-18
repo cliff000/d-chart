@@ -89,21 +89,21 @@
 
       <!-- Nav Item - Form -->
       <li class="nav-item">
-        <a class="nav-link" href="/form">
+        <a class="nav-link" href="/form/">
           <i class="fas fa-fw fa-paper-plane"></i>
           <span>Record</span></a>
       </li>
 
       <!-- Nav Item - My Charts -->
       <li class="nav-item">
-        <a class="nav-link" href="/mychart">
+        <a class="nav-link" href="/mychart/">
           <i class="fas fa-fw fa-user"></i>
           <span>My Page</span></a>
       </li>
 
       <!-- Nav Item - Total Charts -->
       <li class="nav-item">
-        <a class="nav-link" href="/totalchart">
+        <a class="nav-link" href="/totalchart/">
           <i class="fas fa-fw fa-users"></i>
           <span>Total Page</span></a>
       </li>
@@ -120,7 +120,7 @@
       <% deckList().each do |obj| %>
         <% if obj[0] != nil %>
           <li class="nav-item">
-            <a class="nav-link" href="/chart/<%= obj[0] %>">
+            <a class="nav-link" href="/chart/<%= URI.escape(obj[0]) %>/">
               <%= obj[0] %>
             </a>
           </li>
@@ -144,6 +144,15 @@
         $(".sidebar").addClass("toggled");
         $('.sidebar .collapse').collapse('hide');
       };  
+
+      <!-- 現在のナビゲーションをアクティブにする -->
+      $(document).ready(function() {
+        if(location.pathname != "/") {
+          var $path = location.href.split('/');
+          var $endPath = $path.slice($path.length-2,$path.length-1);
+          $('ul#accordionSidebar li a[href$="'+$endPath+'/"]').parent().addClass('active');
+        }
+      });
     </script>
 
     <!-- Content Wrapper -->

@@ -140,13 +140,16 @@
 
     </ul>
     <!-- End of Sidebar -->
-    <!-- 画面幅が小さいときにサイドバー隠す -->
+    
     <script>
-      if ($(window).width() < 576 && !$(".sidebar").hasClass("toggled")) {
-        $("body").addClass("sidebar-toggled");
-        $(".sidebar").addClass("toggled");
-        $('.sidebar .collapse').collapse('hide');
-      };  
+      <!-- 画面幅が小さいときにサイドバー隠す -->
+      $(document).ready(function(){
+        if ($(window).width() < 576 && !$(".sidebar").hasClass("toggled")) {
+          $("body").addClass("sidebar-toggled");
+          $(".sidebar").addClass("toggled");
+          $('.sidebar .collapse').collapse('hide');
+        };  
+      });
 
       <!-- 現在のナビゲーションをアクティブにする -->
       $(document).ready(function() {

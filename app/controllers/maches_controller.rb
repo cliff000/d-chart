@@ -7,6 +7,7 @@ class MachesController < ApplicationController
 
   $kc = Hash.new()
   $datetime = Hash.new()
+  $dprange = Hash.new()
 
   def index
     @account = current_account
@@ -134,7 +135,7 @@ class MachesController < ApplicationController
   end
 
   def totalchart
-    @data = Match.where(tag: kc()).where(created_at: datetime_detail()[0]..datetime_detail()[1])
+    @data = Match.where(tag: kc()).where(created_at: datetime_detail()[0]..datetime_detail()[1]).where(dp: dprange_num()[0]..dprange_num()[1])
     oppdecks = @data.group(:oppdeck).count.sort {|a,b| b[1]<=>a[1]}
 
     #デッキ分布のデータ作成
@@ -228,6 +229,47 @@ class MachesController < ApplicationController
   end
   helper_method :datetime
   helper_method :datetime_detail
+
+  #DP範囲検索
+  def select_dprange
+    dr1 = params[:dprange1]
+    dr2 = params[:dprange2]
+    if number?(dr1) && number?(dr2)
+      $dprange[current_account] = [dr1.to_i, dr2.to_i]
+    else
+      $dprange[current_account] = [nil, nil]
+    end
+  end
+  def dprange_num
+    if $dprange.key?(current_account) 
+      if $dprange[current_account][0] != nil && $dprange[current_account][1] != nil
+        return $dprange[current_account]
+      else
+        return [-Float::INFINITY, Float::INFINITY]
+      end
+    else
+      return [-Float::INFINITY, Float::INFINITY]
+    end
+  end
+  def dprange_str
+    if $dprange.key?(current_account) 
+      if $dprange[current_account][0] != nil && $dprange[current_account][1] != nil
+        return [$dprange[current_account][0].to_s, $dprange[current_account][1].to_s]
+      else
+        return ["", ""]
+      end
+    else
+      return ["", ""]
+    end
+  end
+  helper_method :dprange_num
+  helper_method :dprange_str
+
+  # 文字列が数字だけで構成されていれば true を返す
+  def number?(str)
+    # 文字列の先頭(\A)から末尾(\z)までが「0」から「9」の文字か
+    nil != (str =~ /\A[0-9]+\z/)
+  end
 
   def edit
     @account = current_account

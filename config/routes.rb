@@ -15,6 +15,7 @@ Rails.application.routes.draw do
 
   post 'select_kc', to:'maches#select_kc'
   post 'select_datetime', to:'maches#select_datetime'
+  post 'select_dprange', to:'maches#select_dprange'
   get 'create_kc', to:'maches#create_kc'
 
   get 'test', to:'maches#test'

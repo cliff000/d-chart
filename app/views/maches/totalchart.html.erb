@@ -6,26 +6,46 @@
         <p>ユーザー全体の対戦記録をまとめて図表化するページです</p>
     </div>
 
-    <!-- <div class="col-xl-6 mb-4">
+    <div class="col-xl-6 mb-4">
         <div class="card border-left-primary shadow h-100 py-2">
         <div class="card-body">
             <div class="row no-gutters align-items-center">
             <div class="col mr-2">
-                <div class="form-inline">
-                    <label><b>DP</b></label>
-                    <input type="text" id="text1" class="form-control">
-                    <label><font size="6">~</font></label>
-                    <input type="text" id="text1" class="form-control">
+                <div class="row no-gutters align-items-center">
+                <div class="col-1">
+                    <b>DP</b>
+                </div>
+                <div class="col-4">
+                    <input type="text" value="<%= dprange_str()[0] %>" id="text1" class="form-control">
+                </div>
+                <div class="col-1">
+                <p class="text-center"><font size="6">~</font><p>
+                </div>
+                <div class="col-4">
+                    <input type="text" value="<%= dprange_str()[1] %>" id="text2" class="form-control">
+                </div>
                 </div>
             </div>
             <div class="col-auto">
-                <button type="button" class="btn btn-primary">Primary</button>
+                <button type="button" id="button1" class="btn btn-primary">絞り込み</button>
             </div>
             </div>
         </div>
         </div>
-    </div> -->
+    </div>
 </div>
+
+<script>
+    $('#button1').click(function(){
+        $.ajax({
+            url:'/select_dprange', type:"POST", data:{dprange1:$('#text1').val(), dprange2:$('#text2').val()}
+        }).done(function(html) {
+            location.reload();
+        }).fail(function() {
+            alert('エラーが起きました');
+        });
+    })
+</script>
 
 <div class="row">
     <div class="col-xl-6">

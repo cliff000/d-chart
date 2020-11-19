@@ -19,6 +19,8 @@ class MachesController < ApplicationController
     @lastData = Match.where(tag: kc()).where(playerid: current_account.id).last
     @decks = CSV.read("#{Rails.root}/config_duellinks/"+kc()+"/decks.csv")
     @skills = CSV.read("#{Rails.root}/config_duellinks/"+kc()+"/skills.csv")
+    @decks.push(["自分で入力する"])
+    @skills.push(["自分で入力する"])
 
     #初期値の設定
     @defaultDeck = "自分で入力する"
@@ -232,6 +234,8 @@ class MachesController < ApplicationController
     @selectedData = Match.find(params[:id])
     @decks = CSV.read("#{Rails.root}/config_duellinks/"+kc()+"/decks.csv")
     @skills = CSV.read("#{Rails.root}/config_duellinks/"+kc()+"/skills.csv")
+    @decks.push(["自分で入力する"])
+    @skills.push(["自分で入力する"])
 
     #初期値の設定
     @defaultMyDeck = "自分で入力する"
@@ -241,21 +245,17 @@ class MachesController < ApplicationController
     @decks.each do |obj|
       if obj[0] == @selectedData.mydeck
         @defaultMyDeck = @selectedData.mydeck
-        break
       end
       if obj[0] == @selectedData.oppdeck
         @defaultOppDeck = @selectedData.oppdeck
-        break
       end
     end
     @skills.each do |obj|
       if obj[0] == @selectedData.myskill
         @defaultMySkill = @selectedData.myskill
-        break
       end
       if obj[0] == @selectedData.oppskill
         @defaultOppSkill = @selectedData.oppskill
-        break
       end
     end
   end

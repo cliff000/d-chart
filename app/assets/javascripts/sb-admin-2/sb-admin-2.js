@@ -1,5 +1,8 @@
 (function($) {
   "use strict"; // Start of use strict
+
+  // ウインドウの横幅を保持
+  var currentWidth = $(window).width();
   
   // Toggle the side navigation
   $("#sidebarToggle, #sidebarToggleTop").on('click', function(e) {
@@ -12,6 +15,11 @@
 
   // Close any open menu accordions when window is resized below 768px
   $(window).resize(function() {
+    if (currentWidth == window.innerWidth) {
+      // ウインドウ横幅が変わっていないため処理をキャンセル。
+      return;
+    }
+
     if ($(window).width() < 768) {
       $('.sidebar .collapse').collapse('hide');
     };
@@ -22,6 +30,9 @@
       $(".sidebar").addClass("toggled");
       $('.sidebar .collapse').collapse('hide');
     };
+
+    // 横幅を更新
+    currentWidth = $(window).width()
   });
 
   // Prevent the content wrapper from scrolling when the fixed side navigation hovered over

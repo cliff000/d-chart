@@ -106,6 +106,8 @@
     $('#match_oppdeck').change(function(){
         //スキルの自動入力
         $('#match_oppskill').val(gon.major_skill[$('#match_oppdeck').val()]);
+        $('#textfield_oppskill').prop('disabled', true);
+        $('#textfield_oppskill').hide();
 
         //「自分で入力する」ならテキストボックス表示
         if($('#match_oppdeck').val() == "自分で入力する"){

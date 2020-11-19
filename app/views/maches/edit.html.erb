@@ -121,14 +121,6 @@
         $('#dp_minus').show();
     });
 
-    $('#match_oppdeck').change(function(){
-        $('#match_oppskill').val(gon.major_skill[$('#match_oppdeck').val()]);
-    });
-    $('#match_mydeck').change(function(){
-        $('#match_myskill').val(gon.major_skill[$('#match_mydeck').val()]);
-    });
-
-
     //「自分で入力する」以外ならテキストボックスを無効化
     if($('#match_mydeck').val() != "自分で入力する"){ $('#textfield_mydeck').prop('disabled', true);  $('#textfield_mydeck').hide();}
     if($('#match_myskill').val() != "自分で入力する"){ $('#textfield_myskill').prop('disabled', true); $('#textfield_myskill').hide();}
@@ -136,11 +128,6 @@
     if($('#match_oppskill').val() != "自分で入力する"){ $('#textfield_oppskill').prop('disabled', true); $('#textfield_oppskill').hide();}
 
     $('#match_mydeck').change(function(){
-        //スキルの自動入力
-        $('#match_myskill').val(gon.major_skill[$('#match_mydeck').val()]);
-        $('#textfield_myskill').prop('disabled', true);
-        $('#textfield_myskill').hide();
-
         //「自分で入力する」ならテキストボックス表示
         if($('#match_mydeck').val() == "自分で入力する"){
             $('#textfield_mydeck').prop('disabled', false);
@@ -161,9 +148,6 @@
         }
     });
     $('#match_oppdeck').change(function(){
-        //スキルの自動入力
-        $('#match_oppskill').val(gon.major_skill[$('#match_oppdeck').val()]);
-
         //「自分で入力する」ならテキストボックス表示
         if($('#match_oppdeck').val() == "自分で入力する"){
             $('#textfield_oppdeck').prop('disabled', false);

@@ -331,13 +331,18 @@ class MachesController < ApplicationController
     whash2 = @oppdata.where(victory: "負け").group(:mydeck).count
     winHash = whash1.merge(whash2) {|key, oldval, newval| oldval + newval}
     @winRateHash = Hash.new()
+    allcount = 0
+    wincount = 0
     allHash.each do |obj|
       if winHash.has_key?(obj[0])
         @winRateHash[obj[0]] = (winHash[obj[0]] * 100.to_f / obj[1]).round(1)
+        wincount += winHash[obj[0]]
       else
         @winRateHash[obj[0]] = 0
       end
+      allcount += allHash[obj[0]]
     end
+    @winRateHash["総計"] = (wincount * 100.to_f / allcount).round(1)
 
     #スキルリスト
     oppskills = @oppdata.group(:oppskill).count.sort {|a,b| b[1]<=>a[1]}
@@ -366,6 +371,11 @@ class MachesController < ApplicationController
       dpUpdate()
     end
     redirect_to action: :mychart
+  end
+
+  def user_list
+    @account = current_account
+    @data = Account.all
   end
 
   private

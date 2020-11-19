@@ -1,0 +1,19 @@
+<% if @account.id == 1 %>
+    <h1>ユーザーリスト</h1>
+    <p>現在のユーザー数：<%= @data.count%>人</p>
+    <table border="1" width="500" cellspacing="0" cellpadding="5" bordercolor="#333333">
+        <tr>
+        <th>ID</th>
+        <th>Email</th>
+        <th>Created at</th>
+        </tr>
+        <% @data.each do |obj| %>
+            <tr>
+            <td><%= obj.id %></td>
+            <td><%= obj.email %></td>
+            <td><%= obj.created_at %></td>
+            </tr>
+        <% end %>
+    </table>
+
+<% end %>

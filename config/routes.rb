@@ -11,6 +11,7 @@ Rails.application.routes.draw do
   get 'delete/:id', to:'maches#delete'
   get 'all_delete', to:'maches#all_delete'
   post 'all_delete', to:'maches#all_delete'
+  get 'user_list', to:'maches#user_list'
   get 'chart/:deck', to:'maches#deckchart'
 
   post 'select_kc', to:'maches#select_kc'

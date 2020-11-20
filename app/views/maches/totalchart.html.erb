@@ -75,8 +75,7 @@
     </div>
 </div>
 
-<% oppdecks = @data.group(:oppdeck).count.sort {|a,b| b[1]<=>a[1]} %>
-<% mydecks = @data.group(:mydeck).count.sort {|a,b| b[1]<=>a[1]} %>
+
 <div class="card shadow mb-4">
     <div class="card-header py-3">
         <h6 class="m-0 font-weight-bold text-primary">相性表</h6>
@@ -147,15 +146,15 @@
             </thead>
             <tbody>
                 <% ods = @data.group(:oppdeck).group(:oppskill).count.sort {|a,b| b[1]<=>a[1]} %>
-                <% oppdecks.each do |hash| %>
+                <% @oppArray.each do |obj| %>
                     <tr>
                     <!-- カード画像表示 -->
-                    <% if @deck_image.has_key?(hash[0])%>
-                        <td><img src=<%= "/assets/card/#{@deck_image[hash[0]]}" %> width="64" height="64" alt=""></td>
+                    <% if @deck_image.has_key?(obj)%>
+                        <td><img src=<%= "/assets/card/#{@deck_image[obj]}" %> width="64" height="64" alt=""></td>
                     <% else %>
-                        <td cellpadding="5"><%= hash[0] %></td>
+                        <td cellpadding="5"><%= obj %></td>
                     <% end %>
-                    <% data_od = @data.where(oppdeck: hash[0]) %>
+                    <% data_od = @data.where(oppdeck: obj) %>
                     <% i = 0 %>
                     <% data_od.group(:oppskill).count.sort {|a,b| b[1]<=>a[1]}.each do |skill| %>
                         <td><%= skill[0] %><br><%= (skill[1] * 100.to_f / data_od.count).round(1) %>%</td>

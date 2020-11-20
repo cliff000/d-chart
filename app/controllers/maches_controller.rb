@@ -376,6 +376,7 @@ class MachesController < ApplicationController
   def user_list
     @account = current_account
     @data = Account.all
+    @duelnum = Match.where(tag: kc()).where(created_at: datetime_detail()[0]..datetime_detail()[1]).count
   end
 
   private

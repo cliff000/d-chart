@@ -87,88 +87,43 @@
             <tbody>
             <tr>
                 <td></td>
-                <% oppdecks.each do |obj| %>
+                <% @oppArray.each do |obj| %>
                     <!-- カード画像表示 -->
-                    <% if @deck_image.has_key?(obj[0])%>
+                    <% if @deck_image.has_key?(obj)%>
                         <td><a href="/chart/<%= obj[0] %>">
-                            <img src=<%= "/assets/card/#{@deck_image[obj[0]]}" %> width="64" height="64" alt="">
+                            <img src=<%= "/assets/card/#{@deck_image[obj]}" %> width="64" height="64" alt="">
                         </a></td>
                     <% else %>
-                        <td cellpadding="5">　<%= obj[0] %>　</td>
+                        <td cellpadding="5">　<%= obj %>　</td>
                     <% end %>
                 <% end %>
                 <td>　総計　</td>
             </tr>
-            <% mydecks.each do |mhash| %>
+            <% @winRateHash.each do |key, oppdeck| %>
                 <tr>
                 <!-- カード画像表示 -->
-                <% if @deck_image.has_key?(mhash[0])%>
-                    <td><a href="/chart/<%= mhash[0] %>">
-                        <img src=<%= "/assets/card/#{@deck_image[mhash[0]]}" %> width="64" height="64" alt="">
+                <% if @deck_image.has_key?(key)%>
+                    <td><a href="/chart/<%= key %>">
+                        <img src=<%= "/assets/card/#{@deck_image[key]}" %> width="64" height="64" alt="">
                     </a></td>
                 <% else %>
-                    <td cellpadding="5"><%= mhash[0] %></td>
+                    <td cellpadding="5"><%= key %></td>
                 <% end %>
-
-                <% data_md = @data.where(mydeck:mhash[0])
-                oppdecks.each do |ohash|
-                    data_mdod = data_md.where(oppdeck:ohash[0])
-                    data_mdodv = data_mdod.where(victory:"勝ち") %>
-                    <% if data_mdod.count == 0 then %>
-                    <td></td>
+                <% oppdeck.each do |key2, win_rate| %>
+                    <% if win_rate < 0 %>
+                        <td></td>
                     <% else %>
-                    <% win_rate = (data_mdodv.count * 100.to_f / data_mdod.count).round(1) %>
-                    <% if win_rate >= 55 then %>
-                        <td><font color='blue' ><%= win_rate %>%</font></td>
-                    <% elsif win_rate <= 45 then %>
-                        <td><font color='red'><%= win_rate %>%</font></td>
-                    <% else %>
-                        <td><%= win_rate %>%</font></td>
+                        <% if win_rate >= 55 then %>
+                            <td><font color='blue' ><%= win_rate %>%</font></td>
+                        <% elsif win_rate <= 45 then %>
+                            <td><font color='red'><%= win_rate %>%</font></td>
+                        <% else %>
+                            <td><%= win_rate %>%</font></td>
+                        <% end %>
                     <% end %>
-                    <% end %>
-                <% end %>
-                <% data_mdv = data_md.where(victory:"勝ち") %>
-                <% win_rate = (data_mdv.count.to_f * 100 / data_md.count).round(1) %>
-                <% if win_rate >= 55 then %>
-                    <td><font color='blue'><%= win_rate %>%</font></td>
-                <% elsif win_rate <= 45 then %>
-                    <td><font color='red'><%= win_rate %>%</font></td>
-                <% else %>
-                    <td><%= win_rate %>%</td>
                 <% end %>
                 </tr>
             <% end %>
-            <tr>
-                <td>総計</td>
-                <% oppdecks.each do |ohash|
-                data_od = @data.where(oppdeck:ohash[0])
-                data_odv = data_od.where(victory:"勝ち") %>
-                <% if data_od.count == 0 then %>
-                    <td></td>
-                <% else %>
-                    <% win_rate = (data_odv.count * 100.to_f / data_od.count).round(1) %>
-                    <% if win_rate >= 55 then %>
-                    <td><font color='blue'><%= win_rate %>%</font></td>
-                    <% elsif win_rate <= 45 then %>
-                    <td><font color='red'><%= win_rate %>%</font></td>
-                    <% else %>
-                    <td><%= win_rate %>%</td>
-                    <% end %>
-                <% end %>
-                <% end %>
-                <% if @data.count == 0 then %>
-                <td></td>
-                <% else %>
-                <% win_rate = (@data.where(victory:"勝ち").count * 100.to_f / @data.count).round(1) %>
-                <% if win_rate >= 55 then %>
-                    <td><font color='blue'><%= win_rate %>%</font></td>
-                <% elsif win_rate <= 45 then %>
-                    <td><font color='red'><%= win_rate %>%</font></td>
-                <% else %>
-                    <td><%= win_rate %>%</td>
-                <% end %>
-                <% end %>
-            </tr>
             </tbody>
         </table>
         </div>

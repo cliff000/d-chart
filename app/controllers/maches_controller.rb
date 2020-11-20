@@ -178,6 +178,48 @@ class MachesController < ApplicationController
     end
     gon.recent_oppdecks_totalchart = oppdecks2
 
+
+    #相性表
+    myHash = @data.group(:mydeck).order(count_all: :desc).count
+    oppHash = @data.group(:oppdeck).order(count_all: :desc).count
+    @oppArray = Array.new()
+    allHash = @data.group(:mydeck, :oppdeck).count
+    winData = @data.where(victory: "勝ち")
+    myWinHash = winData.group(:mydeck).count
+    oppWinHash = winData.group(:oppdeck).count
+    allWinHash = winData.group(:mydeck, :oppdeck).count
+    
+    @winRateHash = Hash.new { |h,k| h[k] = {} }
+    i = 0
+    j = 0
+    myHash.each{|mkey, mval|
+      break if i > 15
+      j = 0
+      oppHash.each{|okey, oval|
+        break if j > 15
+        win_num = allWinHash.has_key?([mkey, okey]) ? allWinHash[[mkey, okey]] : 0
+        if allHash.has_key?([mkey, okey])
+          @winRateHash[mkey][okey] = (win_num * 100.to_f / allHash[[mkey, okey]]).round(1)
+        else
+          @winRateHash[mkey][okey] = -1
+        end
+        j += 1
+      }
+      my_win_num = myWinHash.has_key?(mkey) ? myWinHash[mkey] : 0
+      @winRateHash[mkey]["総計"] = (my_win_num * 100.to_f / mval).round(1)
+      i += 1
+    }
+    j = 0
+    oppHash.each{|okey, oval|
+      break if j > 15
+      opp_win_num = oppWinHash.has_key?(okey) ? oppWinHash[okey] : 0
+      @winRateHash["総計"][okey] = (opp_win_num * 100.to_f / oval).round(1)
+      @oppArray.push(okey)
+      j += 1
+    }
+    @winRateHash["総計"]["総計"] = (winData.count * 100.to_f / @data.count).round(1)
+
+
     #画像リスト読み込み
     @deck_image = {}
     File.open("#{Rails.root}/config_duellinks/deck_image.json") do |file|

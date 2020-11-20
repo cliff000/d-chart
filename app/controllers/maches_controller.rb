@@ -135,6 +135,10 @@ class MachesController < ApplicationController
   end
 
   def totalchart
+    if params[:start] != nil && params[:end] != nil
+      $dprange[current_account] = [params[:start], params[:end]]
+    end
+
     @data = Match.where(tag: kc()).where(created_at: datetime_detail()[0]..datetime_detail()[1]).where(dp: dprange_num()[0]..dprange_num()[1])
     oppdecks = @data.group(:oppdeck).count.sort {|a,b| b[1]<=>a[1]}
 

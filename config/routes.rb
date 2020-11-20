@@ -7,6 +7,7 @@ Rails.application.routes.draw do
   get 'mychart/my_duel_data.csv', to:'maches#mydata_csv'
   get 'totalchart', to:'maches#mychart'
   get 'trahclatot', to:'maches#totalchart'
+  get 'trahclatot/:start/:end', to:'maches#totalchart'
   get 'edit/:id', to: 'maches#edit'
   patch 'edit/:id', to: 'maches#update'
   get 'delete/:id', to:'maches#delete'

@@ -175,47 +175,6 @@
     </div>
 </div>
 
-<div class="card shadow mb-4">
-    <div class="card-header py-3">
-        <h6 class="m-0 font-weight-bold text-primary">スキル分布</h6>
-    </div>
-    <div class="card-body">
-        <div class="text-nowrap table-responsive">
-        <table class="table table-bordered table-fixed table-skilllist" width="100%" cellspacing="0">
-            <thead>
-                <tr>
-                <td></td>
-                <td>1位</td>
-                <td>2位</td>
-                <td>3位</td>
-                </tr>
-            </thead>
-            <tbody>
-                <% ods = @data.group(:oppdeck).group(:oppskill).count.sort {|a,b| b[1]<=>a[1]} %>
-                <% oppdecks.each do |hash| %>
-                    <tr>
-                    <!-- カード画像表示 -->
-                    <% if @deck_image.has_key?(hash[0])%>
-                        <td><img src=<%= "/assets/card/#{@deck_image[hash[0]]}" %> width="64" height="64" alt=""></td>
-                    <% else %>
-                        <td cellpadding="5"><%= hash[0] %></td>
-                    <% end %>
-                    <% data_od = @data.where(oppdeck: hash[0]) %>
-                    <% i = 0 %>
-                    <% data_od.group(:oppskill).count.sort {|a,b| b[1]<=>a[1]}.each do |skill| %>
-                        <td><%= skill[0] %><br><%= (skill[1] * 100.to_f / data_od.count).round(1) %>%</td>
-                        <% i += 1
-                        if i >= 3 then
-                            break;
-                        end %>
-                    <% end %>
-                    </tr>
-                <% end %>
-            </tbody>
-        </table>
-    </div>
-</div>
-
 <!-- Draw Chart -->
 <script src="/assets/maches/oppdecks_totalchart.js"></script>
 <script src="/assets/maches/recent_oppdecks_totalchart.js"></script>

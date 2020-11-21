@@ -96,7 +96,7 @@
                 DP増減値<br>
                 <i id=dp_plus class="fas fa-plus"></i>
                 <i id=dp_minus class="fas fa-minus"></i>
-                <%= form.text_field :dpChanging , value: "1000" %>
+                <%= form.text_field :dpChanging , value: @selectedData.dpChanging %>
             </div>
             <script> $('#dp_plus').hide(); </script>
         <% end %>

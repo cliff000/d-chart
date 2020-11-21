@@ -377,26 +377,37 @@ class MachesController < ApplicationController
     whash2 = @oppdata.where(victory: "負け").group(:mydeck).count
     winHash = whash1.merge(whash2) {|key, oldval, newval| oldval + newval}
     @winRateHash = Hash.new()
-    allcount = 0
-    wincount = 0
+    allcount = @mydata.count + @oppdata.count
+    wincount = @mydata.where(victory: "勝ち").count + @oppdata.where(victory: "負け").count
+    i = 0
+
     allHash.each do |obj|
+      break if i > 15
       if winHash.has_key?(obj[0])
         @winRateHash[obj[0]] = (winHash[obj[0]] * 100.to_f / obj[1]).round(1)
-        wincount += winHash[obj[0]]
       else
         @winRateHash[obj[0]] = 0
       end
-      allcount += allHash[obj[0]]
+      i += 1
     end
     @winRateHash["総計"] = (wincount * 100.to_f / allcount).round(1)
 
     #スキルリスト
-    oppskills = @oppdata.group(:oppskill).count.sort {|a,b| b[1]<=>a[1]}
+    oppskills = @oppdata.group(:oppskill).order(count_all: :desc).count
+    others_val = 0
     skilllist = Array.new()
     i = 0
     oppskills.each{|key, value|
-      skilllist.push({"category" => key, "column-1" => value})
+      if !(key == "その他") && (i < 3) then
+        skilllist.push({"category" => key, "column-1" => value})
+        i += 1
+      else
+        others_val += value
+      end
     }
+    if !(others_val == 0) then
+      skilllist.push({"category" => "その他", "column-1" => others_val})
+    end
     gon.skilllist = skilllist
   end
 

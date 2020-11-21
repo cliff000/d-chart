@@ -116,7 +116,6 @@ class MachesController < ApplicationController
     #DP推移のデータ作成
     dpline = Array.new()
     i = 0
-    dpline.push({"category" => 0, "column-1" => 0})
     for obj in @data do
       i += 1
       dpline.push({"category" => i, "column-1" => obj.dp})

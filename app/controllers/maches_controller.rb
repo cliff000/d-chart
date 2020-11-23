@@ -182,7 +182,7 @@ class MachesController < ApplicationController
     myHash = @data.group(:mydeck).count
     oppHash = @data.group(:oppdeck).count
     allHash = oppHash.merge(myHash) {|key, oldval, newval| oldval + newval}
-    allHash　= allHash.sort {|(k1, v1), (k2, v2)| v1 <=> v2 }.to_h
+    allHash　= allHash.sort_by { |_, v| -v }.to_h
     @deckArray = Array.new()
     doubleMy = @data.group(:mydeck, :oppdeck).count
     doubleOpp = @data.group(:oppdeck, :mydeck).count
@@ -374,7 +374,7 @@ class MachesController < ApplicationController
     ahash1 = @mydata.group(:oppdeck).count
     ahash2 = @oppdata.group(:mydeck).count
     allHash = ahash1.merge(ahash2) {|key, oldval, newval| oldval + newval}
-    allHash　= allHash.sort {|(k1, v1), (k2, v2)| v1 <=> v2 }.to_h
+    allHash = allHash.sort_by { |_, v| -v }.to_h
     whash1 = @mydata.where(victory: "勝ち").group(:oppdeck).count
     whash2 = @oppdata.where(victory: "負け").group(:mydeck).count
     winHash = whash1.merge(whash2) {|key, oldval, newval| oldval + newval}

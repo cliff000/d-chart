@@ -180,8 +180,9 @@ class MachesController < ApplicationController
 
     #相性表
     myHash = @data.group(:mydeck).count
-    oppHash = @data.group(:oppdeck).order(count_all: :desc).count
+    oppHash = @data.group(:oppdeck).count
     allHash = oppHash.merge(myHash) {|key, oldval, newval| oldval + newval}
+    allHash　= allHash.sort {|(k1, v1), (k2, v2)| v2 <=> v1 }.to_h
     @deckArray = Array.new()
     doubleMy = @data.group(:mydeck, :oppdeck).count
     doubleOpp = @data.group(:oppdeck, :mydeck).count
@@ -370,9 +371,10 @@ class MachesController < ApplicationController
     end
 
     #相性表のデータ作成
-    ahash1 = @mydata.group(:oppdeck).order(count_all: :desc).count
+    ahash1 = @mydata.group(:oppdeck).count
     ahash2 = @oppdata.group(:mydeck).count
     allHash = ahash1.merge(ahash2) {|key, oldval, newval| oldval + newval}
+    allHash　= allHash.sort {|(k1, v1), (k2, v2)| v2 <=> v1 }.to_h
     whash1 = @mydata.where(victory: "勝ち").group(:oppdeck).count
     whash2 = @oppdata.where(victory: "負け").group(:mydeck).count
     winHash = whash1.merge(whash2) {|key, oldval, newval| oldval + newval}

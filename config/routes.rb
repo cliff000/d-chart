@@ -5,7 +5,7 @@ Rails.application.routes.draw do
   get 'sended_form', to:'maches#sended_form'
   get 'mychart', to:'maches#mychart'
   get 'mychart/my_duel_data.csv', to:'maches#mydata_csv'
-  get 'totalchart', to:'maches#mychart'
+  get 'totalchart', to:'maches#totalchart'
   get 'trahclatot', to:'maches#totalchart'
   get 'trahclatot/:start/:end', to:'maches#totalchart'
   get 'edit/:id', to: 'maches#edit'

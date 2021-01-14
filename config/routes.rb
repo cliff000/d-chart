@@ -16,6 +16,11 @@ Rails.application.routes.draw do
   get 'user_list', to:'maches#user_list'
   get 'chart/:deck', to:'maches#deckchart'
 
+  get 'privacy_policy', to:'inquiry#privacy_policy'
+  get 'inquiry', to:'inquiry#form'
+  post 'inquiry', to:'inquiry#create'
+  get 'inquiry_list', to:'inquiry#listup'
+
   post 'select_kc', to:'maches#select_kc'
   post 'select_datetime', to:'maches#select_datetime'
   post 'select_dprange', to:'maches#select_dprange'

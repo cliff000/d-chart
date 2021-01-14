@@ -1,0 +1,15 @@
+<h1>お問い合わせフォーム</h1>
+
+<%= form_for(@inquiry, url:{controller:'inquiry', action:'create'}) do |form| %>
+    <div class="form-group">
+        <label>お名前</label>
+        <%= form.text_field :name, :class => 'form-control' %>
+    </div>
+    
+    <div class="form-group">
+        <label>お問い合わせ内容</label>
+        <%= form.text_field :message, :class => 'form-control' %>
+    </div>
+
+    <%= form.submit "送信", class:"btn btn-primary" %>
+<% end %>

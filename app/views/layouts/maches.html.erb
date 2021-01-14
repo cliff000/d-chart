@@ -262,8 +262,12 @@
       <!-- Footer -->
       <footer class="sticky-footer bg-white">
         <div class="container my-auto">
-          <div class="copyright text-center my-auto">
-            <span>Copyright &copy; KC Chart</span>
+          <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <div>
+              <a href="/privacy_policy/">プライバシーポリシー</a>&nbsp;|&nbsp;
+              <a href="/inquiry/">お問い合わせフォーム</a>
+            </div>
+            <%= link_to('ログアウト', destroy_account_session_path, :method => :delete) %>
           </div>
         </div>
       </footer>

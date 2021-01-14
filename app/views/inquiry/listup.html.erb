@@ -1,0 +1,17 @@
+<% if @account.id == 1 %>
+    <h1>お問い合わせリスト</h1>
+    <p>お問い合わせ数：<%= @inquiryList.count%></p>
+    <table border="1" width="500" cellspacing="0" cellpadding="5" bordercolor="#333333">
+        <tr>
+        <th>Name</th>
+        <th>Message</th>
+        </tr>
+        <% @inquiryList.each do |obj| %>
+            <tr>
+            <td><%= obj.name %></td>
+            <td><%= obj.message %></td>
+            </tr>
+        <% end %>
+    </table>
+
+<% end %>

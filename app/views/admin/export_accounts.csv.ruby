@@ -8,11 +8,7 @@ CSV.generate(encoding: Encoding::SJIS, row_sep: "\r\n", force_quotes: true) do |
                         reset_password_sent_at, 
                         remember_created_at, 
                         created_at, 
-                        updated_at, 
-                        confirmation_token, 
-                        confirmed_at, 
-                        confirmation_sent_at, 
-                        unconfirmed_email)
+                        updated_at)
 
   csv << csv_column_names
   @allAccounts.each do |obj|
@@ -24,11 +20,7 @@ CSV.generate(encoding: Encoding::SJIS, row_sep: "\r\n", force_quotes: true) do |
       obj.reset_password_sent_at,
       obj.remember_created_at,
       obj.created_at,
-      obj.updated_at,
-      obj.confirmation_token,
-      obj.confirmed_at,
-      obj.confirmation_sent_at,
-      obj.unconfirmed_email
+      obj.updated_at
     ]
     csv << csv_column_values
   end

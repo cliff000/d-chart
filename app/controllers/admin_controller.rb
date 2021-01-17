@@ -5,7 +5,6 @@ class AdminController < ApplicationController
     def inquiry_list
         permitOnlyAdmin()
         @inquiryList = Inquiry.all
-        @account = current_account
     end
 
     def export

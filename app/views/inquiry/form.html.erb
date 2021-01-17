@@ -8,7 +8,7 @@
     
     <div class="form-group">
         <label>お問い合わせ内容</label>
-        <%= form.text_field :message, :class => 'form-control' %>
+        <%= form.text_area :message, :class => 'form-control', :size => "10x10" %>
     </div>
 
     <%= form.submit "送信", class:"btn btn-primary" %>

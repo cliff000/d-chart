@@ -12,6 +12,7 @@ class InquiryController < ApplicationController
 
     def create
         @inquiry = Inquiry.new(inquiry_params)
+        @inquiry.email = current_account.email
         if @inquiry.save
             InquiryMailer.send_mail(@inquiry).deliver
             redirect_to "/mychart/"

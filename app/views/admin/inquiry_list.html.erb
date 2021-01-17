@@ -1,19 +1,18 @@
-<% if @account.id == 1 %>
-    <h1>お問い合わせリスト</h1>
-    <p>お問い合わせ数：<%= @inquiryList.count%></p>
-    <table border="1" width="500" cellspacing="0" cellpadding="5" bordercolor="#333333">
+<h1>お問い合わせリスト</h1>
+<p>お問い合わせ数：<%= @inquiryList.count%></p>
+<table border="1" cellpadding="10">
+    <tr>
+    <th>Name</th>
+    <th>Email</th>
+    <th>Message</th>
+    <th>
+    </tr>
+    <% @inquiryList.each do |obj| %>
         <tr>
-        <th>Name</th>
-        <th>Message</th>
-        <th>
+        <td><%= obj.name %></td>
+        <td><%= obj.email %></td>
+        <td><pre><%= obj.message %></pre></td>
+        <td><a href="/admin/inquiry/delete/<%= obj.id %>"><i class="fas fa-trash-alt fa-1x"></i></a></td>
         </tr>
-        <% @inquiryList.each do |obj| %>
-            <tr>
-            <td><%= obj.name %></td>
-            <td><%= obj.message %></td>
-            <td><a href="/admin/inquiry/delete/<%= obj.id %>"><i class="fas fa-trash-alt fa-1x"></i></a></td>
-            </tr>
-        <% end %>
-    </table>
-
-<% end %>
+    <% end %>
+</table>

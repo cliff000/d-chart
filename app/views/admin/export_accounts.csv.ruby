@@ -1,6 +1,6 @@
 require 'csv'
 
-CSV.generate(encoding: Encoding::SJIS, row_sep: "\r\n", force_quotes: true) do |csv|
+CSV.generate(encoding: Encoding::UTF-8, row_sep: "\r\n", force_quotes: true) do |csv|
   csv_column_names = %w(id, 
                         email, 
                         encrypted_password, 

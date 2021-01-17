@@ -11,15 +11,18 @@ Rails.application.routes.draw do
   get 'edit/:id', to: 'maches#edit'
   patch 'edit/:id', to: 'maches#update'
   get 'delete/:id', to:'maches#delete'
-  get 'all_delete', to:'maches#all_delete'
-  post 'all_delete', to:'maches#all_delete'
-  get 'user_list', to:'maches#user_list'
   get 'chart/:deck', to:'maches#deckchart'
 
   get 'privacy_policy', to:'inquiry#privacy_policy'
   get 'inquiry', to:'inquiry#form'
   post 'inquiry', to:'inquiry#create'
-  get 'inquiry_list', to:'inquiry#listup'
+
+  get 'admin/export', to:'admin#export'
+  get 'admin/export/accounts.csv', to:'admin#export_accounts'
+  get 'admin/export/matches.csv', to:'admin#export_matches'
+  get 'admin/user_list', to:'admin#user_list'
+  get 'admin/inquiry_list', to:'admin#inquiry_list'
+  get 'admin/inquiry/delete/:id', to:'admin#inquiry_delete'
 
   post 'select_kc', to:'maches#select_kc'
   post 'select_datetime', to:'maches#select_datetime'

@@ -413,16 +413,6 @@ class MachesController < ApplicationController
     gon.skilllist = skilllist
   end
 
-  def all_delete
-    @account = current_account
-    @match = Match.new
-
-    if request.post? then
-      Match.all.destroy_all
-      redirect_to action: :index
-    end
-  end
-
   def delete
     obj = Match.find(params[:id])
     if obj.playerid == current_account.id then
@@ -432,10 +422,9 @@ class MachesController < ApplicationController
     redirect_to action: :mychart
   end
 
-  def user_list
-    @account = current_account
-    @data = Account.all
-    @duelnum = Match.where(tag: kc()).where(created_at: datetime_detail()[0]..datetime_detail()[1]).count
+  def import
+    Match.import(params[:file])
+    redirect_to "/admin/import"
   end
 
   private

@@ -46,6 +46,8 @@ gem 'font-awesome-sass', '~> 5.4.1'
 
 gem 'gon'
 
+gem 'roo'
+
 # Devise
 gem 'devise'
 gem 'omniauth-twitter'

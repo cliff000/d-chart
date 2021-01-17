@@ -19,14 +19,8 @@ class InquiryController < ApplicationController
             redirect_to "/mychart/"
         end
     end
-
-    def listup
-        @inquiryList = Inquiry.all
-        @account = current_account
-    end
-
+    
     private
-
     def inquiry_params
         params.require(:inquiry).permit(:name, :message)
     end

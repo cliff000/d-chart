@@ -5,11 +5,13 @@
         <tr>
         <th>Name</th>
         <th>Message</th>
+        <th>
         </tr>
         <% @inquiryList.each do |obj| %>
             <tr>
             <td><%= obj.name %></td>
             <td><%= obj.message %></td>
+            <td><a href="/admin/inquiry/delete/<%= obj.id %>"><i class="fas fa-trash-alt fa-1x"></i></a></td>
             </tr>
         <% end %>
     </table>

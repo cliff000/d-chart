@@ -1,5 +1,0 @@
-<% if @account.id == 1 then %>
-    <%= form_for(@match, url:{controller:'maches', action:'all_delete'}) do |form| %>
-        <%= form.submit "ALL DELETE", class:"btn btn-primary" %>
-    <% end %>
-<% end %>

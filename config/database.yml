@@ -13,3 +13,10 @@ development:
 test:
   <<: *default
   database: webapp_test
+
+production:
+  <<: *default
+  database: <%= ENV['MYSQL_DATABASE'] %>
+  host: <%= ENV['MYSQL_HOST'] %>
+  socket: <%= ENV['MYSQL_SOCKET'] %>
+

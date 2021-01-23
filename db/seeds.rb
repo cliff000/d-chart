@@ -6,7 +6,7 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-CSV.foreach('/KCChart/db/csv/accounts.csv', headers: true) do |row|
+CSV.foreach('/webapp/db/csv/accounts.csv', headers: true) do |row|
     account = Account.new
     account.id = row['id']
     account.email = row['email']
@@ -17,7 +17,7 @@ CSV.foreach('/KCChart/db/csv/accounts.csv', headers: true) do |row|
 end
 
 
-CSV.foreach('/KCChart/db/csv/matches.csv', headers: true) do |row|
+CSV.foreach('/webapp/db/csv/matches.csv', headers: true) do |row|
     Match.create(
         id: row['id'],
         playerid: row['playerid'],

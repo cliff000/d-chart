@@ -92,7 +92,7 @@
                     <!-- カード画像表示 -->
                     <% if @deck_image.has_key?(obj)%>
                         <td><a href="/chart/<%= obj[0] %>">
-                            <img src=<%= "/assets/card/#{@deck_image[obj]}" %> width="64" height="64" alt="">
+                        <%= image_tag "card/#{@deck_image[obj]}", :size =>"64x64" %>
                         </a></td>
                     <% else %>
                         <td cellpadding="5">　<%= obj %>　</td>
@@ -104,7 +104,7 @@
                 <!-- カード画像表示 -->
                 <% if @deck_image.has_key?(obj1)%>
                     <td><a href="/chart/<%= obj1 %>">
-                        <img src=<%= "/assets/card/#{@deck_image[obj1]}" %> width="64" height="64" alt="">
+                    <%= image_tag "card/#{@deck_image[obj1]}", :size =>"64x64" %>
                     </a></td>
                 <% else %>
                     <td cellpadding="5"><%= obj1 %></td>
@@ -150,7 +150,7 @@
                     <tr>
                     <!-- カード画像表示 -->
                     <% if @deck_image.has_key?(obj)%>
-                        <td><img src=<%= "/assets/card/#{@deck_image[obj]}" %> width="64" height="64" alt=""></td>
+                        <td><%= image_tag "card/#{@deck_image[obj]}", :size =>"64x64" %></td>
                     <% else %>
                         <td cellpadding="5"><%= obj %></td>
                     <% end %>
@@ -171,9 +171,8 @@
 </div>
 
 <!-- Draw Chart -->
-<script src="/assets/maches/oppdecks_totalchart.js"></script>
-<script src="/assets/maches/recent_oppdecks_totalchart.js"></script>
+<%= javascript_include_tag "maches/totalchart.js" %>
 
 <!-- DataTables -->
-<script src="/assets/datatables/jquery.dataTables.min.js"></script>
-<script src="/assets/datatables/dataTables.bootstrap4.min.js"></script>
+<%= javascript_include_tag "datatables/jquery.dataTables.min.js" %>
+<%= javascript_include_tag "datatables/dataTables.bootstrap4.min.js" %>

@@ -96,7 +96,7 @@
               <!-- カード画像表示 -->
               <% if @deck_image.has_key?(obj[0])%>
                 <td><a class="showTooltip" href="/chart/<%= obj[0] %>">
-                  <img src=<%= "/assets/card/#{@deck_image[obj[0]]}" %> width="64" height="64" alt="">
+                  <%= image_tag "card/#{@deck_image[obj[0]]}", :size =>"64x64" %>
                 </a></td>
               <% else %>
                 <td cellpadding="5">　<%= obj[0] %>　</td>
@@ -109,7 +109,7 @@
               <!-- カード画像表示 -->
               <% if @deck_image.has_key?(mhash[0])%>
                 <td><a href="/chart/<%= mhash[0] %>">
-                  <img src=<%= "/assets/card/#{@deck_image[mhash[0]]}" %> width="64" height="64" alt="">
+                  <%= image_tag "card/#{@deck_image[mhash[0]]}", :size =>"64x64" %>
                 </a></td>
               <% else %>
                 <td cellpadding="5"><%= mhash[0] %></td>
@@ -207,7 +207,7 @@
                 <td><%= num %></td>
                 <!-- 自分のデッキ -->
                 <% if @deck_image.has_key?(obj.mydeck)%>
-                    <td><img src=<%= "/assets/card/#{@deck_image[obj.mydeck]}" %> width="48" height="48" alt=""></td>
+                  <td><%= image_tag "card/#{@deck_image[obj.mydeck]}", :size =>"48x48" %></td>
                 <% else %>
                   <td><%= obj.mydeck %></td>
                 <% end %>
@@ -215,12 +215,12 @@
                 <td><img src="/assets/skill.png" width="24" height="24" alt=""> <%= obj.myskill %></td>
                 <!-- 相手のデッキ -->
                 <% if @deck_image.has_key?(obj.oppdeck)%>
-                  <td><img src=<%= "/assets/card/#{@deck_image[obj.oppdeck]}" %> width="48" height="48" alt=""></td>
+                  <td><%= image_tag "card/#{@deck_image[obj.oppdeck]}", :size =>"48x48" %></td>
                 <% else %>
                   <td><%= obj.oppdeck %></td>
                 <% end %>
                 <!-- 相手のスキル -->
-                <td><img src="/assets/skill.png" width="24" height="24" alt=""> <%= obj.oppskill %></td>
+                <td><%= image_tag "skill.png", :size =>"24x24" %> <%= obj.oppskill %></td>
                 <!-- 勝敗 -->
                 <td><%= obj.victory %></td>
                 <!-- DP -->
@@ -249,9 +249,8 @@
 </script>
 
 <!-- Draw Chart -->
-<script src="/assets/maches/oppdecks_mychart.js"></script>
-<script src="/assets/maches/dpline_mychart.js"></script>
+<%= javascript_include_tag "maches/mychart.js" %>
 
 <!-- DataTables -->
-<script src="/assets/datatables/jquery.dataTables.min.js"></script>
-<script src="/assets/datatables/dataTables.bootstrap4.min.js"></script>
+<%= javascript_include_tag "datatables/jquery.dataTables.min.js" %>
+<%= javascript_include_tag "datatables/dataTables.bootstrap4.min.js" %>

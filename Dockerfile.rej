@@ -1,0 +1,13 @@
+diff a/Dockerfile b/Dockerfile	(rejected hunks)
+@@ -11,11 +11,6 @@
+ ADD Gemfile /webapp/Gemfile
+ ADD Gemfile.lock /webapp/Gemfile.lock
+ 
+-# ���ϐ��ݒ�
+-ENV RAILS_ENV="production"
+-ENV NODE_ENV="production"
+-ENV RAILS_MASTER_KEY="9e1acc671797572677d11533b34d4529"
+-
+ # bundle install�̎��s
+ RUN bundle install
+ 

@@ -212,7 +212,7 @@
                   <td><%= obj.mydeck %></td>
                 <% end %>
                 <!-- 自分のスキル -->
-                <td><img src="/assets/skill.png" width="24" height="24" alt=""> <%= obj.myskill %></td>
+                <td><%= image_tag asset_path("skill"), :size =>"24x24" %> <%= obj.myskill %></td>
                 <!-- 相手のデッキ -->
                 <% if @deck_image.has_key?(obj.oppdeck)%>
                   <td><%= image_tag asset_path("card/#{@deck_image[obj.oppdeck]}"), :size =>"48x48" %></td>
@@ -249,8 +249,8 @@
 </script>
 
 <!-- Draw Chart -->
-<%= javascript_include_tag asset_path("maches/mychart.js") %>
+<%= javascript_include_tag "maches/mychart" %>
 
 <!-- DataTables -->
-<%= javascript_include_tag asset_path("datatables/jquery.dataTables.min.js") %>
-<%= javascript_include_tag asset_path("datatables/dataTables.bootstrap4.min.js") %>
+<%= javascript_include_tag "datatables/jquery.dataTables.min" %>
+<%= javascript_include_tag "datatables/dataTables.bootstrap4.min" %>

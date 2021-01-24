@@ -1,7 +1,7 @@
 <!-- Page Heading -->
 <div class="d-sm-flex align-items-center justify-content-between mb-4">
     <% if @deck_image.has_key?(@deckName)%>
-        <%= image_tag "card/#{@deck_image[@deckName]}", :size =>"128x128" %>
+        <%= image_tag asset_path("card/#{@deck_image[@deckName]}"), :size =>"128x128" %>
     <% end %>
     <h1 style="white-space: nowrap;  font-family: SmartFontUI;"><%= @deckName %></h1>
 </div>
@@ -33,7 +33,7 @@
                 <% @winRateHash.each do |obj| %>
                     <% if @deck_image.has_key?(obj[0])%>
                         <td><a class="showTooltip" href="/chart/<%= obj[0] %>">
-                        <%= image_tag "card/#{@deck_image[obj[0]]}", :size =>"64x64" %>
+                        <%= image_tag asset_path("card/#{@deck_image[obj[0]]}"), :size =>"64x64" %>
                         </a></td>
                     <% else %>
                         <td cellpadding="5">　<%= obj[0] %>　</td>
@@ -41,7 +41,7 @@
                 <% end %>
             </tr>
             <tr>
-                <td><%= image_tag "card/#{@deck_image[@deckName]}", :size =>"64x64" %></td>
+                <td><%= image_tag asset_path("card/#{@deck_image[@deckName]}"), :size =>"64x64" %></td>
                 <% @winRateHash.each do |obj| %>
                     <% if obj[1] >= 55 then %>
                         <td><font color='blue' ><%= obj[1] %>%</font></td>
@@ -59,4 +59,4 @@
 
 
 <!-- Draw Chart -->
-<%= javascript_include_tag "maches/skillchart.js" %>
+<%= javascript_include_tag asset_path("maches/skillchart.js") %>

@@ -96,7 +96,7 @@
               <!-- カード画像表示 -->
               <% if @deck_image.has_key?(obj[0])%>
                 <td><a class="showTooltip" href="/chart/<%= obj[0] %>">
-                  <%= image_tag asset_path("card/#{@deck_image[obj[0]]}"), :size =>"64x64" %>
+                  <%= image_tag asset_path("/card/#{@deck_image[obj[0]]}"), :size =>"64x64" %>
                 </a></td>
               <% else %>
                 <td cellpadding="5">　<%= obj[0] %>　</td>
@@ -109,7 +109,7 @@
               <!-- カード画像表示 -->
               <% if @deck_image.has_key?(mhash[0])%>
                 <td><a href="/chart/<%= mhash[0] %>">
-                  <%= image_tag asset_path("card/#{@deck_image[mhash[0]]}"), :size =>"64x64" %>
+                  <%= image_tag asset_path("/card/#{@deck_image[mhash[0]]}"), :size =>"64x64" %>
                 </a></td>
               <% else %>
                 <td cellpadding="5"><%= mhash[0] %></td>
@@ -207,20 +207,20 @@
                 <td><%= num %></td>
                 <!-- 自分のデッキ -->
                 <% if @deck_image.has_key?(obj.mydeck)%>
-                  <td><%= image_tag asset_path("card/#{@deck_image[obj.mydeck]}"), :size =>"48x48" %></td>
+                  <td><%= image_tag asset_path("/card/#{@deck_image[obj.mydeck]}"), :size =>"48x48" %></td>
                 <% else %>
                   <td><%= obj.mydeck %></td>
                 <% end %>
                 <!-- 自分のスキル -->
-                <td><%= image_tag asset_path("skill"), :size =>"24x24" %> <%= obj.myskill %></td>
+                <td><%= image_tag asset_path("/skill"), :size =>"24x24" %> <%= obj.myskill %></td>
                 <!-- 相手のデッキ -->
                 <% if @deck_image.has_key?(obj.oppdeck)%>
-                  <td><%= image_tag asset_path("card/#{@deck_image[obj.oppdeck]}"), :size =>"48x48" %></td>
+                  <td><%= image_tag asset_path("/card/#{@deck_image[obj.oppdeck]}"), :size =>"48x48" %></td>
                 <% else %>
                   <td><%= obj.oppdeck %></td>
                 <% end %>
                 <!-- 相手のスキル -->
-                <td><%= image_tag "skill.png", :size =>"24x24" %> <%= obj.oppskill %></td>
+                <td><%= image_tag asset_path("/skill.png"), :size =>"24x24" %> <%= obj.oppskill %></td>
                 <!-- 勝敗 -->
                 <td><%= obj.victory %></td>
                 <!-- DP -->

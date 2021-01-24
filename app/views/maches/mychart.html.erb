@@ -220,7 +220,7 @@
                   <td><%= obj.oppdeck %></td>
                 <% end %>
                 <!-- 相手のスキル -->
-                <td><%= image_tag "skill.png", :size =>"24x24" %> <%= obj.oppskill %></td>
+                <td><%= image_tag asset_path("skill.png"), :size =>"24x24" %> <%= obj.oppskill %></td>
                 <!-- 勝敗 -->
                 <td><%= obj.victory %></td>
                 <!-- DP -->
@@ -247,10 +247,3 @@
     });
   });
 </script>
-
-<!-- Draw Chart -->
-<script src="maches/mychart.js"></script>
-
-<!-- DataTables -->
-<script src="datatables/jquery.dataTables.min.js"></script>
-<script src="datatables/dataTables.bootstrap4.min.js"></script>

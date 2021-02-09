@@ -24,3 +24,6 @@ ADD . /webapp
 
 # puma.sockを配置するディレクトリを作成
 RUN mkdir -p tmp/sockets
+
+# アセットのプリコンパイル
+RUN bundle exec rake assets:precompile RAILS_ENV=production

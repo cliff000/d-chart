@@ -11,11 +11,6 @@ WORKDIR /webapp
 ADD Gemfile /webapp/Gemfile
 ADD Gemfile.lock /webapp/Gemfile.lock
 
-# 環境変数設定
-ENV RAILS_ENV="production"
-ENV NODE_ENV="production"
-ENV RAILS_MASTER_KEY="9e1acc671797572677d11533b34d4529"
-
 # bundle installの実行
 RUN bundle install
 
@@ -24,6 +19,3 @@ ADD . /webapp
 
 # puma.sockを配置するディレクトリを作成
 RUN mkdir -p tmp/sockets
-
-# アセットのプリコンパイル
-RUN bundle exec rake assets:precompile RAILS_ENV=production

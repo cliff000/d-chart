@@ -11,6 +11,11 @@ WORKDIR /webapp
 ADD Gemfile /webapp/Gemfile
 ADD Gemfile.lock /webapp/Gemfile.lock
 
+# ŠÂ‹«•Ï”İ’è
+ENV RAILS_ENV="production"
+ENV NODE_ENV="production"
+ENV RAILS_MASTER_KEY="9e1acc671797572677d11533b34d4529"
+
 # bundle install‚ÌÀs
 RUN bundle install
 

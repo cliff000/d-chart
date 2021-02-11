@@ -33,7 +33,7 @@
     "30不知火":"grass.jpg",
     "剛鬼":"gouki.jpg",
     "デスぺ":"desperado.jpg",
-    "デスぺラード":"desperado.jpg",
+    "デスペラード":"desperado.jpg",
     "DD":"dd.jpg",
     "DDD":"dd.jpg",
     "アロマ":"aroma.jpg",
@@ -44,5 +44,10 @@
     "ガール召喚獣":"girl_invoked.png",
     "ロイド召喚獣":"roid_invoked.png",
     "サンダー・ドラゴン":"thunder-dragon.jpg",
-    "サンドラ":"thunder-dragon.jpg"
+    "サンドラ":"thunder-dragon.jpg",
+    "聖騎士":"noble-knights.jpg",
+    "炎王":"fire-king.jpg",
+    "オノマト":"onomat.jpg",
+    "フォトン":"photon.jpg",
+    "領域海皇":"shark.jpg"
 } 

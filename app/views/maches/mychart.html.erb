@@ -95,7 +95,7 @@
             <% oppdecks.each do |obj| %>
               <!-- カード画像表示 -->
               <% if @deck_image.has_key?(obj[0])%>
-                <td><a class="showTooltip" href="/chart/<%= obj[0] %>">
+                <td><a class="showTooltip" href="/chart/<%= obj[0] %>/">
                   <%= image_tag asset_path("card/#{@deck_image[obj[0]]}"), :size =>"64x64" %>
                 </a></td>
               <% else %>
@@ -108,7 +108,7 @@
             <tr>
               <!-- カード画像表示 -->
               <% if @deck_image.has_key?(mhash[0])%>
-                <td><a href="/chart/<%= mhash[0] %>">
+                <td><a href="/chart/<%= mhash[0] %>/">
                   <%= image_tag asset_path("card/#{@deck_image[mhash[0]]}"), :size =>"64x64" %>
                 </a></td>
               <% else %>

@@ -91,7 +91,7 @@
                 <% @deckArray.each do |obj| %>
                     <!-- カード画像表示 -->
                     <% if @deck_image.has_key?(obj)%>
-                        <td><a href="/chart/<%= obj[0] %>">
+                        <td><a href="/chart/<%= obj %>/">
                         <%= image_tag asset_path("card/#{@deck_image[obj]}"), :size =>"64x64" %>
                         </a></td>
                     <% else %>
@@ -103,7 +103,7 @@
                 <tr>
                 <!-- カード画像表示 -->
                 <% if @deck_image.has_key?(obj1)%>
-                    <td><a href="/chart/<%= obj1 %>">
+                    <td><a href="/chart/<%= obj1 %>/">
                     <%= image_tag asset_path("card/#{@deck_image[obj1]}"), :size =>"64x64" %>
                     </a></td>
                 <% else %>

@@ -237,7 +237,7 @@ class MachesController < ApplicationController
     if $kc.key?(current_account) then
       return $kc[current_account]
     else
-      return "KC2020Nov"
+      return "KC2021Feb"
     end
   end
   helper_method :kc

@@ -2,14 +2,14 @@ default: &default
   adapter: mysql2
   encoding: utf8
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-  username: <%= ENV.fetch('MYSQL_USER') { 'root' } %>
-  password: <%= ENV.fetch('MYSQL_PASSWORD') { 'password' } %>
+  username: <%= ENV.fetch('MYSQL_USER') { 'cliff' } %>
+  password: <%= ENV.fetch('MYSQL_PASSWORD') { 'table5963' } %>
 
 development:
   <<: *default
-  database: <%= ENV['MYSQL_DATABASE'] %>
-  host: <%= ENV['MYSQL_HOST'] %>
-  socket: <%= ENV['MYSQL_SOCKET'] %>
+  database: <%= ENV.fetch('MYSQL_DATABASE') { 'KCChart_production' } %>
+  host: <%= ENV.fetch('MYSQL_HOST') { '35.222.160.178' } %>
+  socket: <%= ENV.fetch('MYSQL_SOCKET') { 'kc-chart:us-central1:kc-chart' } %>
 
 test:
   <<: *default
@@ -17,9 +17,9 @@ test:
 
 production:
   <<: *default
-  database: <%= ENV['MYSQL_DATABASE'] %>
-  host: <%= ENV['MYSQL_HOST'] %>
-  socket: <%= ENV['MYSQL_SOCKET'] %>
+  database: <%= ENV.fetch('MYSQL_DATABASE') { 'KCChart_production' } %>
+  host: <%= ENV.fetch('MYSQL_HOST') { '35.222.160.178' } %>
+  socket: <%= ENV.fetch('MYSQL_SOCKET') { 'kc-chart:us-central1:kc-chart' } %>
 
 
 

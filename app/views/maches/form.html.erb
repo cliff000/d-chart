@@ -72,11 +72,15 @@
         $('#dp_plus').show();
         $('#dp_minus').hide();
         plus_minus = 1
+        var nowDP = gon.lastdp + (plus_minus * $('#match_dpChanging').val())
+        $('#changedDP').text(' (増減後のDP：' + String(nowDP) + ')')
     });
     $('#match_victory_負け').change(function(){
         $('#dp_plus').hide();
         $('#dp_minus').show();
         plus_minus = -1
+        var nowDP = gon.lastdp + (plus_minus * $('#match_dpChanging').val())
+        $('#changedDP').text(' (増減後のDP：' + String(nowDP) + ')')
     });
 
     //「自分で入力する」以外ならテキストボックスを無効化

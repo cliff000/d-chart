@@ -55,6 +55,7 @@
         <i id=dp_plus class="fas fa-plus"></i>
         <i id=dp_minus class="fas fa-minus"></i>
         <%= form.text_field :dpChanging , value: "1000" %>
+        <font color='gray'>&nbsp;&nbsp;<label id=changedDP></label></font>
     </div>
 
     <%= form.submit "送信", class:"btn btn-primary" %>
@@ -62,14 +63,20 @@
 
 <script>
     //DPのプラス、マイナス切り替え
+    var plus_minus = 1
+    var nowDP = gon.lastdp + $('#match_dpChanging').val() * 1
+    $('#changedDP').text(' (変化後のDP：' + String(nowDP) + ')')
     $('#dp_minus').hide();
+
     $('#match_victory_勝ち').change(function(){
         $('#dp_plus').show();
         $('#dp_minus').hide();
+        plus_minus = 1
     });
     $('#match_victory_負け').change(function(){
         $('#dp_plus').hide();
         $('#dp_minus').show();
+        plus_minus = -1
     });
 
     //「自分で入力する」以外ならテキストボックスを無効化
@@ -127,6 +134,11 @@
             $('#textfield_oppskill').prop('disabled', true);
             $('#textfield_oppskill').hide();
         }
+    });
+
+    $('#match_dpChanging').keyup(function(){
+        var nowDP = gon.lastdp + (plus_minus * $('#match_dpChanging').val())
+        $('#changedDP').text(' (変化後のDP：' + String(nowDP) + ')')
     });
     
 </script>

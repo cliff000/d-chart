@@ -56,6 +56,8 @@ class MachesController < ApplicationController
     end
     @kcRange = [Time.parse(tmp_json["1日目"][0]), Time.parse(tmp_json["4日目"][1])]
     @now = Time.now
+
+    gon.lastdp = @lastData.dp
   end
 
   def sended_form
@@ -121,6 +123,50 @@ class MachesController < ApplicationController
       dpline.push({"category" => i, "column-1" => obj.dp})
     end
     gon.dpline_mychart = dpline
+
+    #相性表
+    myHash = @data.group(:mydeck).count
+    oppHash = @data.group(:oppdeck).count
+    myHash = myHash.sort_by { |_, v| -v }.to_h
+    oppHash = oppHash.sort_by { |_, v| -v }.to_h
+    @myDeckArray = Array.new()
+    @oppDeckArray = Array.new()
+    doubleMy = @data.group(:mydeck, :oppdeck).count
+    winData = @data.where(victory: "勝ち")
+    myWinHash = winData.group(:mydeck).count
+    myWinHash2 = winData.group(:oppdeck).count
+    doubleMyWin = winData.group(:mydeck, :oppdeck).count
+
+    @winRateHash = Hash.new { |h,k| h[k] = {} }
+    i = 0
+    j = 0
+    myHash.each{|key1, val1|
+      break if i > 15
+      j = 0
+      oppHash.each{|key2, val2|
+        break if j > 15
+        win_num = doubleMyWin.has_key?([key1, key2]) ? doubleMyWin[[key1, key2]] : 0
+        if doubleMy.has_key?([key1, key2])
+          @winRateHash[key1][key2] = (win_num * 100.to_f / doubleMy[[key1, key2]]).round(1)
+        else
+          @winRateHash[key1][key2] = -1
+        end
+        j += 1
+      }
+      win_num = myWinHash.has_key?(key1) ? myWinHash[key1] : 0
+      @winRateHash[key1]["総計"] = (win_num * 100.to_f / val1).round(1)
+      @myDeckArray.push(key1)
+      i += 1
+    }
+    oppHash.each{|key2, val2|
+      win_num = myWinHash2.has_key?(key2) ? myWinHash2[key2] : 0
+      @winRateHash["総計"][key2] = (win_num * 100.to_f / val2).round(1)
+      @oppDeckArray.push(key2)
+    }
+    @myDeckArray.push("総計")
+    @oppDeckArray.push("総計")
+    @winRateHash["総計"]["総計"] = (winData.count * 100.to_f / @data.count).round(1)
+
 
     #画像リスト読み込み
     @deck_image = {}
@@ -435,17 +481,21 @@ class MachesController < ApplicationController
   def dpUpdate
     data = Match.where(tag: kc()).where(playerid: current_account.id)
     preDP = 0
+    nowDP = 0
     for obj in data do
       if obj.victory == "勝ち" then
-        obj.dp = preDP + obj.dpChanging
+        nowDP = preDP + obj.dpChanging
       else 
-        obj.dp = preDP - obj.dpChanging
-        if obj.dp < 0 then
-          obj.dp = 0
+        nowDP = preDP - obj.dpChanging
+        if nowDP < 0 then
+          nowDP = 0
         end
       end
-      preDP = obj.dp
-      obj.save
+      if nowDP != obj.dp then
+        obj.dp = nowDP
+        obj.save
+      end
+      preDP = nowDP
     end
   end
 end

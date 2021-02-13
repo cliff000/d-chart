@@ -65,7 +65,7 @@
     //DPのプラス、マイナス切り替え
     var plus_minus = 1
     var nowDP = gon.lastdp + $('#match_dpChanging').val() * 1
-    $('#changedDP').text(' (変化後のDP：' + String(nowDP) + ')')
+    $('#changedDP').text(' (増減後のDP：' + String(nowDP) + ')')
     $('#dp_minus').hide();
 
     $('#match_victory_勝ち').change(function(){
@@ -138,7 +138,7 @@
 
     $('#match_dpChanging').keyup(function(){
         var nowDP = gon.lastdp + (plus_minus * $('#match_dpChanging').val())
-        $('#changedDP').text(' (変化後のDP：' + String(nowDP) + ')')
+        $('#changedDP').text(' (増減後のDP：' + String(nowDP) + ')')
     });
     
 </script>

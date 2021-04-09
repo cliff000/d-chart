@@ -2,24 +2,26 @@ default: &default
   adapter: mysql2
   encoding: utf8
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-  username: <%= ENV.fetch('MYSQL_USER') { 'cliff' } %>
-  password: <%= ENV.fetch('MYSQL_PASSWORD') { 'table5963' } %>
+  username: cliff
+  password: table5963
 
 development:
   <<: *default
-  database: <%= ENV.fetch('MYSQL_DATABASE') { 'KCChart_production' } %>
-  host: <%= ENV.fetch('MYSQL_HOST') { '35.222.160.178' } %>
-  socket: <%= ENV.fetch('MYSQL_SOCKET') { 'kc-chart:us-central1:kc-chart' } %>
+  database: webapp_development
+  host: db
 
 test:
   <<: *default
   database: webapp_test
+  host: db
 
 production:
   <<: *default
-  database: <%= ENV.fetch('MYSQL_DATABASE') { 'KCChart_production' } %>
-  host: <%= ENV.fetch('MYSQL_HOST') { '35.222.160.178' } %>
-  socket: <%= ENV.fetch('MYSQL_SOCKET') { 'kc-chart:us-central1:kc-chart' } %>
+  username: <%= ENV.fetch('MYSQL_USER') %>
+  password: <%= ENV.fetch('MYSQL_PASSWORD') %>
+  database: <%= ENV.fetch('MYSQL_DATABASE') %>
+  host: <%= ENV.fetch('MYSQL_HOST') %>
+  socket: <%= ENV.fetch('MYSQL_SOCKET') %>
 
 
 

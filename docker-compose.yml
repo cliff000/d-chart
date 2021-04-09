@@ -5,6 +5,7 @@ services:
       context: .
     env_file:
       - ./environments/db.env
+      - ./environments/app.env
     command: bundle exec puma -C config/puma.rb
     volumes:
       - .:/webapp

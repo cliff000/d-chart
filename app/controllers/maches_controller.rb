@@ -178,6 +178,7 @@ class MachesController < ApplicationController
   end
 
   def totalchart
+    @ip = request.remote_ip
     if params[:start] != nil && params[:end] != nil
       $dprange[current_account] = [params[:start], params[:end]]
     end

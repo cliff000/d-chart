@@ -4,8 +4,8 @@ services:
     build:
       context: .
     env_file:
-      - ./environments/db.env
-      - ./environments/app.env
+      - ./environments/db.prod.env
+      - ./environments/app.prod.env
     command: bundle exec puma -C config/puma.rb
     volumes:
       - .:/webapp
@@ -17,7 +17,7 @@ services:
   db:
     image: mysql:5.7
     env_file:
-      - ./environments/db.env
+      - ./environments/db.prod.env
     volumes:
       - db-data:/var/lib/mysql
   web:

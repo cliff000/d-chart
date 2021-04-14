@@ -69,22 +69,15 @@ class MachesController < ApplicationController
       tmp = Match.new(match_params)
       tmp.playerid = current_account.id
 
-      dp = 0
+      dpChanging = 0
       if Match.where(tag: kc()).where(playerid: current_account.id).exists? then
-        dp = Match.where(tag: kc()).where(playerid: current_account.id).last.dp
+        dpChanging = tmp.dp - Match.where(tag: kc()).where(playerid: current_account.id).last.dp
       end
-      if tmp.victory == "勝ち" then
-        dp += tmp.dpChanging
-      else 
-        dp -= tmp.dpChanging
-        if dp < 0 then
-          dp = 0
-        end
+      if dpChanging < 0
+        dpChanging = dpChanging * -1
       end
-      tmp.dp = dp
-
+      tmp.dpChanging = dpChanging
       tmp.tag = kc()
-
       tmp.save
     end
     redirect_to action: :sended_form
@@ -474,7 +467,7 @@ class MachesController < ApplicationController
 
   private
   def match_params
-    params.require(:match).permit(:mydeck, :myskill, :oppdeck, :oppskill, :victory, :dpChanging)
+    params.require(:match).permit(:mydeck, :myskill, :oppdeck, :oppskill, :victory, :dp, :dpChanging)
   end
 
   def dpUpdate

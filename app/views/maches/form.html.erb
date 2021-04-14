@@ -51,38 +51,18 @@
     </div>
 
     <div class="form-group">
-        DP増減値<br>
-        <i id=dp_plus class="fas fa-plus"></i>
-        <i id=dp_minus class="fas fa-minus"></i>
-        <%= form.text_field :dpChanging , value: "1000" %>
-        <font color='gray'>&nbsp;&nbsp;<label id=changedDP></label></font>
+        <label>
+            対戦後のDP
+            &nbsp;&nbsp;&nbsp;
+            <font color='gray'>(<label id=changedDP></label>)</font>
+        </label>
+        <%= form.text_field :dp, :class => 'form-control' %>&nbsp;&nbsp;
     </div>
 
     <%= form.submit "送信", class:"btn btn-primary" %>
 <% end %>
 
 <script>
-    //DPのプラス、マイナス切り替え
-    var plus_minus = 1
-    var nowDP = gon.lastdp + $('#match_dpChanging').val() * 1
-    $('#changedDP').text(' (増減後のDP：' + String(nowDP) + ')')
-    $('#dp_minus').hide();
-
-    $('#match_victory_勝ち').change(function(){
-        $('#dp_plus').show();
-        $('#dp_minus').hide();
-        plus_minus = 1
-        var nowDP = gon.lastdp + (plus_minus * $('#match_dpChanging').val())
-        $('#changedDP').text(' (増減後のDP：' + String(nowDP) + ')')
-    });
-    $('#match_victory_負け').change(function(){
-        $('#dp_plus').hide();
-        $('#dp_minus').show();
-        plus_minus = -1
-        var nowDP = gon.lastdp + (plus_minus * $('#match_dpChanging').val())
-        $('#changedDP').text(' (増減後のDP：' + String(nowDP) + ')')
-    });
-
     //「自分で入力する」以外ならテキストボックスを無効化
     if($('#match_mydeck').val() != "自分で入力する"){ $('#textfield_mydeck').prop('disabled', true);  $('#textfield_mydeck').hide();}
     if($('#match_myskill').val() != "自分で入力する"){ $('#textfield_myskill').prop('disabled', true); $('#textfield_myskill').hide();}
@@ -140,9 +120,25 @@
         }
     });
 
-    $('#match_dpChanging').keyup(function(){
-        var nowDP = gon.lastdp + (plus_minus * $('#match_dpChanging').val())
-        $('#changedDP').text(' (増減後のDP：' + String(nowDP) + ')')
+    //DP変化の処理
+    $('#match_dp').val(gon.lastdp + 1000)
+    $('#changedDP').text('DP +1000')
+
+    $('#match_victory_勝ち').change(function(){
+        $('#match_dp').val(gon.lastdp + 1000)
+        $('#changedDP').text('DP +1000')
+    });
+    $('#match_victory_負け').change(function(){
+        $('#match_dp').val(gon.lastdp - 1000)
+        $('#changedDP').text('DP -1000')
+    });
+    $('#match_dp').keyup(function(){
+        var sub = $('#match_dp').val() - gon.lastdp
+        if(sub >= 0){
+            $('#changedDP').text('DP +' + String(sub))
+        }else{
+            $('#changedDP').text('DP ' + String(sub))
+        }
     });
     
 </script>

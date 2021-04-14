@@ -29,6 +29,7 @@ class MachesController < ApplicationController
     if @lastData.nil?
       @defaultDeck = ""
       @defaultSkill = ""
+      gon.lastdp = 0
     else
       @decks.each do |obj|
         if obj[0] == @lastData.mydeck
@@ -41,6 +42,7 @@ class MachesController < ApplicationController
           @defaultSkill = @lastData.myskill
           break
         end
+        gon.lastdp = @lastData.dp
       end
     end
 
@@ -57,7 +59,7 @@ class MachesController < ApplicationController
     @kcRange = [Time.parse(tmp_json["1日目"][0]), Time.parse(tmp_json["4日目"][1])]
     @now = Time.now
 
-    gon.lastdp = @lastData.dp
+    
   end
 
   def sended_form
@@ -69,22 +71,15 @@ class MachesController < ApplicationController
       tmp = Match.new(match_params)
       tmp.playerid = current_account.id
 
-      dp = 0
+      dpChanging = 0
       if Match.where(tag: kc()).where(playerid: current_account.id).exists? then
-        dp = Match.where(tag: kc()).where(playerid: current_account.id).last.dp
+        dpChanging = tmp.dp - Match.where(tag: kc()).where(playerid: current_account.id).last.dp
       end
-      if tmp.victory == "勝ち" then
-        dp += tmp.dpChanging
-      else 
-        dp -= tmp.dpChanging
-        if dp < 0 then
-          dp = 0
-        end
+      if dpChanging < 0
+        dpChanging = dpChanging * -1
       end
-      tmp.dp = dp
-
+      tmp.dpChanging = dpChanging
       tmp.tag = kc()
-
       tmp.save
     end
     redirect_to action: :sended_form
@@ -282,7 +277,7 @@ class MachesController < ApplicationController
     if $kc.key?(current_account) then
       return $kc[current_account]
     else
-      return "KC2021Feb"
+      return "KC2021Apr"
     end
   end
   helper_method :kc
@@ -474,7 +469,7 @@ class MachesController < ApplicationController
 
   private
   def match_params
-    params.require(:match).permit(:mydeck, :myskill, :oppdeck, :oppskill, :victory, :dpChanging)
+    params.require(:match).permit(:mydeck, :myskill, :oppdeck, :oppskill, :victory, :dp, :dpChanging)
   end
 
   def dpUpdate

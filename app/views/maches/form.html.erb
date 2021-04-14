@@ -129,8 +129,13 @@
         $('#changedDP').text('DP +1000')
     });
     $('#match_victory_負け').change(function(){
-        $('#match_dp').val(gon.lastdp - 1000)
-        $('#changedDP').text('DP -1000')
+        if(gon.lastdp - 1000 < 0){
+            $('#match_dp').val(0)
+            $('#changedDP').text('DP -' + String(gon.lastdp))
+        }else{
+            $('#match_dp').val(gon.lastdp - 1000)
+            $('#changedDP').text('DP -1000')
+        }
     });
     $('#match_dp').keyup(function(){
         var sub = $('#match_dp').val() - gon.lastdp

@@ -29,6 +29,7 @@ class MachesController < ApplicationController
     if @lastData.nil?
       @defaultDeck = ""
       @defaultSkill = ""
+      gon.lastdp = 0
     else
       @decks.each do |obj|
         if obj[0] == @lastData.mydeck
@@ -41,6 +42,7 @@ class MachesController < ApplicationController
           @defaultSkill = @lastData.myskill
           break
         end
+        gon.lastdp = @lastData.dp
       end
     end
 
@@ -57,7 +59,7 @@ class MachesController < ApplicationController
     @kcRange = [Time.parse(tmp_json["1日目"][0]), Time.parse(tmp_json["4日目"][1])]
     @now = Time.now
 
-    gon.lastdp = @lastData.dp
+    
   end
 
   def sended_form
@@ -275,7 +277,7 @@ class MachesController < ApplicationController
     if $kc.key?(current_account) then
       return $kc[current_account]
     else
-      return "KC2021Feb"
+      return "KC2021Apr"
     end
   end
   helper_method :kc

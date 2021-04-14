@@ -74,6 +74,8 @@ class MachesController < ApplicationController
       dpChanging = 0
       if Match.where(tag: kc()).where(playerid: current_account.id).exists? then
         dpChanging = tmp.dp - Match.where(tag: kc()).where(playerid: current_account.id).last.dp
+      else 
+        dpChanging = tmp.dp
       end
       if dpChanging < 0
         dpChanging = dpChanging * -1

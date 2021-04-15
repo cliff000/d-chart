@@ -93,7 +93,7 @@ Rails.application.configure do
   config.active_record.dump_schema_after_migration = false
 
   #device
-  config.action_mailer.default_url_options = { host: 'kcchart.com' }
+  config.action_mailer.default_url_options = { host: 'htttps://kcchart.com' }
 
     #mail
     config.action_mailer.delivery_method = :smtp

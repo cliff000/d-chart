@@ -51,12 +51,9 @@
     </div>
 
     <div class="form-group">
-        <label>
-            対戦後のDP
-            &nbsp;&nbsp;&nbsp;
-            <font color='gray'>( <label id=changedDP></label> )</font>
-        </label>
-        <%= form.text_field :dp, :class => 'form-control' %>&nbsp;&nbsp;
+        <label>対戦後のDP</label>
+        <%= form.text_field :dp, :class => 'form-control' %>
+        <font color='gray'>( <label id=changedDP></label> )</font>
     </div>
 
     <%= form.submit "送信", class:"btn btn-primary" %>
@@ -122,27 +119,29 @@
 
     //DP変化の処理
     $('#match_dp').val(gon.lastdp + 1000)
-    $('#changedDP').text('DP +1000')
+    $('#changedDP').text('増減値 +1000')
 
     $('#match_victory_勝ち').change(function(){
         $('#match_dp').val(gon.lastdp + 1000)
-        $('#changedDP').text('DP +1000')
+        $('#changedDP').text('増減値 +1000')
     });
     $('#match_victory_負け').change(function(){
         if(gon.lastdp - 1000 < 0){
             $('#match_dp').val(0)
-            $('#changedDP').text('DP -' + String(gon.lastdp))
+            $('#changedDP').text('増減値 -' + String(gon.lastdp))
         }else{
             $('#match_dp').val(gon.lastdp - 1000)
-            $('#changedDP').text('DP -1000')
+            $('#changedDP').text('増減値 -1000')
         }
     });
     $('#match_dp').keyup(function(){
         var sub = $('#match_dp').val() - gon.lastdp
         if(sub >= 0){
-            $('#changedDP').text('DP +' + String(sub))
+            $('#changedDP').text('増減値 +' + String(sub))
+            $('#match_victory_勝ち').prop('checked', true);
         }else{
-            $('#changedDP').text('DP ' + String(sub))
+            $('#changedDP').text('増減値 ' + String(sub))
+            $('#match_victory_負け').prop('checked', true);
         }
     });
     

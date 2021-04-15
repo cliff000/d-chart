@@ -75,11 +75,11 @@
             </div>
         
             <div class="form-group">
-                <label>対戦後のDP&nbsp;&nbsp;&nbsp;</label>
-                <font id='pm', color='gray'>( DP +</font>
+                <label>対戦後のDP</label>
+                <%= form.text_field :dp, :value => @selectedData.dp, :class => 'form-control' %>
+                <font id='pm', color='gray'>( 増減値 +</font>
                 <%= form.text_field :dpChanging, :value => @selectedData.dpChanging, readonly: true %>
                 <font color='gray'>)</font>
-                <%= form.text_field :dp, :value => @selectedData.dp, :class => 'form-control' %>
             </div>
         <% else %>
             <div class="form-group">
@@ -93,11 +93,11 @@
             </div>
 
             <div class="form-group">
-                <label>対戦後のDP&nbsp;&nbsp;&nbsp;</label>
-                <font id='pm', color='gray'>( DP -</font>
+                <label>対戦後のDP</label>
+                <%= form.text_field :dp, :value => @selectedData.dp, :class => 'form-control' %>
+                <font id='pm', color='gray'>( 増減値 -</font>
                 <%= form.text_field :dpChanging, :value => @selectedData.dpChanging, readonly: true %>
                 <font color='gray'>)</font>
-                <%= form.text_field :dp, :value => @selectedData.dp, :class => 'form-control' %>
             </div>
         <% end %>
 
@@ -174,12 +174,12 @@
 
     //DP変化の処理
     $('#match_victory_勝ち').change(function(){
-        $('#pm').text('( DP +')
+        $('#pm').text('( 増減値 +')
         $('#match_dp').val(gon.preDP + gon.dpChanging)
         $('#match_dpChanging').val(gon.dpChanging)
     });
     $('#match_victory_負け').change(function(){
-        $('#pm').text('( DP -')
+        $('#pm').text('( 増減値 -')
         if(gon.preDP - gon.dpChanging < 0){
             $('#match_dp').val(0)
             $('#match_dpChanging').val(gon.preDP)
@@ -192,8 +192,12 @@
         var sub = $('#match_dp').val() - gon.preDP
         if(sub >= 0){
             $('#match_dpChanging').val(sub)
+            $('#match_victory_勝ち').prop('checked', true);
+            $('#pm').text('( 増減値 +')
         }else{
             $('#match_dpChanging').val(-sub)
+            $('#match_victory_負け').prop('checked', true);
+            $('#pm').text('( 増減値 -')
         }
     });
 </script>

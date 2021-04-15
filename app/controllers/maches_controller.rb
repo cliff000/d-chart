@@ -369,6 +369,15 @@ class MachesController < ApplicationController
     @decks.push(["自分で入力する"])
     @skills.push(["自分で入力する"])
 
+    #直前のDPを計算
+    if @selectedData.victory == "勝ち"
+      @preDP = @selectedData.dp - @selectedData.dpChanging
+    else
+      @preDP = @selectedData.dp + @selectedData.dpChanging
+    end
+    gon.preDP = @preDP
+    gon.dpChanging = @selectedData.dpChanging
+
     #初期値の設定
     @defaultMyDeck = "自分で入力する"
     @defaultMySkill = "自分で入力する"

@@ -136,7 +136,7 @@
     });
     $('#match_dp').keyup(function(){
         var sub = $('#match_dp').val() - gon.lastdp
-        if(sub >= 0){
+        if(sub > 0){
             $('#changedDP').text('増減値 +' + String(sub))
             $('#match_victory_勝ち').prop('checked', true);
         }else{

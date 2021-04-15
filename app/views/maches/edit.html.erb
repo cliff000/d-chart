@@ -190,7 +190,7 @@
     });
     $('#match_dp').keyup(function(){
         var sub = $('#match_dp').val() - gon.preDP
-        if(sub >= 0){
+        if(sub > 0){
             $('#match_dpChanging').val(sub)
             $('#match_victory_勝ち').prop('checked', true);
             $('#pm').text('( 増減値 +')

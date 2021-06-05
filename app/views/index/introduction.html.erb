@@ -1,0 +1,79 @@
+<!-- Masthead-->
+<header class="masthead">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="text-center">
+                    <!-- Page heading-->
+                    <h1 class="mb-5">KC ChartはKCカップの対戦データを記録し、図表化するためのサイトです</h1>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="text-center">
+                    <!-- Page heading-->
+                    <h1 class="mb-5">KC ChartはKCカップの対戦データを記録し、図表化するためのサイトです</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+<!-- Image Showcases-->
+<hr class="style15" data-symbol="機能紹介">
+<section class="showcase">
+    <div class="container-fluid p-0 bg-gradient-primary">
+        <div class="row g-0">
+            <div class="col-lg-6 order-lg-2 text-white showcase-img" style="background-image: url(<%= asset_path("index/record.png") %>)"></div>
+            <div class="col-lg-6 order-lg-1 my-auto showcase-text" style="color:#ffffff;">
+                <h2>対戦の記録</h2>
+                <p class="lead mb-0">ここで記録した内容がグラフに反映されます。デッキやスキルの自動入力の機能があり、数百回の記録でも負担になりにくいように工夫されています。</p>
+            </div>
+        </div>
+        <div class="row g-0">
+            <div class="col-lg-6 text-white showcase-img" style="background-image: url(<%= asset_path("index/mypage.png") %>)"></div>
+            <div class="col-lg-6 my-auto showcase-text" style="color:#ffffff;">
+                <h2>マイページ</h2>
+                <p class="lead mb-0">自分の対戦記録がグラフにまとめられて表示されるページです。デッキ分布、DP推移グラフ、勝率などが表示されます。</p>
+            </div>
+        </div>
+        <div class="row g-0">
+            <div class="col-lg-6 order-lg-2 text-white showcase-img" style="background-image: url(<%= asset_path("index/totalpage.png") %>)"></div>
+            <div class="col-lg-6 order-lg-1 my-auto showcase-text" style="color:#ffffff;">
+                <h2>トータルページ</h2>
+                <p class="lead mb-0">全ユーザーの記録がまとめられて図表化されています。日付やDP帯ごとに絞り込みができるので環境の動向が分かりやすいです。</p><br>
+                <p class="lead mb-0"> 過去のデータは<a href="/past_kc" class="red-link">こちら</a>から見れます。<p>
+            </div>
+        </div>
+    </div>
+    <div class="row" style="text-align: right">
+        <p>※画像はPC版のみですが、スマホにも対応しています</p>
+    </div>
+</section><br><br>
+<br><br><br><br><br><br>
+
+
+<style>
+hr.style15 {
+	border-top: 4px double #244CBF;
+    color: #244CBF;
+	text-align: center;
+    margin: 40px 0px;
+}
+hr.style15:after {
+	content: attr(data-symbol);
+	display: inline-block;
+	position: relative;
+	top: -30px;
+	padding: 0 10px;
+	background: #f0f0f0;
+	color: #244CBF;
+	font-size: 36px;
+    font-weight: 800;
+}
+
+.red-link {
+    color: #FF9933;
+}
+.red-link:hover {
+    color: #FF9933;
+}
+</style>

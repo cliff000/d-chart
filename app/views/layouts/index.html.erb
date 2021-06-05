@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- Google Adsence -->
+    <script data-ad-client="ca-pub-7318595658997951" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    
+    <title>KC Chart</title>
+    <%= favicon_link_tag('favicon.ico') %>
+
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <%= include_gon %>
+
+    <%= javascript_include_tag "application" %>
+    <%= stylesheet_link_tag "application" %>
+</head>
+
+<body>
+
+<!-- Page Wrapper -->
+<div id="wrapper">
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+
+    <!-- Main Content -->
+    <div id="content">
+
+        <!-- Topbar -->
+        <nav class="navbar navbar-expand navbar-light topbar static-top" style="background-color: #4E73DF">
+
+        <!-- Title -->
+        <a class="navbar-brand d-none d-sm-flex align-items-center justify-content-center" href="/">
+                <%= image_tag asset_path("logo/logo2-2.png"), :height =>"48px" %>
+                <div class="index-title pb-1 text-white">KC Chart</div>
+        </a>
+        <a class="navbar-brand d-sm-none align-items-center justify-content-center" href="/">
+                <%= image_tag asset_path("logo/logo2-2.png"), :height =>"48px"%>
+        </a>
+
+        <!-- Topbar Navbar -->
+        <ul class="navbar-nav ml-auto">
+            <!-- ログイン -->
+            <%= link_to "新規登録", new_account_registration_path, class: 'btn btn-success' %>
+            &nbsp;&nbsp;
+            <%= link_to "ログイン", new_account_session_path, class: 'btn btn-outline-success' %>
+        </ul>
+
+        </nav>
+        <!-- End of Topbar -->
+
+        <!-- Begin Page Content -->
+        <div class="container-fluid px-0">
+        <%= yield %>
+        </div>
+        <!-- /.container-fluid -->
+
+    </div>
+    <!-- End of Main Content -->
+
+    <!-- Footer -->
+    <footer class="sticky-footer bg-white">
+        <div class="container my-auto">
+        <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <div>
+            <a href="/privacy_policy/">プライバシーポリシー</a>&nbsp;|&nbsp;
+            <a href="/inquiry/">お問い合わせフォーム</a>
+            </div>
+            <label></label>
+        </div>
+        </div>
+    </footer>
+    <!-- End of Footer -->
+
+    </div>
+    <!-- End of Content Wrapper -->
+
+</div>
+<!-- End of Page Wrapper -->
+
+<!-- Scroll to Top Button-->
+<a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+</a>
+
+<!-- Custom scripts for all pages-->
+<script src="/assets/sb-admin-2/sb-admin-2.js"></script>
+
+</body>
+</html>

@@ -1,13 +1,22 @@
 Rails.application.routes.draw do
-  root 'maches#mychart'
+
+  Rails.application.routes.draw do
+    authenticated :user do
+      root to: 'maches#form', as: :user_root
+    end
+  
+    root to: 'index#introduction'
+  end
+
+  get 'past_kc', to:'index#past_kc'
+  get 'past_kc/:kcname', to:'index#past_kc_chart'
+
   get 'form', to:'maches#form'
   post 'form', to:'maches#create'
   get 'sended_form', to:'maches#sended_form'
   get 'mychart', to:'maches#mychart'
   get 'mychart/my_duel_data.csv', to:'maches#mydata_csv'
   get 'totalchart', to:'maches#totalchart'
-  get 'trahclatot', to:'maches#totalchart'
-  get 'trahclatot/:start/:end', to:'maches#totalchart'
   get 'edit/:id', to: 'maches#edit'
   patch 'edit/:id', to: 'maches#update'
   get 'delete/:id', to:'maches#delete'

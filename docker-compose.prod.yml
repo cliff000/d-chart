@@ -3,6 +3,7 @@ services:
   app:
     build:
       context: .
+    image: cliff000/kcchart_app
     env_file:
       - ./environments/db.prod.env
       - ./environments/app.prod.env
@@ -25,6 +26,7 @@ services:
   web:
     build:
       context: containers/nginx
+    image: cliff000/kcchart_web
     volumes:
       - public-data:/webapp/public
       - tmp-data:/webapp/tmp

@@ -51,10 +51,10 @@ class IndexController < ApplicationController
         i = 0
         j = 0
         allHash.each{|key1, val1|
-        break if i > 15
+        break if i > 10
         j = 0
         allHash.each{|key2, val2|
-            break if j > 15
+            break if j > 10
             win_num = doubleAllWin.has_key?([key1, key2]) ? doubleAllWin[[key1, key2]] : 0
             if doubleAll.has_key?([key1, key2])
             @winRateHash[key1][key2] = (win_num * 100.to_f / doubleAll[[key1, key2]]).round(1)

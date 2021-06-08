@@ -26,7 +26,7 @@ class IndexController < ApplicationController
         if !(others_val == 0) then
             oppdecks2.push({"category" => "その他", "column-1" => others_val})
         end
-        gon.past_kc_chart = oppdecks2
+        gon.oppdecks_totalchart = oppdecks2
 
         #相性表
         myHash = @data.group(:mydeck).count

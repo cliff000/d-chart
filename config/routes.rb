@@ -1,15 +1,5 @@
 Rails.application.routes.draw do
-
-  Rails.application.routes.draw do
-    authenticated :user do
-      root to: 'maches#form', as: :user_root
-    end
-  
-    root to: 'index#introduction'
-  end
-
-  get 'past_kc', to:'index#past_kc'
-  get 'past_kc/:kcname', to:'index#past_kc_chart'
+  root to: 'index#introduction'
 
   get 'form', to:'maches#form'
   post 'form', to:'maches#create'
@@ -37,6 +27,9 @@ Rails.application.routes.draw do
   post 'select_datetime', to:'maches#select_datetime'
   post 'select_dprange', to:'maches#select_dprange'
   get 'create_kc', to:'maches#create_kc'
+
+  get 'past_kc', to:'index#past_kc'
+  get 'past_kc/:kcname', to:'index#past_kc_chart'
 
   get 'test', to:'maches#test'
   

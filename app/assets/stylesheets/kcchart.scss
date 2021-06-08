@@ -1,0 +1,27 @@
+.tab-wrap {
+    display: flex;
+    flex-wrap: wrap;
+}
+.tab-label1 {
+    color: White;
+    background: LightGray;
+    margin-right: 5px;
+    padding: 3px 12px;
+    order:-1;
+}
+.tab-label2 {
+    color: White;
+    background: LightGray;
+    margin-right: 5px;
+    padding: 3px 12px;
+    order:-1;
+}
+.tab-switch:checked+.tab-label1 {
+    background: #3399FF;
+}
+.tab-switch:checked+.tab-label2 {
+    background: #FF4F50;
+}
+.tab-switch {
+    display: none;
+}

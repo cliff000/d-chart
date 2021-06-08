@@ -2,6 +2,9 @@ class IndexController < ApplicationController
     layout 'index'
 
     def introduction
+        if account_signed_in?
+            redirect_to '/mychart/'
+        end
     end
 
     def past_kc

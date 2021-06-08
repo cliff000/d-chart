@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_17_120246) do
+ActiveRecord::Schema.define(version: 2021_06_08_131551) do
 
   create_table "accounts", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
     t.string "email", default: "", null: false
@@ -44,6 +44,7 @@ ActiveRecord::Schema.define(version: 2021_01_17_120246) do
     t.datetime "updated_at", null: false
     t.string "tag"
     t.integer "dpChanging", default: 1000
+    t.string "order"
   end
 
 end

@@ -421,29 +421,55 @@ class MachesController < ApplicationController
       @deck_image = JSON.load(file)
     end
 
-    #相性表のデータ作成
-    ahash1 = @mydata.group(:oppdeck).count
-    ahash2 = @oppdata.group(:mydeck).count
-    allHash = ahash1.merge(ahash2) {|key, oldval, newval| oldval + newval}
-    allHash = allHash.sort_by { |_, v| -v }.to_h
-    whash1 = @mydata.where(victory: "勝ち").group(:oppdeck).count
-    whash2 = @oppdata.where(victory: "負け").group(:mydeck).count
-    winHash = whash1.merge(whash2) {|key, oldval, newval| oldval + newval}
-    @winRateHash = Hash.new()
-    allcount = @mydata.count + @oppdata.count
-    wincount = @mydata.where(victory: "勝ち").count + @oppdata.where(victory: "負け").count
-    i = 0
+    #相性表
+    mysHash = @mydata.group(:myskill).count
+    oppsHash = @oppdata.group(:oppskill).count
+    skillHash = oppsHash.merge(mysHash) {|key, oldval, newval| oldval + newval}
+    skillHash = skillHash.sort_by { |_, v| -v }.to_h
 
-    allHash.each do |obj|
-      break if i > 15
-      if winHash.has_key?(obj[0])
-        @winRateHash[obj[0]] = (winHash[obj[0]] * 100.to_f / obj[1]).round(1)
-      else
-        @winRateHash[obj[0]] = 0
-      end
+    mydHash = @mydata.group(:myskill).count
+    oppdHash = @oppdata.group(:oppskill).count
+    deckHash = oppdHash.merge(mydHash) {|key, oldval, newval| oldval + newval}
+    deckHash = deckHash.sort_by { |_, v| -v }.to_h
+
+    doubleMy = @mydata.group(:myskill, :oppdeck).count
+    doubleOpp = @oppdata.group(:oppskill, :mydeck).count
+    doubleAll = doubleOpp.merge(doubleMy) {|key, oldval, newval| oldval + newval}
+    winData = @mydata.where(victory: "勝ち")
+    loseData = @oppdata.where(victory: "負け")
+    myWinHash = winData.group(:mydeck).count
+    oppWinHash = loseData.group(:oppdeck).count
+    allWinHash = oppWinHash.merge(myWinHash) {|key, oldval, newval| oldval + newval}
+    doubleMyWin = winData.group(:myskill, :oppdeck).count
+    doubleOppWin = loseData.group(:oppskill, :mydeck).count
+    doubleAllWin = doubleOppWin.merge(doubleMyWin) {|key, oldval, newval| oldval + newval}
+
+    
+    @winRateHash = Hash.new { |h,k| h[k] = {} }
+    @skillArray = Hash.new
+    @deckArray = Hash.new
+    i = 0
+    j = 0
+    skillHash.each{|key1, val1|
+      break if i > 3
+      j = 0
+      deckHash.each{|key2, val2|
+        break if j > 10
+        win_num = doubleAllWin.has_key?([key1, key2]) ? doubleAllWin[[key1, key2]] : 0
+        if doubleAll.has_key?([key1, key2])
+          @winRateHash[key1][key2] = (win_num * 100.to_f / doubleAll[[key1, key2]]).round(1)
+        else
+          @winRateHash[key1][key2] = -1
+        end
+        @deckArray.push(key2)
+        j += 1
+      }
+      win_num = allWinHash.has_key?(key1) ? allWinHash[key1] : 0
+      @winRateHash[key1]["総計"] = (win_num * 100.to_f / val1).round(1)
+      @skillArray.push(key1)
       i += 1
-    end
-    @winRateHash["総計"] = (wincount * 100.to_f / allcount).round(1)
+    }
+    @deckArray.push("総計")
 
     #スキルリスト
     oppskills = @oppdata.group(:oppskill).order(count_all: :desc).count

@@ -28,30 +28,38 @@
     <div class="card-body">
         <div class="text-nowrap table-responsive">
             <table class="table table-bordered table-fixed table-compatibility" id="dataTable_compatibility" width="100%" cellspacing="0">
-            <tbody><tr>
-                <td></td>
-                <% @winRateHash.each do |obj| %>
-                    <% if @deck_image.has_key?(obj[0])%>
-                        <td><a class="showTooltip" href="/chart/<%= obj[0] %>">
-                        <%= image_tag asset_path("card/#{@deck_image[obj[0]]}"), :size =>"64x64" %>
-                        </a></td>
-                    <% else %>
-                        <td cellpadding="5">　<%= obj[0] %>　</td>
+                <tbody>
+                <tr>
+                    <td></td>
+                    <% @deckArray.each do |obj| %>
+                        <!-- カード画像表示 -->
+                        <% if @deck_image.has_key?(obj)%>
+                            <td><a href="/chart/<%= obj %>/">
+                            <%= image_tag asset_path("card/#{@deck_image[obj]}"), :size =>"64x64" %>
+                            </a></td>
+                        <% else %>
+                            <td cellpadding="5">　<%= obj %>　</td>
+                        <% end %>
                     <% end %>
-                <% end %>
-            </tr>
-            <tr>
-                <td><%= image_tag asset_path("card/#{@deck_image[@deckName]}"), :size =>"64x64" %></td>
-                <% @winRateHash.each do |obj| %>
-                    <% if obj[1] >= 55 then %>
-                        <td><font color='blue' ><%= obj[1] %>%</font></td>
-                    <% elsif obj[1] <= 45 then %>
-                        <td><font color='red'><%= obj[1] %>%</font></td>
-                    <% else %>
-                        <td><%= obj[1] %>%</font></td>
+                </tr>
+                <% @skillArray.each do |obj1| %>
+                    <tr>
+                    <td cellpadding="5"><%= obj1 %></td>
+                    <% @deckArray.each do |obj2| %>
+                        <% win_rate = @winRateHash[obj1][obj2] %>
+                        <% if win_rate == -1 %>
+                            <td></td>
+                        <% elsif win_rate >= 55 %>
+                            <td><font color='blue' ><%= win_rate %>%</font></td>
+                        <% elsif win_rate <= 45 %>
+                            <td><font color='red'><%= win_rate %>%</font></td>
+                        <% else %>
+                            <td><%= win_rate %>%</font></td>
+                        <% end %>
                     <% end %>
+                    </tr>
                 <% end %>
-            </tr></tbody>
+                </tbody>
             </table>
         </div>
     </div>

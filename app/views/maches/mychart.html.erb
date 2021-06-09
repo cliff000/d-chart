@@ -12,10 +12,10 @@
     <p>自分の戦績について図表化するページです</p>
   </div>
 
-  <% order_data = @data.where.not(order: nil) %>
-  <% if order_data.empty? then %>
-  <% else %>
-    <div class="col-xl-3 col-md-6 mb-4">
+  
+  <div class="col-xl-3 col-md-6 mb-4">
+    <% order_data = @data.where.not(order: nil) %>
+    <% if order_data.count > 0 then %>
       <div class="card border-left-danger shadow h-100 py-2">
         <div class="card-body">
           <div class="row no-gutters align-items-center">
@@ -29,8 +29,8 @@
           </div>
         </div>
       </div>
-    </div>
-  <% end %>
+    <% end %>
+  </div>
 
   <div class="col-xl-3 col-md-6 mb-4">
     <div class="card border-left-primary shadow h-100 py-2">

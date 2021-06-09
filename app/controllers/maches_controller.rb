@@ -444,33 +444,31 @@ class MachesController < ApplicationController
     doubleOppWin = loseData.group(:oppskill, :mydeck).count
     @doubleAllWin = doubleOppWin.merge(doubleMyWin) {|key, oldval, newval| oldval + newval}
 
-    =begin
-    @winRateHash = Hash.new { |h,k| h[k] = {} }
-    @skillArray = Hash.new
-    @deckArray = Hash.new
-    i = 0
-    j = 0
-    skillHash.each{|key1, val1|
-      break if i > 3
-      j = 0
-      deckHash.each{|key2, val2|
-        break if j > 10
-        win_num = doubleAllWin.has_key?([key1, key2]) ? doubleAllWin[[key1, key2]] : 0
-        if doubleAll.has_key?([key1, key2])
-          @winRateHash[key1][key2] = (win_num * 100.to_f / doubleAll[[key1, key2]]).round(1)
-        else
-          @winRateHash[key1][key2] = -1
-        end
-        @deckArray.push(key2)
-        j += 1
-      }
-      win_num = allWinHash.has_key?(key1) ? allWinHash[key1] : 0
-      @winRateHash[key1]["総計"] = (win_num * 100.to_f / val1).round(1)
-      @skillArray.push(key1)
-      i += 1
-    }
-    @deckArray.push("総計")
-    =end
+    # @winRateHash = Hash.new { |h,k| h[k] = {} }
+    # @skillArray = Hash.new
+    # @deckArray = Hash.new
+    # i = 0
+    # j = 0
+    # skillHash.each{|key1, val1|
+    #   break if i > 3
+    #   j = 0
+    #   deckHash.each{|key2, val2|
+    #     break if j > 10
+    #     win_num = doubleAllWin.has_key?([key1, key2]) ? doubleAllWin[[key1, key2]] : 0
+    #     if doubleAll.has_key?([key1, key2])
+    #       @winRateHash[key1][key2] = (win_num * 100.to_f / doubleAll[[key1, key2]]).round(1)
+    #     else
+    #       @winRateHash[key1][key2] = -1
+    #     end
+    #     @deckArray.push(key2)
+    #     j += 1
+    #   }
+    #   win_num = allWinHash.has_key?(key1) ? allWinHash[key1] : 0
+    #   @winRateHash[key1]["総計"] = (win_num * 100.to_f / val1).round(1)
+    #   @skillArray.push(key1)
+    #   i += 1
+    # }
+    # @deckArray.push("総計")
 
     #スキルリスト
     oppskills = @oppdata.group(:oppskill).order(count_all: :desc).count

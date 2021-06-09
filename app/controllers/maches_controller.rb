@@ -427,8 +427,8 @@ class MachesController < ApplicationController
     skillHash = oppsHash.merge(mysHash) {|key, oldval, newval| oldval + newval}
     skillHash = skillHash.sort_by { |_, v| -v }.to_h
 
-    mydHash = @mydata.group(:myskill).count
-    oppdHash = @oppdata.group(:oppskill).count
+    mydHash = @mydata.group(:oppdeck).count
+    oppdHash = @oppdata.group(:mydeck).count
     deckHash = oppdHash.merge(mydHash) {|key, oldval, newval| oldval + newval}
     deckHash = deckHash.sort_by { |_, v| -v }.to_h
 

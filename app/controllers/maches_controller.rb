@@ -437,8 +437,8 @@ class MachesController < ApplicationController
     doubleAll = doubleOpp.merge(doubleMy) {|key, oldval, newval| oldval + newval}
     winData = @mydata.where(victory: "勝ち")
     loseData = @oppdata.where(victory: "負け")
-    myWinHash = winData.group(:mydeck).count
-    oppWinHash = loseData.group(:oppdeck).count
+    myWinHash = winData.group(:myskill).count
+    oppWinHash = loseData.group(:oppskill).count
     allWinHash = oppWinHash.merge(myWinHash) {|key, oldval, newval| oldval + newval}
     doubleMyWin = winData.group(:myskill, :oppdeck).count
     doubleOppWin = loseData.group(:oppskill, :mydeck).count

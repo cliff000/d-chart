@@ -99,6 +99,21 @@
             </div>
         <% end %>
 
+        <div class="form-group">
+            <div class="tab-wrap">
+                <% if @selectedData.order == nil %>
+                    <%= form.radio_button :order, "先行", :class => 'tab-switch' %><label class="tab-label1" for="match_order_先行">先行</label>
+                    <%= form.radio_button :order, "後攻", :class => 'tab-switch' %><label class="tab-label2" for="match_order_後攻">後攻</label>
+                <% elsif @selectedData.order == "先行" %>
+                    <%= form.radio_button :order, "先行", :class => 'tab-switch', checked: true %><label class="tab-label1" for="match_order_先行">先行</label>
+                    <%= form.radio_button :order, "後攻", :class => 'tab-switch' %><label class="tab-label2" for="match_order_後攻">後攻</label>
+                <% else %>
+                    <%= form.radio_button :order, "先行", :class => 'tab-switch' %><label class="tab-label1" for="match_order_先行">先行</label>
+                    <%= form.radio_button :order, "後攻", :class => 'tab-switch', checked: true %><label class="tab-label2" for="match_order_後攻">後攻</label>
+                <% end %>
+            </div>
+        </div>
+        <br>
 
         
         <%= form.submit "送信", class:"btn btn-primary" %>

@@ -411,15 +411,15 @@ class MachesController < ApplicationController
   end
 
   def deckchart
-    @deckName = URI.unescape(params[:deck])
-    @mydata = Match.where(tag: kc()).where(created_at: datetime_detail()[0]..datetime_detail()[1]).where(mydeck: params[:deck])
-    @oppdata = Match.where(tag: kc()).where(created_at: datetime_detail()[0]..datetime_detail()[1]).where(oppdeck: params[:deck])
+    # @deckName = URI.unescape(params[:deck])
+    # @mydata = Match.where(tag: kc()).where(created_at: datetime_detail()[0]..datetime_detail()[1]).where(mydeck: params[:deck])
+    # @oppdata = Match.where(tag: kc()).where(created_at: datetime_detail()[0]..datetime_detail()[1]).where(oppdeck: params[:deck])
     
-    #画像リスト読み込み
-    @deck_image = {}
-    File.open("#{Rails.root}/config_duellinks/deck_image.json") do |file|
-      @deck_image = JSON.load(file)
-    end
+    # #画像リスト読み込み
+    # @deck_image = {}
+    # File.open("#{Rails.root}/config_duellinks/deck_image.json") do |file|
+    #   @deck_image = JSON.load(file)
+    # end
 
     #相性表
     # mysHash = @mydata.group(:myskill).count
@@ -471,22 +471,22 @@ class MachesController < ApplicationController
     # @deckArray.push("総計")
 
     #スキルリスト
-    oppskills = @oppdata.group(:oppskill).order(count_all: :desc).count
-    others_val = 0
-    skilllist = Array.new()
-    i = 0
-    oppskills.each{|key, value|
-      if !(key == "その他") && (i < 3) then
-        skilllist.push({"category" => key, "column-1" => value})
-        i += 1
-      else
-        others_val += value
-      end
-    }
-    if !(others_val == 0) then
-      skilllist.push({"category" => "その他", "column-1" => others_val})
-    end
-    gon.skilllist = skilllist
+    # oppskills = @oppdata.group(:oppskill).order(count_all: :desc).count
+    # others_val = 0
+    # skilllist = Array.new()
+    # i = 0
+    # oppskills.each{|key, value|
+    #   if !(key == "その他") && (i < 3) then
+    #     skilllist.push({"category" => key, "column-1" => value})
+    #     i += 1
+    #   else
+    #     others_val += value
+    #   end
+    # }
+    # if !(others_val == 0) then
+    #   skilllist.push({"category" => "その他", "column-1" => others_val})
+    # end
+    # gon.skilllist = skilllist
   end
 
   def delete

@@ -1,25 +1,25 @@
-<!-- Page Heading -->
-<div class="d-sm-flex align-items-center justify-content-between mb-4">
-    <% if @deck_image.has_key?(@deckName)%>
-        <%= image_tag asset_path("card/#{@deck_image[@deckName]}"), :size =>"128x128" %>
-    <% end %>
-    <h1 style="white-space: nowrap;  font-family: SmartFontUI;"><%= @deckName %></h1>
-</div>
+# <!-- Page Heading -->
+# <div class="d-sm-flex align-items-center justify-content-between mb-4">
+#     <% if @deck_image.has_key?(@deckName)%>
+#         <%= image_tag asset_path("card/#{@deck_image[@deckName]}"), :size =>"128x128" %>
+#     <% end %>
+#     <h1 style="white-space: nowrap;  font-family: SmartFontUI;"><%= @deckName %></h1>
+# </div>
 
-<div class="row">
-    <div class="col-12">
-    <div class="card shadow mb-4">
-        <!-- Card Header - Dropdown -->
-        <div class="card-header py-3">
-        <h6 class="m-0 font-weight-bold text-primary">スキル分布</h6>
-        </div>
-        <!-- Card Body -->
-        <div class="card-body">
-        <div id="skillchart" style="width: 100%; height: 300px; background-color: #FFFFFF;" ></div>
-        </div>
-    </div>
-    </div>
-</div>
+# <div class="row">
+#     <div class="col-12">
+#     <div class="card shadow mb-4">
+#         <!-- Card Header - Dropdown -->
+#         <div class="card-header py-3">
+#         <h6 class="m-0 font-weight-bold text-primary">スキル分布</h6>
+#         </div>
+#         <!-- Card Body -->
+#         <div class="card-body">
+#         <div id="skillchart" style="width: 100%; height: 300px; background-color: #FFFFFF;" ></div>
+#         </div>
+#     </div>
+#     </div>
+# </div>
 
 # <p><%= @skillHash %></p>
 # <p><%= @deckHash %></p>

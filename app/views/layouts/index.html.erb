@@ -1,8 +1,15 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <!-- Google Adsence -->
-    <script data-ad-client="ca-pub-7318595658997951" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-D54D6RF667"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-D54D6RF667');
+    </script>
     
     <title>KC Chart</title>
     <%= favicon_link_tag('favicon.ico') %>
@@ -36,7 +43,7 @@
         <nav class="navbar navbar-expand navbar-light topbar static-top" style="background-color: #4E73DF">
 
         <!-- Title -->
-        <a class="navbar-brand d-none d-sm-flex align-items-center justify-content-center pl-4" href="/">
+        <a class="navbar-brand d-none d-sm-flex align-items-center justify-content-center pl-2" href="/">
                 <%= image_tag asset_path("logo/logo2-2.png"), :height =>"48px" %>
                 <div class="index-title pb-1 text-white">KC Chart</div>
         </a>

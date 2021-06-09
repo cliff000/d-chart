@@ -62,15 +62,14 @@
                 :value => @defaultOppSkill=="自分で入力する" ? @selectedData.oppskill : "", :id => 'textfield_oppskill', :class => 'form-control' %>
         </div>
 
-        
+        <br>
         <% if @selectedData.victory == "勝ち" then %>
             <div class="form-group">
-                <label>勝敗</label>
-                <div class="form-check">
-                    <label><%= form.radio_button :victory, "勝ち", :class => 'form-check-input', checked: true%>勝ち</label>
-                </div>
-                <div class="form-check">
-                    <label><%= form.radio_button :victory, "負け", :class => 'form-check-input' %>負け</label>
+                <div class="form-group">
+                    <div class="tab-wrap">
+                        <%= form.radio_button :victory, "勝ち", :class => 'tab-switch', checked: true %><label class="tab-label1" for="match_victory_勝ち">勝ち</label>
+                        <%= form.radio_button :victory, "負け", :class => 'tab-switch' %><label class="tab-label2" for="match_victory_負け">負け</label>
+                    </div>
                 </div>
             </div>
         
@@ -83,12 +82,11 @@
             </div>
         <% else %>
             <div class="form-group">
-                <label>勝敗</label>
-                <div class="form-check">
-                    <label><%= form.radio_button :victory, "勝ち", :class => 'form-check-input' %>勝ち</label>
-                </div>
-                <div class="form-check">
-                    <label><%= form.radio_button :victory, "負け", :class => 'form-check-input', checked: true %>負け</label>
+                <div class="form-group">
+                    <div class="tab-wrap">
+                        <%= form.radio_button :victory, "勝ち", :class => 'tab-switch' %><label class="tab-label1" for="match_victory_勝ち">勝ち</label>
+                        <%= form.radio_button :victory, "負け", :class => 'tab-switch', checked: true %><label class="tab-label2" for="match_victory_負け">負け</label>
+                    </div>
                 </div>
             </div>
 

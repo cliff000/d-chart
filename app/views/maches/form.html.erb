@@ -54,6 +54,15 @@
         <font color='gray'>( <label id=changedDP></label> )</font>
     </div>
 
+    <div class="form-group">
+        <div class="tab-wrap">
+            <%= form.radio_button :order, "先行", :class => 'tab-switch' %><label class="tab-label1" for="match_order_先行">先行</label>
+            <%= form.radio_button :order, "後攻", :class => 'tab-switch' %><label class="tab-label2" for="match_order_後攻">後攻</label>
+        </div>
+    </div>
+
+    <br>
+
     <%= form.submit "送信", class:"btn btn-primary" %>
 <% end %>
 
@@ -117,28 +126,28 @@
 
     //DP変化の処理
     $('#match_dp').val(gon.lastdp + 1000)
-    $('#changedDP').text('増減値 +1000')
+    $('#changedDP').text('増減 +1000')
 
     $('#match_victory_勝ち').change(function(){
         $('#match_dp').val(gon.lastdp + 1000)
-        $('#changedDP').text('増減値 +1000')
+        $('#changedDP').text('増減 +1000')
     });
     $('#match_victory_負け').change(function(){
         if(gon.lastdp - 1000 < 0){
             $('#match_dp').val(0)
-            $('#changedDP').text('増減値 -' + String(gon.lastdp))
+            $('#changedDP').text('増減 -' + String(gon.lastdp))
         }else{
             $('#match_dp').val(gon.lastdp - 1000)
-            $('#changedDP').text('増減値 -1000')
+            $('#changedDP').text('増減 -1000')
         }
     });
     $('#match_dp').keyup(function(){
         var sub = $('#match_dp').val() - gon.lastdp
         if(sub > 0){
-            $('#changedDP').text('増減値 +' + String(sub))
+            $('#changedDP').text('増減 +' + String(sub))
             $('#match_victory_勝ち').prop('checked', true);
         }else{
-            $('#changedDP').text('増減値 ' + String(sub))
+            $('#changedDP').text('増減 ' + String(sub))
             $('#match_victory_負け').prop('checked', true);
         }
     });

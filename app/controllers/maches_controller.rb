@@ -480,7 +480,7 @@ class MachesController < ApplicationController
 
   private
   def match_params
-    params.require(:match).permit(:mydeck, :myskill, :oppdeck, :oppskill, :victory, :dp, :dpChanging)
+    params.require(:match).permit(:mydeck, :myskill, :oppdeck, :oppskill, :victory, :dp, :dpChanging, :order)
   end
 
   def dpUpdate

@@ -8,9 +8,29 @@
 <div class="row">
 
   <!-- Earnings (Monthly) Card Example -->
-  <div class="col-xl-6 mb-4">
+  <div class="col-xl-3 col-md-6 mb-4">
     <p>自分の戦績について図表化するページです</p>
   </div>
+
+  <% order_data = @data.where.not(order: nil) %>
+  <% if order_data.empty? then %>
+  <% else %>
+    <div class="col-xl-3 col-md-6 mb-4">
+      <div class="card border-left-danger shadow h-100 py-2">
+        <div class="card-body">
+          <div class="row no-gutters align-items-center">
+            <div class="col mr-2">
+              <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">先行率</div>
+                <%= (order_data.where(order: "先行").count.to_f * 100 / order_data.count).round(1) %>%
+              </div>
+            <div class="col-auto">
+              <i class="fas fa-dice fa-2x text-gray-300"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% end %>
 
   <div class="col-xl-3 col-md-6 mb-4">
     <div class="card border-left-primary shadow h-100 py-2">

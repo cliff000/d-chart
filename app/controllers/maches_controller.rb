@@ -422,15 +422,15 @@ class MachesController < ApplicationController
     end
 
     #相性表
-    # mysHash = @mydata.group(:myskill).count
-    # oppsHash = @oppdata.group(:oppskill).count
-    # skillHash = oppsHash.merge(mysHash) {|key, oldval, newval| oldval + newval}
-    # @skillHash = skillHash.sort_by { |_, v| -v }.to_h
+    mysHash = @mydata.group(:myskill).count
+    oppsHash = @oppdata.group(:oppskill).count
+    skillHash = oppsHash.merge(mysHash) {|key, oldval, newval| oldval + newval}
+    @skillHash = skillHash.sort_by { |_, v| -v }.to_h
 
-    # oppdHash = @mydata.group(:oppdeck).count
-    # mydHash = @oppdata.group(:mydeck).count
-    # deckHash = oppdHash.merge(mydHash) {|key, oldval, newval| oldval + newval}
-    # @deckHash = deckHash.sort_by { |_, v| -v }.to_h
+    oppdHash = @mydata.group(:oppdeck).count
+    mydHash = @oppdata.group(:mydeck).count
+    deckHash = oppdHash.merge(mydHash) {|key, oldval, newval| oldval + newval}
+    @deckHash = deckHash.sort_by { |_, v| -v }.to_h
 
     # doubleMy = @mydata.group(:myskill, :oppdeck).count
     # doubleOpp = @oppdata.group(:oppskill, :mydeck).count

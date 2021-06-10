@@ -432,9 +432,9 @@ class MachesController < ApplicationController
     deckHash = oppdHash.merge(mydHash) {|key, oldval, newval| oldval + newval}
     @deckHash = deckHash.sort_by { |_, v| -v }.to_h
 
-    # doubleMy = @mydata.group(:myskill, :oppdeck).count
-    # doubleOpp = @oppdata.group(:oppskill, :mydeck).count
-    # @doubleAll = doubleOpp.merge(doubleMy) {|key, oldval, newval| oldval + newval}
+    doubleMy = @mydata.group(:myskill, :oppdeck).count
+    doubleOpp = @oppdata.group(:oppskill, :mydeck).count
+    @doubleAll = doubleOpp.merge(doubleMy) {|key, oldval, newval| oldval + newval}
     # winData = @mydata.where(victory: "勝ち")
     # loseData = @oppdata.where(victory: "負け")
     # myWinHash = winData.group(:myskill).count

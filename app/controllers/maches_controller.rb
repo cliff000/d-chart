@@ -445,8 +445,8 @@ class MachesController < ApplicationController
     doubleAllWin = doubleOppWin.merge(doubleMyWin) {|key, oldval, newval| oldval + newval}
 
     @winRateHash = Hash.new { |h,k| h[k] = {} }
-    @skillArray = Hash.new
-    @deckArray = Hash.new
+    @skillArray = Array.new
+    @deckArray = Array.new
     i = 0
     j = 0
     skillHash.each{|key1, val1|

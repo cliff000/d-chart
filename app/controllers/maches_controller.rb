@@ -471,22 +471,22 @@ class MachesController < ApplicationController
     # @deckArray.push("総計")
 
     #スキルリスト
-    # oppskills = @oppdata.group(:oppskill).order(count_all: :desc).count
-    # others_val = 0
-    # skilllist = Array.new()
-    # i = 0
-    # oppskills.each{|key, value|
-    #   if !(key == "その他") && (i < 3) then
-    #     skilllist.push({"category" => key, "column-1" => value})
-    #     i += 1
-    #   else
-    #     others_val += value
-    #   end
-    # }
-    # if !(others_val == 0) then
-    #   skilllist.push({"category" => "その他", "column-1" => others_val})
-    # end
-    # gon.skilllist = skilllist
+    oppskills = @oppdata.group(:oppskill).order(count_all: :desc).count
+    others_val = 0
+    skilllist = Array.new()
+    i = 0
+    oppskills.each{|key, value|
+      if !(key == "その他") && (i < 3) then
+        skilllist.push({"category" => key, "column-1" => value})
+        i += 1
+      else
+        others_val += value
+      end
+    }
+    if !(others_val == 0) then
+      skilllist.push({"category" => "その他", "column-1" => others_val})
+    end
+    gon.skilllist = skilllist
   end
 
   def delete

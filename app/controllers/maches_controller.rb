@@ -450,7 +450,7 @@ class MachesController < ApplicationController
     i = 0
     j = 0
     skillHash.each{|key1, val1|
-      break if i > 3
+      break if i > 2
       j = 0
       deckHash.each{|key2, val2|
         break if j > 10
@@ -460,7 +460,9 @@ class MachesController < ApplicationController
         else
           @winRateHash[key1][key2] = -1
         end
-        @deckArray.push(key2)
+        if i == 0
+          @deckArray.push(key2)
+        end
         j += 1
       }
       win_num = allWinHash.has_key?(key1) ? allWinHash[key1] : 0

@@ -463,9 +463,9 @@ class MachesController < ApplicationController
       #   @deckArray.push(key2)
       #   j += 1
       # }
-      win_num = allWinHash.has_key?(key1) ? allWinHash[key1] : 0
-      @winRateHash[key1]["総計"] = (win_num * 100.to_f / val1).round(1)
-      @skillArray.push(key1)
+      # win_num = allWinHash.has_key?(key1) ? allWinHash[key1] : 0
+      # @winRateHash[key1]["総計"] = (win_num * 100.to_f / val1).round(1)
+      # @skillArray.push(key1)
       i += 1
     }
     @deckArray.push("総計")

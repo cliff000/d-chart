@@ -1,10 +1,10 @@
-# <!-- Page Heading -->
-# <div class="d-sm-flex align-items-center justify-content-between mb-4">
-#     <% if @deck_image.has_key?(@deckName)%>
-#         <%= image_tag asset_path("card/#{@deck_image[@deckName]}"), :size =>"128x128" %>
-#     <% end %>
-#     <h1 style="white-space: nowrap;  font-family: SmartFontUI;"><%= @deckName %></h1>
-# </div>
+<!-- Page Heading -->
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <% if @deck_image.has_key?(@deckName)%>
+        <%= image_tag asset_path("card/#{@deck_image[@deckName]}"), :size =>"128x128" %>
+    <% end %>
+    <h1 style="white-space: nowrap;  font-family: SmartFontUI;"><%= @deckName %></h1>
+</div>
 
 # <div class="row">
 #     <div class="col-12">

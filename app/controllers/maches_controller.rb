@@ -411,15 +411,15 @@ class MachesController < ApplicationController
   end
 
   def deckchart
-    # @deckName = URI.unescape(params[:deck])
-    # @mydata = Match.where(tag: kc()).where(created_at: datetime_detail()[0]..datetime_detail()[1]).where(mydeck: params[:deck])
-    # @oppdata = Match.where(tag: kc()).where(created_at: datetime_detail()[0]..datetime_detail()[1]).where(oppdeck: params[:deck])
+    @deckName = URI.unescape(params[:deck])
+    @mydata = Match.where(tag: kc()).where(created_at: datetime_detail()[0]..datetime_detail()[1]).where(mydeck: params[:deck])
+    @oppdata = Match.where(tag: kc()).where(created_at: datetime_detail()[0]..datetime_detail()[1]).where(oppdeck: params[:deck])
     
-    # #画像リスト読み込み
-    # @deck_image = {}
-    # File.open("#{Rails.root}/config_duellinks/deck_image.json") do |file|
-    #   @deck_image = JSON.load(file)
-    # end
+    #画像リスト読み込み
+    @deck_image = {}
+    File.open("#{Rails.root}/config_duellinks/deck_image.json") do |file|
+      @deck_image = JSON.load(file)
+    end
 
     #相性表
     # mysHash = @mydata.group(:myskill).count

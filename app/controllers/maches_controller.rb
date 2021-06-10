@@ -452,20 +452,20 @@ class MachesController < ApplicationController
     skillHash.each{|key1, val1|
       break if i > 3
       j = 0
-      # deckHash.each{|key2, val2|
-      #   break if j > 10
-      #   if doubleAll.has_key?([key1, key2])
-      #     win_num = doubleAllWin.has_key?([key1, key2]) ? doubleAllWin[[key1, key2]] : 0
-      #     @winRateHash[key1][key2] = (win_num * 100.to_f / doubleAll[[key1, key2]]).round(1)
-      #   else
-      #     @winRateHash[key1][key2] = -1
-      #   end
-      #   @deckArray.push(key2)
-      #   j += 1
-      # }
-      # win_num = allWinHash.has_key?(key1) ? allWinHash[key1] : 0
-      # @winRateHash[key1]["総計"] = (win_num * 100.to_f / val1).round(1)
-      # @skillArray.push(key1)
+      deckHash.each{|key2, val2|
+        break if j > 10
+        if doubleAll.has_key?([key1, key2])
+          win_num = doubleAllWin.has_key?([key1, key2]) ? doubleAllWin[[key1, key2]] : 0
+          @winRateHash[key1][key2] = (win_num * 100.to_f / doubleAll[[key1, key2]]).round(1)
+        else
+          @winRateHash[key1][key2] = -1
+        end
+        @deckArray.push(key2)
+        j += 1
+      }
+      win_num = allWinHash.has_key?(key1) ? allWinHash[key1] : 0
+      @winRateHash[key1]["総計"] = (win_num * 100.to_f / val1).round(1)
+      @skillArray.push(key1)
       i += 1
     }
     @deckArray.push("総計")

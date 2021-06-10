@@ -45,7 +45,7 @@
                 </tr>
                 <% @skillArray.each do |obj1| %>
                     <tr>
-                    <td cellpadding="5"><%= obj1 %></td>
+                    <td cellpadding="5"><%= image_tag "skill.png", :size =>"24x24" %> <%= obj1 %></td>
                     <% @deckArray.each do |obj2| %>
                         <% win_rate = @winRateHash[obj1][obj2] %>
                         <% if win_rate == -1 %>

@@ -422,27 +422,27 @@ class MachesController < ApplicationController
     end
 
     #相性表
-    # mysHash = @mydata.group(:myskill).count
-    # oppsHash = @oppdata.group(:oppskill).count
-    # skillHash = oppsHash.merge(mysHash) {|key, oldval, newval| oldval + newval}
-    # @skillHash = skillHash.sort_by { |_, v| -v }.to_h
+    mysHash = @mydata.group(:myskill).count
+    oppsHash = @oppdata.group(:oppskill).count
+    skillHash = oppsHash.merge(mysHash) {|key, oldval, newval| oldval + newval}
+    @skillHash = skillHash.sort_by { |_, v| -v }.to_h
 
-    # oppdHash = @mydata.group(:oppdeck).count
-    # mydHash = @oppdata.group(:mydeck).count
-    # deckHash = oppdHash.merge(mydHash) {|key, oldval, newval| oldval + newval}
-    # @deckHash = deckHash.sort_by { |_, v| -v }.to_h
+    oppdHash = @mydata.group(:oppdeck).count
+    mydHash = @oppdata.group(:mydeck).count
+    deckHash = oppdHash.merge(mydHash) {|key, oldval, newval| oldval + newval}
+    @deckHash = deckHash.sort_by { |_, v| -v }.to_h
 
-    # doubleMy = @mydata.group(:myskill, :oppdeck).count
-    # doubleOpp = @oppdata.group(:oppskill, :mydeck).count
-    # @doubleAll = doubleOpp.merge(doubleMy) {|key, oldval, newval| oldval + newval}
-    # winData = @mydata.where(victory: "勝ち")
-    # loseData = @oppdata.where(victory: "負け")
-    # myWinHash = winData.group(:myskill).count
-    # oppWinHash = loseData.group(:oppskill).count
-    # allWinHash = oppWinHash.merge(myWinHash) {|key, oldval, newval| oldval + newval}
-    # doubleMyWin = winData.group(:myskill, :oppdeck).count
-    # doubleOppWin = loseData.group(:oppskill, :mydeck).count
-    # @doubleAllWin = doubleOppWin.merge(doubleMyWin) {|key, oldval, newval| oldval + newval}
+    doubleMy = @mydata.group(:myskill, :oppdeck).count
+    doubleOpp = @oppdata.group(:oppskill, :mydeck).count
+    @doubleAll = doubleOpp.merge(doubleMy) {|key, oldval, newval| oldval + newval}
+    winData = @mydata.where(victory: "勝ち")
+    loseData = @oppdata.where(victory: "負け")
+    myWinHash = winData.group(:myskill).count
+    oppWinHash = loseData.group(:oppskill).count
+    allWinHash = oppWinHash.merge(myWinHash) {|key, oldval, newval| oldval + newval}
+    doubleMyWin = winData.group(:myskill, :oppdeck).count
+    doubleOppWin = loseData.group(:oppskill, :mydeck).count
+    @doubleAllWin = doubleOppWin.merge(doubleMyWin) {|key, oldval, newval| oldval + newval}
 
     # @winRateHash = Hash.new { |h,k| h[k] = {} }
     # @skillArray = Hash.new
@@ -471,22 +471,22 @@ class MachesController < ApplicationController
     # @deckArray.push("総計")
 
     #スキルリスト
-    # oppskills = @oppdata.group(:oppskill).order(count_all: :desc).count
-    # others_val = 0
-    # skilllist = Array.new()
-    # i = 0
-    # oppskills.each{|key, value|
-    #   if !(key == "その他") && (i < 3) then
-    #     skilllist.push({"category" => key, "column-1" => value})
-    #     i += 1
-    #   else
-    #     others_val += value
-    #   end
-    # }
-    # if !(others_val == 0) then
-    #   skilllist.push({"category" => "その他", "column-1" => others_val})
-    # end
-    # gon.skilllist = skilllist
+    oppskills = @oppdata.group(:oppskill).order(count_all: :desc).count
+    others_val = 0
+    skilllist = Array.new()
+    i = 0
+    oppskills.each{|key, value|
+      if !(key == "その他") && (i < 3) then
+        skilllist.push({"category" => key, "column-1" => value})
+        i += 1
+      else
+        others_val += value
+      end
+    }
+    if !(others_val == 0) then
+      skilllist.push({"category" => "その他", "column-1" => others_val})
+    end
+    gon.skilllist = skilllist
   end
 
   def delete

@@ -6,6 +6,7 @@ default: &default
   password: <%= ENV.fetch('MYSQL_PASSWORD') %>
   database: <%= ENV.fetch('MYSQL_DATABASE') %>
   host: <%= ENV.fetch('MYSQL_HOST') %>
+  socket: <%= ENV.fetch('MYSQL_SOCKET') %>
 
 development:
   <<: *default

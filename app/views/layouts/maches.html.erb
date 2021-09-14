@@ -138,8 +138,12 @@
             <% else %>
               <a class="nav-link" href="/chart/<%= URI.escape(obj[1]) %>/">
             <% end %>
-                <%= obj[0] %>
-              </a>
+            <!-- 表示する画像と文字 -->
+            <% if @deck_image.has_key?(obj)%>
+              <%= image_tag asset_path("card/#{@deck_image[obj]}"), :size =>"32x32" %>
+            <% end %>
+            <div class="d-none d-sm-inline-block"><%= obj[0] %><div></a>
+            
           </li>
         <% end %>
       <% end %>
@@ -216,6 +220,7 @@
                 <li><button class="dropdown-item select_kc" value="KC2021Feb">KC2021Feb</button></li>
                 <li><button class="dropdown-item select_kc" value="KC2021Apr">KC2021Apr</button></li>
                 <li><button class="dropdown-item select_kc" value="KCGT2021">KCGT2021</button></li>
+                <li><button class="dropdown-item select_kc" value="KC2021Sep">KC2021Sep</button></li>
                 <!-- <li><button class="dropdown-item select_kc" value="create">新しく作る</button></li> -->
               </ul>
             </div>

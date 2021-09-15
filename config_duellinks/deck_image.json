@@ -1,9 +1,7 @@
 {
     "HERO":"hero.jpg", 
     "ES召喚獣":"elementsaber.jpg", 
-    "サイドラ":"cyber-dragon.jpg",
     "サイバー・ドラゴン":"cyber-dragon.jpg",
-    "ブラマジ":"black-magician.jpg",
     "ブラック・マジシャン":"black-magician.jpg",
     "BF":"blackwing.jpg",
     "青眼":"blue-eyes.jpg",
@@ -26,7 +24,6 @@
     "ヴェンデット":"vendread.jpg",
     "超重武者":"superheavy_samurai.jpg",
     "魔妖":"mayakashi.jpg",
-    "ライロ":"Lightsworn.jpg",
     "ライトロード":"Lightsworn.jpg",
     "害悪":"lava_golem.jpg",
     "カラクリ":"karakuri.jpg",
@@ -35,9 +32,7 @@
     "デスぺ":"desperado.jpg",
     "デスペラード":"desperado.jpg",
     "DD":"dd.jpg",
-    "DDD":"dd.jpg",
     "アロマ":"aroma.jpg",
-    "アロマージ":"aroma.jpg",
     "メガリス":"megalith.jpg",
     "罠不知火":"trap_shiranui.png",
     "語不知火":"story_shiranui.png",
@@ -58,5 +53,8 @@
     "TG":"tg.jpg",
     "リゾネーター":"resonator.jpg",
     "シューティング・スター":"shooting-star.jpg",
-    "ガイア":"gaia.jpg"
+    "ガイア":"gaia.jpg",
+    "恐竜TG":"dinosaur_tg.png",
+    "先史遺産":"chronomaly.jpg",
+    "ギミック・パペット":"gimmick-puppet.jpg"
 } 

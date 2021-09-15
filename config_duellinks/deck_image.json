@@ -29,7 +29,6 @@
     "カラクリ":"karakuri.jpg",
     "30不知火":"grass.jpg",
     "剛鬼":"gouki.jpg",
-    "デスぺ":"desperado.jpg",
     "デスペラード":"desperado.jpg",
     "DD":"dd.jpg",
     "アロマ":"aroma.jpg",
@@ -39,7 +38,6 @@
     "ガール召喚獣":"girl_invoked.png",
     "ロイド召喚獣":"roid_invoked.png",
     "サンダー・ドラゴン":"thunder-dragon.jpg",
-    "サンドラ":"thunder-dragon.jpg",
     "聖騎士":"noble-knights.jpg",
     "炎王":"fire-king.jpg",
     "オノマト":"onomat.jpg",
@@ -56,5 +54,6 @@
     "ガイア":"gaia.jpg",
     "恐竜TG":"dinosaur_tg.png",
     "先史遺産":"chronomaly.jpg",
-    "ギミック・パペット":"gimmick-puppet.jpg"
+    "ギミック・パペット":"gimmick-puppet.jpg",
+    "磁石の戦士":"magnet-warrior.jpg"
 } 

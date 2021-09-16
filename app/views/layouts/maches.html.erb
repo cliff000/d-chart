@@ -133,12 +133,7 @@
       <% deckList().each do |obj| %>
         <% if obj[0] != nil %>
           <li class="nav-item">
-            <% if obj[1] == nil %>
-              <a class="nav-link" href="/chart/<%= URI.escape(obj[0]) %>/">
-            <% else %>
-              <a class="nav-link" href="/chart/<%= URI.escape(obj[1]) %>/">
-            <% end %>
-            <%= obj[0] %></a>
+            <a class="nav-link" href="/chart/<%= URI.escape(obj[1]) %>/"><%= obj[0] %></a>
           </li>
         <% end %>
       <% end %>

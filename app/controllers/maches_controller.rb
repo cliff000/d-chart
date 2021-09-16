@@ -383,11 +383,13 @@ class MachesController < ApplicationController
     @defaultMySkill = "自分で入力する"
     @defaultOppDeck = "自分で入力する"
     @defaultOppSkill = "自分で入力する"
+    deckname = ""
     @decks.each do |obj|
-      if obj[0] == @selectedData.mydeck
+      deckname = (obj[1] == nil) ? obj[0] : obj[1]
+      if deckname == @selectedData.mydeck
         @defaultMyDeck = @selectedData.mydeck
       end
-      if obj[0] == @selectedData.oppdeck
+      if deckname == @selectedData.oppdeck
         @defaultOppDeck = @selectedData.oppdeck
       end
     end

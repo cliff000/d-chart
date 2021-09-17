@@ -32,7 +32,8 @@ class MachesController < ApplicationController
       gon.lastdp = 0
     else
       @decks.each do |obj|
-        if obj[0] == @lastData.mydeck
+        deckname = (obj[1] == nil) ? obj[0] : obj[1]
+        if deckname == @lastData.mydeck
           @defaultDeck = @lastData.mydeck
           break
         end

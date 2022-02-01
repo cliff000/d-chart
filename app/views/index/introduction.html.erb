@@ -1,15 +1,18 @@
 <!-- Masthead-->
-<header class="masthead" bgcolor="white">
-    <div class="container">
+<header class="masthead">
+    <div class="container" bgcolor="white">
         <div class="row justify-content-center">
-            <div class="col-12">
+            <div class="col-lg-6">
                 <!-- Page heading-->
-                <h1 class="mb-5"><b><font color="blue">KCカップ</font>の<font color="blue">対戦データ</font>を<br>まとめて<font color="blue">図表化</font></b></h1>
+                <h1 class="mb-5"><font face=sans-serif><font color="blue">KCカップ</font>の<font color="blue">対戦データ</font>を<br>まとめて<font color="blue">図表化</font></font></h1>
                 <div class="mb-5">
                     ユーザー登録だけで、簡単に記録、閲覧が行えます<br>
-                    過去のデータは<a href="/past_kc" class="red-link">こちら</a>から
+                    過去のデータは<a href="/past_kc">こちら</a>から閲覧できます
                 </div>
-                <%= link_to "　新規登録　", new_account_registration_path, class: 'btn btn--green btn--radius btn--cubic' %>
+                <%= link_to "新規登録", new_account_registration_path, class: 'button04' %>
+            </div>
+            <div class="col-lg-6">
+                <%= asset_path("index/chart.jpg") %>
             </div>
         </div>
     </div>
@@ -73,22 +76,37 @@ hr.style15:after {
     color: #FF9933;
 }
 
-a.btn--green.btn--cubic {
-    border-bottom: 5px solid #009D5B;
+.button04 a {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0 auto;
+    padding: 1em 2em;
+    width: 300px;
+    color: #009D5B;
+    font-size: 18px;
+    font-weight: 700;
+    border: 3px solid #a0c4d3;
+    border-radius: 10px;
 }
 
-a.btn--green.btn--cubic:hover {
-    margin-top: 3px;
-    border-bottom: 2px solid #009D5B;
+.button04 a::after {
+    content: '';
+    width: 5px;
+    height: 5px;
+    border-top: 3px solid #009D5B;
+    border-right: 3px solid #009D5B;
+    transform: rotate(45deg);
 }
 
-a.btn--radius {
-    border-radius: 100vh;
+.button04 a:hover {
+    color: #333333;
+    text-decoration: none;
+    background-color: #a0c4d3;
 }
 
-.fa-position-right {
-    position: absolute;
-    top: calc(50% - .5em);
-    right: 1rem;
+.button04 a:hover::after {
+    border-top: 3px solid #333333;
+    border-right: 3px solid #333333;
 }
 </style>

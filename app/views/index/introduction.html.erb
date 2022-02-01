@@ -1,13 +1,15 @@
 <!-- Masthead-->
-<header class="masthead">
+<header class="masthead" bgcolor="white">
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-12">
                 <!-- Page heading-->
-                <h1 class="mb-5"><font color="blue">KCカップ</font>の<font color="blue">対戦データ</font>を<br>まとめて<font color="blue">図表化</font></h1>
-                <h4 class="mb-5">ユーザー登録だけで、簡単に記録、閲覧が行えます</h4>
-                <h4 class="mb-5">過去のデータは<a href="/past_kc">こちら</a>から</h4>
-                <a href="" class="btn btn--green btn--radius btn--cubic">新規登録<i class="fas fa-angle-right fa-position-right"></i></a>
+                <h1 class="mb-5"><b><font color="blue">KCカップ</font>の<font color="blue">対戦データ</font>を<br>まとめて<font color="blue">図表化</font></b></h1>
+                <div class="mb-5">
+                    ユーザー登録だけで、簡単に記録、閲覧が行えます<br>
+                    過去のデータは<a href="/past_kc" class="red-link">こちら</a>から
+                </div>
+                <%= link_to "　新規登録　", new_account_registration_path, class: 'btn btn--green btn--radius btn--cubic' %>
             </div>
         </div>
     </div>
@@ -72,12 +74,12 @@ hr.style15:after {
 }
 
 a.btn--green.btn--cubic {
-    border-bottom: 5px solid #9f000c;
+    border-bottom: 5px solid #009D5B;
 }
 
 a.btn--green.btn--cubic:hover {
     margin-top: 3px;
-    border-bottom: 2px solid #9f000c;
+    border-bottom: 2px solid #009D5B;
 }
 
 a.btn--radius {

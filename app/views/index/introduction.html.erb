@@ -9,7 +9,7 @@
                     ユーザー登録だけで、簡単に記録と閲覧が行えます<br>
                     過去のデータは<a href="/past_kc">こちら</a>から閲覧できます
                 </div>
-                <%= link_to "新規登録", new_account_registration_path, class: 'btn button04' %>
+                <%= link_to "新規登録", new_account_registration_path, class: 'btn btn_03' %>
             </div>
             <div class="col-lg-6 order-lg-2 showcase-img" style="background-image: url(<%= asset_path("index/chart.png") %>)"></div>
         </div>
@@ -74,37 +74,45 @@ hr.style15:after {
     color: #FF9933;
 }
 
-.button04 a {
+a.btn_03 {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
-    margin: 0 auto;
-    padding: 1em 2em;
-    width: 300px;
-    color: #009D5B;
-    font-size: 18px;
-    font-weight: 700;
-    border: 3px solid #a0c4d3;
-    border-radius: 10px;
-}
-
-.button04 a::after {
-    content: '';
-    width: 5px;
-    height: 5px;
-    border-top: 3px solid #009D5B;
-    border-right: 3px solid #009D5B;
-    transform: rotate(45deg);
-}
-
-.button04 a:hover {
-    color: #333333;
+    width: 100%;
+    height: 50px;
+    position: relative;
+    background: #009D5B;
+    border: 1px solid #009D5B;
+    border-radius: 30px;
+    box-sizing: border-box;
+    padding: 0 45px 0 25px;
+    color: #fff;
+    font-size: 16px;
+    letter-spacing: 0.1em;
+    line-height: 1.3;
+    text-align: left;
     text-decoration: none;
-    background-color: #a0c4d3;
+    transition-duration: 0.3s;
 }
-
-.button04 a:hover::after {
-    border-top: 3px solid #333333;
-    border-right: 3px solid #333333;
+a.btn_03:before {
+    content: '';
+    width: 8px;
+    height: 8px;
+    border: 0;
+    border-top: 2px solid #fff;
+    border-right: 2px solid #fff;
+    transform: rotate(45deg);
+    position: absolute;
+    top: 50%;
+    right: 25px;
+    margin-top: -6px;
+}
+a.btn_03:hover {
+    background: #fff;
+    color: #009D5B;
+}
+a.btn_03:hover:before {
+    border-top: 2px solid #009D5B;
+    border-right: 2px solid #009D5B;
 }
 </style>

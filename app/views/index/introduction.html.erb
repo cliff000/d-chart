@@ -3,11 +3,11 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-12">
-                <div class="text-center">
-                    <!-- Page heading-->
-                    <h1 class="mb-5">KC ChartはKCカップの対戦データを記録し、図表化するためのサイトです</h1>
-                    <h1 class="mb-5">ユーザー登録だけで、簡単に記録、閲覧が行えます</h1>
-                </div>
+                <!-- Page heading-->
+                <h1 class="mb-5"><font color="blue">KCカップ</font>の<font color="blue">対戦データ</font>を<br>まとめて<font color="blue">図表化</font></h1>
+                <h4 class="mb-5">ユーザー登録だけで、簡単に記録、閲覧が行えます</h4>
+                <h4 class="mb-5">過去のデータは<a href="/past_kc">こちら</a>から</h4>
+                <a href="" class="btn btn--green btn--radius btn--cubic">新規登録<i class="fas fa-angle-right fa-position-right"></i></a>
             </div>
         </div>
     </div>
@@ -34,8 +34,7 @@
             <div class="col-lg-6 order-lg-2 text-white showcase-img" style="background-image: url(<%= asset_path("index/totalpage.png") %>)"></div>
             <div class="col-lg-6 order-lg-1 my-auto showcase-text" style="color:#ffffff;">
                 <h2>トータルページ</h2>
-                <p class="lead mb-0">全ユーザーの記録がまとめられて図表化されています。日付やDP帯ごとに絞り込みができるので環境の動向が分かりやすいです。</p><br>
-                <p class="lead mb-0"> 過去のデータは<a href="/past_kc" class="red-link">こちら</a>から見れます。<p>
+                <p class="lead mb-0">全ユーザーの記録がまとめられて図表化されています。日付やDP帯ごとに絞り込みができるので環境の動向がよく分かります。</p><br>
             </div>
         </div>
     </div>
@@ -70,5 +69,24 @@ hr.style15:after {
 }
 .red-link:hover {
     color: #FF9933;
+}
+
+a.btn--green.btn--cubic {
+    border-bottom: 5px solid #9f000c;
+}
+
+a.btn--green.btn--cubic:hover {
+    margin-top: 3px;
+    border-bottom: 2px solid #9f000c;
+}
+
+a.btn--radius {
+    border-radius: 100vh;
+}
+
+.fa-position-right {
+    position: absolute;
+    top: calc(50% - .5em);
+    right: 1rem;
 }
 </style>

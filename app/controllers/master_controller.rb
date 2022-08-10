@@ -321,8 +321,6 @@ class MasterController < ApplicationController
         win_num = doubleAllWin.has_key?([key1, key2]) ? doubleAllWin[[key1, key2]] : 0
         if doubleAll.has_key?([key1, key2])
           @winRateHash[key1][key2] = (win_num * 100.to_f / doubleAll[[key1, key2]]).round(1)
-        else
-          @winRateHash[key1][key2] = -1
         end
         j += 1
       }

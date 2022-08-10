@@ -1,0 +1,2 @@
+class MasterMatch < ApplicationRecord
+end

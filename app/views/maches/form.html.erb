@@ -1,13 +1,8 @@
-<h1>対戦の記録</h1>
-<p>対戦結果を保存するためのページです</p>
-
-
+<h1>Record</h1>
 <!-- 日付が範囲外だと警告を出す -->
-<% if @now < @kcRange[0] || @now > @kcRange[1] %>
-    <script>
-        alert('選択中のKCカップは時間外ですので注意してください\nKCカップは右上から切り替え出来ます');
-    </script>
-<% end %>
+<p><% if @inKC == false %>
+    <font color="red">※デュエリストカップ2ndStageの開催時間外です。注意してください。</font>
+<% end %></p>
 
 <%= form_for(@match, url:{controller:'maches', action:'create'}) do |form| %>
     <div class="form-group">
@@ -151,5 +146,7 @@
         }
     });
     
+    // 絞り込みを非表示
+    document.getElementById("searchButton").setAttribute("disabled", true);
 </script>
 

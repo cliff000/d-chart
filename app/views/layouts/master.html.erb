@@ -36,9 +36,8 @@
     <script type="text/javascript" src="https://www.amcharts.com/lib/3/pie.js"></script>
     <script type="text/javascript" src="https://www.amcharts.com/lib/3/serial.js"></script>
 
-    <script src="hierarchy-select.min.js"></script>
-    <link rel="stylesheet" href="pygments.css">
-    <link rel="stylesheet" href="hierarchy-select.min.css">
+    <!-- hierarchy-select -->
+    <%= javascript_include_tag asset_path("hierarchy-select/hierarchy-select.min.js") %>
 
     <style>
       .table-fixed th:first-child, td:first-child {
@@ -87,6 +86,7 @@
   </head>
 
   <body>
+
   <!-- Page Wrapper -->
   <div id="wrapper">
 
@@ -127,28 +127,6 @@
           <i class="fas fa-fw fa-users"></i>
           <span>Total Page</span></a>
       </li>
-
-      <!-- Divider -->
-      <hr class="sidebar-divider my-0">
-
-      <!-- Heading -->
-      <div class="sidebar-heading">
-        Decks
-      </div>
-
-      <!-- デッキリスト -->
-      <% deckList().each do |obj| %>
-        <% if obj[0] != nil %>
-          <li class="nav-item">
-            <% if obj[1] == nil %>
-              <a class="nav-link" href="./<%= URI.escape(obj[0]) %>">
-            <% else %>
-              <a class="nav-link" href="./<%= URI.escape(obj[1]) %>">
-            <% end %>
-            <%= obj[0] %></a>
-          </li>
-        <% end %>
-      <% end %>
 
       <!-- Divider -->
       <hr class="sidebar-divider d-none d-md-block">
@@ -198,9 +176,9 @@
 
             <div class="topbar-divider d-none d-sm-block"></div>
 
-            <!-- KC選択 -->
+            <!-- DC選択 -->
             <div class="dropdown">
-              <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="kc-dropdown"><%= kc() %></button>
+              <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="kc-dropdown"><%= dc() %></button>
               <ul class="dropdown-menu dropdown-menu-right">
                 <!-- <li><button class="dropdown-item select_kc_links" value="KCGT2020">KCGT2020</button></li>
                 <li><button class="dropdown-item select_kc_links" value="KC2020Sep">KC2020Sep</button></li> -->
@@ -218,10 +196,10 @@
                 <li><button class="dropdown-item select_kc_master" value="DC2022Aug">Duelist Cup</button></li>
               </ul>
             </div>
-            <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#searchModal">絞り込み</button>
+            <button type="button" class="btn btn-outline-primary" id="searchButton" data-toggle="modal" data-target="#searchModal">絞り込み</button>
 
             <script>
-              <!-- KC選択のスクリプト -->
+              <!-- DC選択のスクリプト -->
               $(function(){
                 $('.select_kc_links').click(function(){
                   var path = location.pathname.split('/');
@@ -268,6 +246,7 @@
 
     </div>
     <!-- End of Content Wrapper -->
+
   </div>
   <!-- End of Page Wrapper -->
 
@@ -285,12 +264,12 @@
           <p>
           <div class="form-group">
             <div class="tab-wrap">
-              <% if @order == "先行" %>
+              <% if @order == "first" %>
                 <input type="checkbox" id="checkbox_first" class="tab-switch" checked><label class="tab-label1" for="checkbox_first">先行</label>
               <% else %>
                 <input type="checkbox" id="checkbox_first" class="tab-switch"><label class="tab-label1" for="checkbox_first">先行</label>
               <% end %>
-              <% if @order == "後攻" %>
+              <% if @order == "second" %>
                 <input type="checkbox" id="checkbox_second" class="tab-switch" checked><label class="tab-label2" for="checkbox_second">後攻</label>
               <% else %>
                 <input type="checkbox" id="checkbox_second" class="tab-switch"><label class="tab-label2" for="checkbox_second">後攻</label>
@@ -322,10 +301,10 @@
       $('#search').click(function(){
         search = 'dpMin='+$('#dpMin').val()+'&dpMax='+$('#dpMax').val()+'&timeMin='+$('#timeMin').val()+'&timeMax='+$('#timeMax').val();
         if(checkbox_first.checked && !checkbox_second.checked){
-          search = search + "&order=先行";
+          search = search + "&order=first";
         }
         if(!checkbox_first.checked && checkbox_second.checked){
-          search = search + "&order=後攻";
+          search = search + "&order=second";
         }
         location.search = search;
       })
@@ -345,3 +324,4 @@
 
   </body>
 </html>
+

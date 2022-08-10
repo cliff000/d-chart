@@ -29,7 +29,7 @@ AmCharts.makeChart("dpline_mychart",
     "valueAxes": [
         {
             "id": "ValueAxis-1",
-            "title": "DP"
+            "usePrefixes": "true"
         }
     ],
     "allLabels": [],

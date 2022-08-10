@@ -31,20 +31,13 @@
     </div><!-- /.modal -->
     <br>
 
-    <%= form_for(@selectedData, url:{controller:'maches', action:'update'}) do |form| %>
+    <%= form_for(@selectedData, url:{controller:'master', action:'update'}) do |form| %>
         <div class="form-group">
             <label>自分のデッキ</label>
             <%= form.select :mydeck, @decks,
                 {selected: @defaultMyDeck}, {class: 'form-control'} %>
             <%= form.text_field :mydeck, :placeholder => "デッキ名", 
                 :value => @defaultMyDeck=="自分で入力する" ? @selectedData.mydeck : "", :id => 'textfield_mydeck', :class => 'form-control' %>
-        </div>
-        <div class="form-group">
-            <label>自分のスキル</label>
-            <%= form.select :myskill, @skills,
-                {selected: @defaultMySkill}, {class: 'form-control'} %>
-            <%= form.text_field :myskill, :placeholder => "スキル名",
-                :value => @defaultMySkill=="自分で入力する" ? @selectedData.myskill : "", :id => 'textfield_myskill', :class => 'form-control' %>
         </div>
         
         <div class="form-group">
@@ -54,21 +47,13 @@
             <%= form.text_field :oppdeck, :placeholder => "デッキ名",
                 :value => @defaultOppDeck=="自分で入力する" ? @selectedData.oppdeck : "", :id => 'textfield_oppdeck', :class => 'form-control' %>
         </div>
-        <div class="form-group">
-            <label>相手のスキル</label>
-            <%= form.select :oppskill, @skills,
-                {selected: @defaultOppSkill}, {class: 'form-control'} %>
-            <%= form.text_field :oppskill, :placeholder => "スキル名",
-                :value => @defaultOppSkill=="自分で入力する" ? @selectedData.oppskill : "", :id => 'textfield_oppskill', :class => 'form-control' %>
-        </div>
-
         <br>
-        <% if @selectedData.victory == "勝ち" then %>
+        <% if @selectedData.victory == "win" then %>
             <div class="form-group">
                 <div class="form-group">
                     <div class="tab-wrap">
-                        <%= form.radio_button :victory, "勝ち", :class => 'tab-switch', checked: true %><label class="tab-label1" for="match_victory_勝ち">勝ち</label>
-                        <%= form.radio_button :victory, "負け", :class => 'tab-switch' %><label class="tab-label2" for="match_victory_負け">負け</label>
+                        <%= form.radio_button :victory, "win", :class => 'tab-switch', checked: true %><label class="tab-label1" for="master_match_victory_win">勝ち</label>
+                        <%= form.radio_button :victory, "lose", :class => 'tab-switch' %><label class="tab-label2" for="master_match_victory_lose">負け</label>
                     </div>
                 </div>
             </div>
@@ -84,8 +69,8 @@
             <div class="form-group">
                 <div class="form-group">
                     <div class="tab-wrap">
-                        <%= form.radio_button :victory, "勝ち", :class => 'tab-switch' %><label class="tab-label1" for="match_victory_勝ち">勝ち</label>
-                        <%= form.radio_button :victory, "負け", :class => 'tab-switch', checked: true %><label class="tab-label2" for="match_victory_負け">負け</label>
+                        <%= form.radio_button :victory, "win", :class => 'tab-switch' %><label class="tab-label1" for="master_match_victory_win">勝ち</label>
+                        <%= form.radio_button :victory, "lose", :class => 'tab-switch', checked: true %><label class="tab-label2" for="master_match_victory_lose">負け</label>
                     </div>
                 </div>
             </div>
@@ -102,14 +87,14 @@
         <div class="form-group">
             <div class="tab-wrap">
                 <% if @selectedData.order == nil %>
-                    <%= form.radio_button :order, "先行", :class => 'tab-switch' %><label class="tab-label1" for="match_order_先行">先行</label>
-                    <%= form.radio_button :order, "後攻", :class => 'tab-switch' %><label class="tab-label2" for="match_order_後攻">後攻</label>
-                <% elsif @selectedData.order == "先行" %>
-                    <%= form.radio_button :order, "先行", :class => 'tab-switch', checked: true %><label class="tab-label1" for="match_order_先行">先行</label>
-                    <%= form.radio_button :order, "後攻", :class => 'tab-switch' %><label class="tab-label2" for="match_order_後攻">後攻</label>
+                    <%= form.radio_button :order, "first", :class => 'tab-switch' %><label class="tab-label1" for="master_match_order_first">先行</label>
+                    <%= form.radio_button :order, "second", :class => 'tab-switch' %><label class="tab-label2" for="master_match_order_second">後攻</label>
+                <% elsif @selectedData.order == "first" %>
+                    <%= form.radio_button :order, "first", :class => 'tab-switch', checked: true %><label class="tab-label1" for="master_match_order_first">先行</label>
+                    <%= form.radio_button :order, "second", :class => 'tab-switch' %><label class="tab-label2" for="master_match_order_second">後攻</label>
                 <% else %>
-                    <%= form.radio_button :order, "先行", :class => 'tab-switch' %><label class="tab-label1" for="match_order_先行">先行</label>
-                    <%= form.radio_button :order, "後攻", :class => 'tab-switch', checked: true %><label class="tab-label2" for="match_order_後攻">後攻</label>
+                    <%= form.radio_button :order, "first", :class => 'tab-switch' %><label class="tab-label1" for="master_match_order_first">先行</label>
+                    <%= form.radio_button :order, "second", :class => 'tab-switch', checked: true %><label class="tab-label2" for="master_match_order_second">後攻</label>
                 <% end %>
             </div>
         </div>
@@ -139,14 +124,12 @@
 
 <script>
     //「自分で入力する」以外ならテキストボックスを無効化
-    if($('#match_mydeck').val() != "自分で入力する"){ $('#textfield_mydeck').prop('disabled', true);  $('#textfield_mydeck').hide();}
-    if($('#match_myskill').val() != "自分で入力する"){ $('#textfield_myskill').prop('disabled', true); $('#textfield_myskill').hide();}
-    if($('#match_oppdeck').val() != "自分で入力する"){ $('#textfield_oppdeck').prop('disabled', true); $('#textfield_oppdeck').hide();}
-    if($('#match_oppskill').val() != "自分で入力する"){ $('#textfield_oppskill').prop('disabled', true); $('#textfield_oppskill').hide();}
+    if($('#master_match_mydeck').val() != "自分で入力する"){ $('#textfield_mydeck').prop('disabled', true);  $('#textfield_mydeck').hide();}
+    if($('#master_match_oppdeck').val() != "自分で入力する"){ $('#textfield_oppdeck').prop('disabled', true); $('#textfield_oppdeck').hide();}
 
-    $('#match_mydeck').change(function(){
+    $('#master_match_mydeck').change(function(){
         //「自分で入力する」ならテキストボックス表示
-        if($('#match_mydeck').val() == "自分で入力する"){
+        if($('#master_match_mydeck').val() == "自分で入力する"){
             $('#textfield_mydeck').prop('disabled', false);
             $('#textfield_mydeck').show();
         }else{
@@ -154,19 +137,9 @@
             $('#textfield_mydeck').hide();
         }
     });
-    $('#match_myskill').change(function(){
+    $('#master_match_oppdeck').change(function(){
         //「自分で入力する」ならテキストボックス表示
-        if($('#match_myskill').val() == "自分で入力する"){
-            $('#textfield_myskill').prop('disabled', false);
-            $('#textfield_myskill').show();
-        }else{
-            $('#textfield_myskill').prop('disabled', true);
-            $('#textfield_myskill').hide();
-        }
-    });
-    $('#match_oppdeck').change(function(){
-        //「自分で入力する」ならテキストボックス表示
-        if($('#match_oppdeck').val() == "自分で入力する"){
+        if($('#master_match_oppdeck').val() == "自分で入力する"){
             $('#textfield_oppdeck').prop('disabled', false);
             $('#textfield_oppdeck').show();
         }else{
@@ -174,42 +147,32 @@
             $('#textfield_oppdeck').hide();
         }
     });
-    $('#match_oppskill').change(function(){
-        //「自分で入力する」ならテキストボックス表示
-        if($('#match_oppskill').val() == "自分で入力する"){
-            $('#textfield_oppskill').prop('disabled', false);
-            $('#textfield_oppskill').show();
-        }else{
-            $('#textfield_oppskill').prop('disabled', true);
-            $('#textfield_oppskill').hide();
-        }
-    });
 
     //DP変化の処理
-    $('#match_victory_勝ち').change(function(){
+    $('#master_match_victory_win').change(function(){
         $('#pm').text('( 増減値 +')
-        $('#match_dp').val(gon.preDP + gon.dpChanging)
-        $('#match_dpChanging').val(gon.dpChanging)
+        $('#master_match_dp').val(gon.preDP + gon.dpChanging)
+        $('#master_match_dpChanging').val(gon.dpChanging)
     });
-    $('#match_victory_負け').change(function(){
+    $('#master_match_victory_lose').change(function(){
         $('#pm').text('( 増減値 -')
         if(gon.preDP - gon.dpChanging < 0){
-            $('#match_dp').val(0)
-            $('#match_dpChanging').val(gon.preDP)
+            $('#master_match_dp').val(0)
+            $('#master_match_dpChanging').val(gon.preDP)
         }else{
-            $('#match_dp').val(gon.preDP - gon.dpChanging)
-            $('#match_dpChanging').val(gon.dpChanging)
+            $('#master_match_dp').val(gon.preDP - gon.dpChanging)
+            $('#master_match_dpChanging').val(gon.dpChanging)
         }
     });
-    $('#match_dp').keyup(function(){
-        var sub = $('#match_dp').val() - gon.preDP
+    $('#master_match_dp').keyup(function(){
+        var sub = $('#master_match_dp').val() - gon.preDP
         if(sub > 0){
-            $('#match_dpChanging').val(sub)
-            $('#match_victory_勝ち').prop('checked', true);
+            $('#master_match_dpChanging').val(sub)
+            $('#master_match_victory_win').prop('checked', true);
             $('#pm').text('( 増減値 +')
         }else{
-            $('#match_dpChanging').val(-sub)
-            $('#match_victory_負け').prop('checked', true);
+            $('#master_match_dpChanging').val(-sub)
+            $('#master_match_victory_lose').prop('checked', true);
             $('#pm').text('( 増減値 -')
         }
     });

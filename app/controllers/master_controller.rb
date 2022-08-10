@@ -1,33 +1,23 @@
 require 'csv'
 require "json"
 
-class MachesController < ApplicationController
-  layout 'maches'
+class MasterController < ApplicationController
+  layout 'master'
   before_action :authenticate_account!
 
-  $datetime = Hash.new()
-  $dprange = Hash.new()
-
-  def index
-    @account = current_account
-    @msg = 'account created at: ' + @account.created_at.to_s
-    @lastData = Match.last
-  end
+  @TIMEMIN = "2000-01-01T00:00"
+  @TIMEMAX = "2200-01-01T00:00"
 
   def form
-    @match = Match.new
-    @lastData = Match.where(tag: params[:kc]).where(playerid: current_account.id).last
-    @decks = CSV.read("#{Rails.root}/config_duellinks/"+params[:kc]+"/decks.csv")
-    @skills = CSV.read("#{Rails.root}/config_duellinks/"+params[:kc]+"/skills.csv")
+    @match = MasterMatch.new
+    @lastData = MasterMatch.where(tag: params[:dc]).where(playerid: current_account.id).last
+    @decks = CSV.read("#{Rails.root}/config_duellinks/master/"+params[:dc]+"/decks.csv")
     @decks.push(["自分で入力する"])
-    @skills.push(["自分で入力する"])
 
     #初期値の設定
     @defaultDeck = "自分で入力する"
-    @defaultSkill = "自分で入力する"
     if @lastData.nil?
       @defaultDeck = ""
-      @defaultSkill = ""
       gon.lastdp = 0
     else
       @decks.each do |obj|
@@ -37,23 +27,12 @@ class MachesController < ApplicationController
           break
         end
       end
-      @skills.each do |obj|
-        if obj[0] == @lastData.myskill
-          @defaultSkill = @lastData.myskill
-          break
-        end
-        gon.lastdp = @lastData.dp
-      end
-    end
-
-    #スキルリスト読み込み
-    File.open("#{Rails.root}/config_duellinks/"+params[:kc]+"/major_skill.json") do |file|
-      gon.major_skill = JSON.load(file)
+      gon.lastdp = @lastData.dp
     end
 
     #KC区間取得
     tmp_json = {}
-    File.open("#{Rails.root}/config_duellinks/"+params[:kc]+"/datetime.json") do |file|
+    File.open("#{Rails.root}/config_duellinks/master/"+params[:dc]+"/datetime.json") do |file|
       tmp_json = JSON.load(file)
     end
     kcRange = [Time.parse(tmp_json["1日目"][0]), Time.parse(tmp_json["4日目"][1])]
@@ -64,17 +43,17 @@ class MachesController < ApplicationController
   end
 
   def sended_form
-    @lastData = Match.where(playerid: current_account.id).last
+    @lastData = MasterMatch.where(playerid: current_account.id).last
   end
 
   def create
     if request.post? then
-      tmp = Match.new(match_params)
+      tmp = MasterMatch.new(match_params)
       tmp.playerid = current_account.id
 
       dpChanging = 0
-      if Match.where(tag: params[:kc]).where(playerid: current_account.id).exists? then
-        dpChanging = tmp.dp - Match.where(tag: params[:kc]).where(playerid: current_account.id).last.dp
+      if MasterMatch.where(tag: params[:dc]).where(playerid: current_account.id).exists? then
+        dpChanging = tmp.dp - MasterMatch.where(tag: params[:dc]).where(playerid: current_account.id).last.dp
       else 
         dpChanging = tmp.dp
       end
@@ -82,14 +61,14 @@ class MachesController < ApplicationController
         dpChanging = dpChanging * -1
       end
       tmp.dpChanging = dpChanging
-      tmp.tag = params[:kc]
+      tmp.tag = params[:dc]
       tmp.save
     end
     redirect_to action: :sended_form
   end
 
   def getDuelData
-    @data = Match.where(tag: params[:kc])
+    @data = MasterMatch.where(tag: params[:dc])
 
     # 先行後攻絞り込み
     @order = ""
@@ -100,7 +79,7 @@ class MachesController < ApplicationController
 
     #KC区間取得
     tmp_json = {}
-    File.open("#{Rails.root}/config_duellinks/"+params[:kc]+"/datetime.json") do |file|
+    File.open("#{Rails.root}/config_duellinks/master/"+params[:dc]+"/datetime.json") do |file|
       tmp_json = JSON.load(file)
     end
 
@@ -140,22 +119,30 @@ class MachesController < ApplicationController
     
     getDuelData()
     @data = @data.where(playerid: current_account.id)
-    
+
     #デッキ分布のデータ作成
+    deckname = {}
+    File.open("#{Rails.root}/config_duellinks/master/deckname_japanese.json") do |file|
+      deckname = JSON.load(file)
+    end
     others_val = 0
     oppdecks = @data.group(:oppdeck).count.sort {|a,b| b[1]<=>a[1]}
     oppdecks2 = Array.new()
     i = 0
     oppdecks.each{|key, value|
-      if !(key == "その他") && (i < 9) then
-        oppdecks2.push({"category" => key, "column-1" => value})
+      if !(key == "others") && (i < 9) then
+        if(deckname.has_key?(key))
+          oppdecks2.push({"category" => deckname[key], "column-1" => value})
+        else
+          oppdecks2.push({"category" => key, "column-1" => value})
+        end
         i += 1
       else
         others_val += value
       end
     }
     if !(others_val == 0) then
-      oppdecks2.push({"category" => "その他", "column-1" => others_val})
+      oppdecks2.push({"category" => deckname["others"], "column-1" => others_val})
     end
     gon.oppdecks_mychart = oppdecks2
 
@@ -176,7 +163,7 @@ class MachesController < ApplicationController
     @myDeckArray = Array.new()
     @oppDeckArray = Array.new()
     doubleMy = @data.group(:mydeck, :oppdeck).count
-    winData = @data.where(victory: "勝ち")
+    winData = @data.where(victory: "win")
     myWinHash = winData.group(:mydeck).count
     myWinHash2 = winData.group(:oppdeck).count
     doubleMyWin = winData.group(:mydeck, :oppdeck).count
@@ -184,7 +171,7 @@ class MachesController < ApplicationController
     omyHash = odata.group(:mydeck).count
     ooppHash = odata.group(:oppdeck).count
     odoubleMy = odata.group(:mydeck, :oppdeck).count
-    leadingData = @data.where(order: "先行")
+    leadingData = @data.where(order: "first")
     myLeadingHash = leadingData.group(:mydeck).count
     myLeadingHash2 = leadingData.group(:oppdeck).count
     doubleMyLeading = leadingData.group(:mydeck, :oppdeck).count
@@ -232,9 +219,9 @@ class MachesController < ApplicationController
       @oppDeckArray.push(key2)
     }
     @myDeckArray.push("総計")
-    if @oppDeckArray.include?("その他")
-      @oppDeckArray.delete("その他")
-      @oppDeckArray.push("その他")
+    if @oppDeckArray.include?("others")
+      @oppDeckArray.delete("others")
+      @oppDeckArray.push("others")
     end
     @oppDeckArray.push("総計")
     @winRateHash["総計"]["総計"] = (winData.count * 100.to_f / @data.count).round(1)
@@ -248,29 +235,32 @@ class MachesController < ApplicationController
     end
   end
 
-  def mydata_csv
-    @data = Match.where(tag: params[:kc]).where(playerid: current_account.id).where(created_at: datetime_detail()[0]..datetime_detail()[1])
-  end
-
   def totalchart
     getDuelData()
-    
-    oppdecks = @data.group(:oppdeck).count.sort {|a,b| b[1]<=>a[1]}
 
     #デッキ分布のデータ作成
+    deckname = {}
+    File.open("#{Rails.root}/config_duellinks/master/deckname_japanese.json") do |file|
+      deckname = JSON.load(file)
+    end
     others_val = 0
+    oppdecks = @data.group(:oppdeck).count.sort {|a,b| b[1]<=>a[1]}
     oppdecks2 = Array.new()
     i = 0
     oppdecks.each{|key, value|
-      if !(key == "その他") && (i < 9) then
-        oppdecks2.push({"category" => key, "column-1" => value})
+      if !(key == "others") && (i < 9) then
+        if(deckname.has_key?(key))
+          oppdecks2.push({"category" => deckname[key], "column-1" => value})
+        else
+          oppdecks2.push({"category" => key, "column-1" => value})
+        end
         i += 1
       else
         others_val += value
       end
     }
     if !(others_val == 0) then
-      oppdecks2.push({"category" => "その他", "column-1" => others_val})
+      oppdecks2.push({"category" => deckname["others"], "column-1" => others_val})
     end
     gon.oppdecks_totalchart = oppdecks2
 
@@ -281,15 +271,19 @@ class MachesController < ApplicationController
     oppdecks2 = Array.new()
     i = 0
     oppdecks.each{|key, value|
-      if !(key == "その他") && (i < 9) then
-        oppdecks2.push({"category" => key, "column-1" => value})
+      if !(key == "others") && (i < 9) then
+        if(deckname.has_key?(key))
+          oppdecks2.push({"category" => deckname[key], "column-1" => value})
+        else
+          oppdecks2.push({"category" => key, "column-1" => value})
+        end
         i += 1
       else
         others_val += value
       end
     }
     if !(others_val == 0) then
-      oppdecks2.push({"category" => "その他", "column-1" => others_val})
+      oppdecks2.push({"category" => deckname["others"], "column-1" => others_val})
     end
     gon.recent_oppdecks_totalchart = oppdecks2
 
@@ -303,8 +297,8 @@ class MachesController < ApplicationController
     doubleMy = @data.group(:mydeck, :oppdeck).count
     doubleOpp = @data.group(:oppdeck, :mydeck).count
     doubleAll = doubleOpp.merge(doubleMy) {|key, oldval, newval| oldval + newval}
-    winData = @data.where(victory: "勝ち")
-    loseData = @data.where(victory: "負け")
+    winData = @data.where(victory: "win")
+    loseData = @data.where(victory: "lose")
     myWinHash = winData.group(:mydeck).count
     oppWinHash = loseData.group(:oppdeck).count
     allWinHash = oppWinHash.merge(myWinHash) {|key, oldval, newval| oldval + newval}
@@ -335,6 +329,10 @@ class MachesController < ApplicationController
       @deckArray.push(key1)
       i += 1
     }
+    if @deckArray.include?("others")
+      @deckArray.delete("others")
+      @deckArray.push("others")
+    end
     @deckArray.push("総計")
     @winRateHash["総計"]["総計"] = 50.0
 
@@ -345,31 +343,24 @@ class MachesController < ApplicationController
     end
   end
 
-  #KC選択関係
-  def kc
-    if params[:kc] != nil then
-      return params[:kc]
+  #DC選択関係
+  def dc
+    if params[:dc] != nil then
+      return params[:dc]
     else
-      return "KCGT2022"
+      return "DC2022Aug"
     end
   end
-  helper_method :kc
-
-  def deckList
-    return CSV.read("#{Rails.root}/config_duellinks/"+params[:kc]+"/decks.csv")
-  end
-  helper_method :deckList
+  helper_method :dc
 
   def edit
     @account = current_account
-    @selectedData = Match.find(params[:id])
-    @decks = CSV.read("#{Rails.root}/config_duellinks/"+params[:kc]+"/decks.csv")
-    @skills = CSV.read("#{Rails.root}/config_duellinks/"+params[:kc]+"/skills.csv")
+    @selectedData = MasterMatch.find(params[:id])
+    @decks = CSV.read("#{Rails.root}/config_duellinks/master/"+params[:dc]+"/decks.csv")
     @decks.push(["自分で入力する"])
-    @skills.push(["自分で入力する"])
 
     #直前のDPを計算
-    if @selectedData.victory == "勝ち"
+    if @selectedData.victory == "win"
       @preDP = @selectedData.dp - @selectedData.dpChanging
     else
       @preDP = @selectedData.dp + @selectedData.dpChanging
@@ -379,9 +370,7 @@ class MachesController < ApplicationController
 
     #初期値の設定
     @defaultMyDeck = "自分で入力する"
-    @defaultMySkill = "自分で入力する"
     @defaultOppDeck = "自分で入力する"
-    @defaultOppSkill = "自分で入力する"
     deckname = ""
     @decks.each do |obj|
       deckname = (obj[1] == nil) ? obj[0] : obj[1]
@@ -392,109 +381,19 @@ class MachesController < ApplicationController
         @defaultOppDeck = @selectedData.oppdeck
       end
     end
-    @skills.each do |obj|
-      if obj[0] == @selectedData.myskill
-        @defaultMySkill = @selectedData.myskill
-      end
-      if obj[0] == @selectedData.oppskill
-        @defaultOppSkill = @selectedData.oppskill
-      end
-    end
   end
 
   def update
-    obj = Match.find(params[:id])
-    obj.update(match_params)
-    obj.tag = params[:kc]
+    obj = MasterMatch.find(params[:id])
+    obj.update(master_match_params)
+    obj.tag = params[:dc]
     obj.save()
     dpUpdate()
     redirect_to action: :mychart
   end
 
-  def deckchart
-    getDuelData()
-    @deckName = URI.unescape(params[:deck])
-    @mydata = @data.where(mydeck: params[:deck])
-    @oppdata = @data.where(oppdeck: params[:deck])
-    
-    #画像リスト読み込み
-    @deck_image = {}
-    File.open("#{Rails.root}/config_duellinks/deck_image.json") do |file|
-      @deck_image = JSON.load(file)
-    end
-
-    #相性表
-    mysHash = @mydata.group(:myskill).count
-    oppsHash = @oppdata.group(:oppskill).count
-    skillHash = oppsHash.merge(mysHash) {|key, oldval, newval| oldval + newval}
-    skillHash = skillHash.sort_by { |_, v| -v }.to_h
-
-    oppdHash = @mydata.group(:oppdeck).count
-    mydHash = @oppdata.group(:mydeck).count
-    deckHash = oppdHash.merge(mydHash) {|key, oldval, newval| oldval + newval}
-    deckHash = deckHash.sort_by { |_, v| -v }.to_h
-
-    doubleMy = @mydata.group(:myskill, :oppdeck).count
-    doubleOpp = @oppdata.group(:oppskill, :mydeck).count
-    doubleAll = doubleOpp.merge(doubleMy) {|key, oldval, newval| oldval + newval}
-    winData = @mydata.where(victory: "勝ち")
-    loseData = @oppdata.where(victory: "負け")
-    myWinHash = winData.group(:myskill).count
-    oppWinHash = loseData.group(:oppskill).count
-    allWinHash = oppWinHash.merge(myWinHash) {|key, oldval, newval| oldval + newval}
-    doubleMyWin = winData.group(:myskill, :oppdeck).count
-    doubleOppWin = loseData.group(:oppskill, :mydeck).count
-    doubleAllWin = doubleOppWin.merge(doubleMyWin) {|key, oldval, newval| oldval + newval}
-
-    @winRateHash = Hash.new { |h,k| h[k] = {} }
-    @skillArray = Array.new
-    @deckArray = Array.new
-    i = 0
-    j = 0
-    skillHash.each{|key1, val1|
-      break if i > 2
-      j = 0
-      deckHash.each{|key2, val2|
-        break if j > 10
-        if doubleAll.has_key?([key1, key2])
-          win_num = doubleAllWin.has_key?([key1, key2]) ? doubleAllWin[[key1, key2]] : 0
-          @winRateHash[key1][key2] = (win_num * 100.to_f / doubleAll[[key1, key2]]).round(1)
-        else
-          @winRateHash[key1][key2] = -1
-        end
-        if i == 0
-          @deckArray.push(key2)
-        end
-        j += 1
-      }
-      win_num = allWinHash.has_key?(key1) ? allWinHash[key1] : 0
-      @winRateHash[key1]["総計"] = (win_num * 100.to_f / val1).round(1)
-      @skillArray.push(key1)
-      i += 1
-    }
-    @deckArray.push("総計")
-
-    #スキルリスト
-    oppskills = @oppdata.group(:oppskill).order(count_all: :desc).count
-    others_val = 0
-    skilllist = Array.new()
-    i = 0
-    oppskills.each{|key, value|
-      if !(key == "その他") && (i < 3) then
-        skilllist.push({"category" => key, "column-1" => value})
-        i += 1
-      else
-        others_val += value
-      end
-    }
-    if !(others_val == 0) then
-      skilllist.push({"category" => "その他", "column-1" => others_val})
-    end
-    gon.skilllist = skilllist
-  end
-
   def delete
-    obj = Match.find(params[:id])
+    obj = MasterMatch.find(params[:id])
     if obj.playerid == current_account.id then
       obj.destroy
       dpUpdate()
@@ -502,22 +401,17 @@ class MachesController < ApplicationController
     redirect_to action: :mychart
   end
 
-  def import
-    Match.import(params[:file])
-    redirect_to "/admin/import"
-  end
-
   private
   def match_params
-    params.require(:match).permit(:mydeck, :myskill, :oppdeck, :oppskill, :victory, :dp, :dpChanging, :order)
+    params.require(:master_match).permit(:mydeck, :oppdeck, :victory, :dp, :dpChanging, :order)
   end
 
   def dpUpdate
-    data = Match.where(tag: params[:kc]).where(playerid: current_account.id)
+    data = MasterMatch.where(tag: params[:dc]).where(playerid: current_account.id)
     preDP = 0
     nowDP = 0
     for obj in data do
-      if obj.victory == "勝ち" then
+      if obj.victory == "win" then
         nowDP = preDP + obj.dpChanging
       else 
         nowDP = preDP - obj.dpChanging

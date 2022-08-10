@@ -292,10 +292,8 @@ class MasterController < ApplicationController
 
 
     #相性表
-    myHash = @data.group(:mydeck).count
     oppHash = @data.group(:oppdeck).count
-    allHash = oppHash.merge(myHash) {|key, oldval, newval| oldval + newval}
-    allHash = allHash.sort_by { |_, v| -v }.to_h
+    oppHash = oppHash.sort_by { |_, v| -v }.to_h
     @deckArray = Array.new()
     doubleMy = @data.group(:mydeck, :oppdeck).count
     doubleOpp = @data.group(:oppdeck, :mydeck).count
@@ -313,10 +311,10 @@ class MasterController < ApplicationController
     @winRateHash = Hash.new { |h,k| h[k] = {} }
     i = 0
     j = 0
-    allHash.each{|key1, val1|
+    oppHash.each{|key1, val1|
       break if i > 9
       j = 0
-      allHash.each{|key2, val2|
+      oppHash.each{|key2, val2|
         break if j > 9
         win_num = doubleAllWin.has_key?([key1, key2]) ? doubleAllWin[[key1, key2]] : 0
         if doubleAll.has_key?([key1, key2])

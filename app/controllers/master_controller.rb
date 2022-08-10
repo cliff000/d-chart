@@ -8,6 +8,9 @@ class MasterController < ApplicationController
   @TIMEMIN = "2000-01-01T00:00"
   @TIMEMAX = "2200-01-01T00:00"
 
+  def index
+  end
+
   def form
     @match = MasterMatch.new
     @lastData = MasterMatch.where(tag: params[:dc]).where(playerid: current_account.id).last
@@ -352,6 +355,11 @@ class MasterController < ApplicationController
     end
   end
   helper_method :dc
+
+  def deckList
+    return Array.new
+  end
+  helper_method :deckList
 
   def edit
     @account = current_account

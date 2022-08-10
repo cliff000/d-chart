@@ -5,14 +5,8 @@ class MachesController < ApplicationController
   layout 'maches'
   before_action :authenticate_account!
 
-  $datetime = Hash.new()
-  $dprange = Hash.new()
-
-  def index
-    @account = current_account
-    @msg = 'account created at: ' + @account.created_at.to_s
-    @lastData = Match.last
-  end
+  @TIMEMIN = "2000-01-01T00:00"
+  @TIMEMAX = "2200-01-01T00:00"
 
   def form
     @match = Match.new
@@ -356,7 +350,11 @@ class MachesController < ApplicationController
   helper_method :kc
 
   def deckList
-    return CSV.read("#{Rails.root}/config_duellinks/"+params[:kc]+"/decks.csv")
+    if params[:kc] != nil
+      return CSV.read("#{Rails.root}/config_duellinks/"+params[:kc]+"/decks.csv")
+    else
+      return Array.new
+    end
   end
   helper_method :deckList
 

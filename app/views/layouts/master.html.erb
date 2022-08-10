@@ -261,7 +261,7 @@
             </button>
         </div>
         <div class="modal-body">
-          <p>
+          <h4>先後</h4>
           <div class="form-group">
             <div class="tab-wrap">
               <% if @order == "first" %>
@@ -276,13 +276,13 @@
               <% end %>
             </div>
           </div>
-          </p>
+          <br>
           <h4>DP</h4>
           Min
           <input type="number" id="dpMin" class="form-control" value=<%= @dpMin != nil ? @dpMin : "" %>>
           Max
           <input type="number" id="dpMax" class="form-control" value=<%= @dpMax != nil ? @dpMax : "" %>>
-          <br>
+          <br><br>
           <h4>時刻</h4>
           Min
           <input type="datetime-local" id="timeMin" class="form-control" min=<%= @TIMEMIN %> max=<%= @TIMEMAX %> value=<%= @timeMin != nil ? @timeMin : @TIMEMIN %>>

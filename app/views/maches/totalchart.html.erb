@@ -65,15 +65,17 @@
                     <td cellpadding="5"><%= obj1 %></td>
                 <% end %>
                 <% @deckArray.each do |obj2| %>
-                    <% win_rate = @winRateHash[obj1][obj2] %>
-                    <% if win_rate == -1 %>
-                        <td></td>
-                    <% elsif win_rate >= 55 %>
-                        <td><font color='blue' ><%= win_rate %>%</font></td>
-                    <% elsif win_rate <= 45 %>
-                        <td><font color='red'><%= win_rate %>%</font></td>
+                    <% if @winRateHash[obj1][obj2] != nil %>
+                        <% win_rate = @winRateHash[obj1][obj2] %>
+                        <% if win_rate >= 55 %>
+                            <td><font color='blue' ><%= win_rate %>%</font></td>
+                        <% elsif win_rate <= 45 %>
+                            <td><font color='red'><%= win_rate %>%</font></td>
+                        <% else %>
+                            <td><%= win_rate %>%</font></td>
+                        <% end %>
                     <% else %>
-                        <td><%= win_rate %>%</font></td>
+                        <td></td>
                     <% end %>
                 <% end %>
                 </tr>
@@ -98,7 +100,8 @@
                 <td>相手</td>
                 <td>勝率</td>
             </tr>
-            <% @deckArray.each do |obj1| %>
+            <% tmp_deckArray = @deckArray - ["総計"] %>
+            <% tmp_deckArray.each do |obj1| %>
                 <!-- カード画像表示 -->
                 <% if @deck_image.has_key?(obj1)%>
                     <td id="pibot-mydeck" rowspan=<%= @winRateHash[obj1].length+1 %>><a href="./<%= obj1 %>/">
@@ -109,26 +112,26 @@
                 <% end %>
                 <% @deckArray.each do |obj2| %>
                     <% if @winRateHash[obj1][obj2] != nil %>
-                    <tr>
-                    <!-- カード画像表示 -->
-                    <% if @deck_image.has_key?(obj2)%>
-                        <td>
-                        <a href="./<%= obj2 %>/">
-                        <%= image_tag asset_path("card/#{@deck_image[obj2]}"), :size =>"64x64" %>
-                        </a>
-                        </td>
-                    <% else %>
-                        <td cellpadding="5">　<%= obj2 %>　</td>
-                    <% end %>
-                    <!-- 勝率表示 -->
-                    <% if @winRateHash[obj1][obj2] >= 55 %>
-                        <td><font color='blue' ><%= @winRateHash[obj1][obj2] %>%</font></td>
-                    <% elsif @winRateHash[obj1][obj2] <= 45 %>
-                        <td><font color='red'><%= @winRateHash[obj1][obj2] %>%</font></td>
-                    <% else %>
-                        <td><%= @winRateHash[obj1][obj2] %>%</td>
-                    <% end %>
-                    </tr>
+                        <tr>
+                        <!-- カード画像表示 -->
+                        <% if @deck_image.has_key?(obj2)%>
+                            <td>
+                            <a href="./<%= obj2 %>/">
+                            <%= image_tag asset_path("card/#{@deck_image[obj2]}"), :size =>"64x64" %>
+                            </a>
+                            </td>
+                        <% else %>
+                            <td cellpadding="5">　<%= obj2 %>　</td>
+                        <% end %>
+                        <!-- 勝率表示 -->
+                        <% if @winRateHash[obj1][obj2] >= 55 %>
+                            <td><font color='blue' ><%= @winRateHash[obj1][obj2] %>%</font></td>
+                        <% elsif @winRateHash[obj1][obj2] <= 45 %>
+                            <td><font color='red'><%= @winRateHash[obj1][obj2] %>%</font></td>
+                        <% else %>
+                            <td><%= @winRateHash[obj1][obj2] %>%</td>
+                        <% end %>
+                        </tr>
                     <% end %>
                 <% end %>
             <% end %>

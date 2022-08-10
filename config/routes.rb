@@ -1,21 +1,27 @@
 Rails.application.routes.draw do
   root to: 'index#introduction'
 
-  get 'form', to:'maches#form'
-  post 'form', to:'maches#create'
-  get 'sended_form', to:'maches#sended_form'
-  get 'mychart', to:'maches#mychart'
-  get 'mychart/my_duel_data.csv', to:'maches#mydata_csv'
-  get 'totalchart', to:'maches#totalchart'
-  get 'edit/:id', to: 'maches#edit'
-  patch 'edit/:id', to: 'maches#update'
-  get 'delete/:id', to:'maches#delete'
-  get 'chart/:deck', to:'maches#deckchart'
+  get 'links/:kc/form', to:'maches#form'
+  post 'links/:kc/form', to:'maches#create'
+  get 'links/:kc/sended_form', to:'maches#sended_form'
+  get 'links/:kc/mychart', to:'maches#mychart'
+  get 'links/:kc/mychart/my_duel_data.csv', to:'maches#mydata_csv'
+  get 'links/:kc/totalchart', to:'maches#totalchart'
+  get 'links/:kc/edit', to: 'maches#edit'
+  patch 'links/:kc/edit', to: 'maches#update'
+  get 'links/:kc/delete', to:'maches#delete'
+  get 'links/:kc/:deck', to:'maches#deckchart'
 
-  get 'privacy_policy', to:'inquiry#privacy_policy'
-  get 'inquiry', to:'inquiry#form'
-  post 'inquiry', to:'inquiry#create'
-
+  get 'master/:dc/form', to:'master#form'
+  post 'master/:dc/form', to:'master#create'
+  get 'master/:dc/sended_form', to:'master#sended_form'
+  get 'master/:dc/mychart', to:'master#mychart'
+  get 'master/:dc/mychart/my_duel_data.csv', to:'master#mydata_csv'
+  get 'master/:dc/totalchart', to:'master#totalchart'
+  get 'master/:dc/edit', to: 'master#edit'
+  patch 'master/:dc/edit', to: 'master#update'
+  get 'master/:dc/delete', to:'master#delete'
+  
   get 'admin/export', to:'admin#export'
   get 'admin/export/accounts.csv', to:'admin#export_accounts'
   get 'admin/export/matches.csv', to:'admin#export_matches'
@@ -26,12 +32,9 @@ Rails.application.routes.draw do
   post 'select_kc', to:'maches#select_kc'
   post 'select_datetime', to:'maches#select_datetime'
   post 'select_dprange', to:'maches#select_dprange'
-  get 'create_kc', to:'maches#create_kc'
 
   get 'past_kc', to:'index#past_kc'
   get 'past_kc/:kcname', to:'index#past_kc_chart'
-
-  get 'test', to:'maches#test'
   
   devise_for :accounts
 

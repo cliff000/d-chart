@@ -19,7 +19,7 @@
           <div class="row no-gutters align-items-center">
             <div class="col mr-2">
               <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">先行率</div>
-                <div class="h5 mb-0 font-weight-bold text-gray-800"><%= (order_data.where(order: "先行").count.to_f * 100 / order_data.count).round(1) %>%</div>
+                <div class="h5 mb-0 font-weight-bold text-gray-800"><%= (order_data.where(order: "first").count.to_f * 100 / order_data.count).round(1) %>%</div>
               </div>
             <div class="col-auto">
               <i class="fas fa-dice fa-2x text-gray-300"></i>
@@ -56,7 +56,7 @@
             <div class="h5 mb-0 font-weight-bold text-gray-800">
               <% if @data.empty? then %>
               <% else %>
-                  <%= (@data.where(victory: "勝ち").count.to_f * 100 / @data.count).round(1) %>%
+                  <%= (@data.where(victory: "win").count.to_f * 100 / @data.count).round(1) %>%
               <% end %>
             </div>
           </div>
@@ -118,11 +118,7 @@
                 <% @oppDeckArray.each do |obj| %>
                     <!-- カード画像表示 -->
                     <% if @deck_image.has_key?(obj)%>
-                        <td>
-                        <a href="./<%= obj %>/">
-                        <%= image_tag asset_path("card/#{@deck_image[obj]}"), :size =>"64x64" %>
-                        </a>
-                        </td>
+                        <td><%= image_tag asset_path("master/card/#{@deck_image[obj]}"), :size =>"64x64" %></td>
                     <% else %>
                         <td cellpadding="5">　<%= obj %>　</td>
                     <% end %>
@@ -132,9 +128,7 @@
                 <tr>
                 <!-- カード画像表示 -->
                 <% if @deck_image.has_key?(obj1)%>
-                    <td><a href="./<%= obj1 %>/">
-                    <%= image_tag asset_path("card/#{@deck_image[obj1]}"), :size =>"64x64" %>
-                    </a></td>
+                    <td><%= image_tag asset_path("master/card/#{@deck_image[obj1]}"), :size =>"64x64" %></td>
                 <% else %>
                     <td cellpadding="5"><%= obj1 %></td>
                 <% end %>
@@ -148,23 +142,8 @@
                     <% else %>
                         <td class="win_rate"><%= @winRateHash[obj1][obj2] %>%</td>
                     <% end %>
-                    <!-- 対戦数 -->
-                    <td class="number_of_match"><%= @numberOfMatchHash[obj1][obj2] %></td>
                   <% else%>
                     <td class="win_rate"></td>
-                    <td class="number_of_match"></td>
-                  <% end %>
-                  <!-- 先行率 -->
-                  <% if @leadingRateHash[obj1][obj2] != nil %>
-                    <% if @leadingRateHash[obj1][obj2] >= 55 %>
-                      <td class="leading_rate"><font color='blue'><%= @leadingRateHash[obj1][obj2] %>%</td>
-                    <% elsif @leadingRateHash[obj1][obj2] <= 45 %>
-                      <td class="leading_rate"><font color='red'><%= @leadingRateHash[obj1][obj2] %>%</td>
-                    <% else %>
-                      <td class="leading_rate"><%= @leadingRateHash[obj1][obj2] %>%</td>
-                    <% end %>
-                  <% else %>
-                    <td class="leading_rate"></td>
                   <% end %>
                 <% end %>
                 </tr>
@@ -193,9 +172,9 @@
             <% @myDeckArray.each do |obj1| %>
               <!-- カード画像表示 -->
               <% if @deck_image.has_key?(obj1)%>
-                  <td id="pibot-mydeck" rowspan=<%= @winRateHash[obj1].length+1 %>><a href="./<%= obj1 %>/">
-                  <%= image_tag asset_path("card/#{@deck_image[obj1]}"), :size =>"64x64" %>
-                  </a></td>
+                  <td id="pibot-mydeck" rowspan=<%= @winRateHash[obj1].length+1 %>>
+                  <%= image_tag asset_path("master/card/#{@deck_image[obj1]}"), :size =>"64x64" %>
+                  </td>
               <% else %>
                   <td id="pibot-mydeck" rowspan=<%= @winRateHash[obj1].length %> cellpadding="5"><%= obj1 %></td>
               <% end %>
@@ -204,11 +183,7 @@
                   <tr>
                   <!-- カード画像表示 -->
                   <% if @deck_image.has_key?(obj2)%>
-                      <td>
-                      <a href="./<%= obj2 %>/">
-                      <%= image_tag asset_path("card/#{@deck_image[obj2]}"), :size =>"64x64" %>
-                      </a>
-                      </td>
+                      <td><%= image_tag asset_path("master/card/#{@deck_image[obj2]}"), :size =>"64x64" %></td>
                   <% else %>
                       <td cellpadding="5">　<%= obj2 %>　</td>
                   <% end %>
@@ -226,7 +201,7 @@
             <% end %>
             </tbody>
         </table>
-        </div>
+      </div>
     </div>
 </div>
 
@@ -241,9 +216,7 @@
         <thead>
           <th>#</th>
           <th>自分</th>
-          <th>スキル</th>
           <th>相手</th>
-          <th>スキル</th>
           <th>勝敗</th>
           <th>DP</th>
           <th></th>
@@ -257,21 +230,17 @@
                 <td><%= num %></td>
                 <!-- 自分のデッキ -->
                 <% if @deck_image.has_key?(obj.mydeck)%>
-                  <td><%= image_tag asset_path("card/#{@deck_image[obj.mydeck]}"), :size =>"48x48" %>
+                  <td><%= image_tag asset_path("master/card/#{@deck_image[obj.mydeck]}"), :size =>"48x48" %>
                   <div class="d-none"><%= obj.mydeck %></div></td>
                 <% else %>
                   <td><%= obj.mydeck %></td>
                 <% end %>
-                <!-- 自分のスキル -->
-                <td><%= image_tag "skill.png", :size =>"24x24" %> <%= obj.myskill %></td>
                 <!-- 相手のデッキ -->
                 <% if @deck_image.has_key?(obj.oppdeck)%>
-                  <td><%= image_tag asset_path("card/#{@deck_image[obj.oppdeck]}"), :size =>"48x48" %></td>
+                  <td><%= image_tag asset_path("master/card/#{@deck_image[obj.oppdeck]}"), :size =>"48x48" %></td>
                 <% else %>
                   <td><%= obj.oppdeck %></td>
                 <% end %>
-                <!-- 相手のスキル -->
-                <td><%= image_tag "skill.png", :size =>"24x24" %> <%= obj.oppskill %></td>
                 <!-- 勝敗 -->
                 <td><%= obj.victory %></td>
                 <!-- DP -->
@@ -293,7 +262,7 @@
       order: [ [ 0, "desc" ] ],
       searching: false,
       "columnDefs": [ {
-        "targets": [1,2,3,4,5,6,7],
+        "targets": [1,2,3,4,5],
         "orderable": false
       } ]
     });

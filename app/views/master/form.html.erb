@@ -1,0 +1,105 @@
+<h1>Record</h1>
+<!-- 日付が範囲外だと警告を出す -->
+<p><% if @inKC == false %>
+    <font color="red">※デュエリストカップ2ndStageの開催時間外です。注意してください。</font>
+<% end %></p>
+
+<%= form_for(@match, url:{controller:'master', action:'create'}) do |form| %>
+    <div class="form-group">
+        <label>自分のデッキ</label>
+        <%= form.select :mydeck, @decks,
+            {selected: @defaultDeck}, {class: 'form-control'} %>
+        <%= form.text_field :mydeck, :placeholder => "デッキ名", 
+            :value => @defaultDeck=="自分で入力する" ? @lastData.mydeck : "", :id => 'textfield_mydeck', :class => 'form-control' %>
+    </div>
+
+    <div class="form-group">
+        <label>相手のデッキ</label>
+        <%= form.select :oppdeck, @decks, {}, {class: 'form-control'} %>
+        <%= form.text_field :oppdeck, :placeholder => "デッキ名",
+            :id => 'textfield_oppdeck', :class => 'form-control' %>
+    </div>
+
+    <br>
+    <div class="form-group">
+        <div class="tab-wrap">
+            <%= form.radio_button :victory, "win", :class => 'tab-switch', checked: true %><label class="tab-label1" for="master_match_victory_win">勝ち</label>
+            <%= form.radio_button :victory, "lose", :class => 'tab-switch' %><label class="tab-label2" for="master_match_victory_lose">負け</label>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label>対戦後のDP</label>
+        <%= form.text_field :dp, :class => 'form-control' %>
+        <font color='gray'>( <label id=changedDP></label> )</font>
+    </div>
+
+    <div class="form-group">
+        <div class="tab-wrap">
+            <%= form.radio_button :order, "first", :class => 'tab-switch' %><label class="tab-label1" for="master_match_order_first">先行</label>
+            <%= form.radio_button :order, "second", :class => 'tab-switch' %><label class="tab-label2" for="master_match_order_second">後攻</label>
+        </div>
+    </div>
+    <br>
+
+    <%= form.submit "送信", class:"btn btn-primary" %>
+<% end %>
+
+<script>
+    //「自分で入力する」以外ならテキストボックスを無効化
+    if($('#master_match_mydeck').val() != "自分で入力する"){ $('#textfield_mydeck').prop('disabled', true);  $('#textfield_mydeck').hide();}
+    if($('#master_match_oppdeck').val() != "自分で入力する"){ $('#textfield_oppdeck').prop('disabled', true); $('#textfield_oppdeck').hide();}
+
+    $('#master_match_mydeck').change(function(){
+        //「自分で入力する」ならテキストボックス表示
+        if($('#master_match_mydeck').val() == "自分で入力する"){
+            $('#textfield_mydeck').prop('disabled', false);
+            $('#textfield_mydeck').show();
+        }else{
+            $('#textfield_mydeck').prop('disabled', true);
+            $('#textfield_mydeck').hide();
+        }
+    });
+    $('#master_match_oppdeck').change(function(){
+        //「自分で入力する」ならテキストボックス表示
+        if($('#master_match_oppdeck').val() == "自分で入力する"){
+            $('#textfield_oppdeck').prop('disabled', false);
+            $('#textfield_oppdeck').show();
+        }else{
+            $('#textfield_oppdeck').prop('disabled', true);
+            $('#textfield_oppdeck').hide();
+        }
+    });
+
+    //DP変化の処理
+    $('#master_match_dp').val(gon.lastdp + 1000)
+    $('#changedDP').text('増減 +1000')
+
+    $('#master_match_victory_win').change(function(){
+        $('#master_match_dp').val(gon.lastdp + 1000)
+        $('#changedDP').text('増減 +1000')
+    });
+    $('#master_match_victory_lose').change(function(){
+        if(gon.lastdp - 1000 < 0){
+            $('#master_match_dp').val(0)
+            $('#changedDP').text('増減 -' + String(gon.lastdp))
+        }else{
+            $('#master_match_dp').val(gon.lastdp - 1000)
+            $('#changedDP').text('増減 -1000')
+        }
+    });
+    $('#master_match_dp').keyup(function(){
+        var sub = $('#master_match_dp').val() - gon.lastdp
+        if(sub > 0){
+            $('#changedDP').text('増減 +' + String(sub))
+            $('#master_match_victory_win').prop('checked', true);
+        }else{
+            $('#changedDP').text('増減 ' + String(sub))
+            $('#master_match_victory_lose').prop('checked', true);
+        }
+    });
+    
+    // 絞り込みを非表示
+    document.getElementById("searchButton").setAttribute("disabled", true);
+</script>
+

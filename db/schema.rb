@@ -10,9 +10,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_08_131551) do
+ActiveRecord::Schema.define(version: 2022_08_07_070755) do
 
-  create_table "accounts", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
+  create_table "accounts", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
     t.string "reset_password_token"
@@ -24,7 +24,7 @@ ActiveRecord::Schema.define(version: 2021_06_08_131551) do
     t.index ["reset_password_token"], name: "index_accounts_on_reset_password_token", unique: true
   end
 
-  create_table "inquiries", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
+  create_table "inquiries", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name"
     t.string "message"
     t.datetime "created_at", null: false
@@ -32,7 +32,20 @@ ActiveRecord::Schema.define(version: 2021_06_08_131551) do
     t.string "email"
   end
 
-  create_table "matches", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
+  create_table "master_matches", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.integer "playerid"
+    t.text "mydeck"
+    t.text "oppdeck"
+    t.text "victory"
+    t.integer "dp"
+    t.integer "dpChanging", default: 1000
+    t.text "order"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "tag"
+  end
+
+  create_table "matches", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.integer "playerid"
     t.text "mydeck"
     t.text "myskill"

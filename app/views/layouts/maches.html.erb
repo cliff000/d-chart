@@ -218,7 +218,7 @@
                 <li><button class="dropdown-item select_kc_master" value="DC2022Aug">Duelist Cup</button></li>
               </ul>
             </div>
-            <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#searchModal">絞り込み</button>
+            <button type="button" class="btn btn-outline-primary" id="searchButton" data-toggle="modal" data-target="#searchModal">絞り込み</button>
 
             <script>
               <!-- KC選択のスクリプト -->
@@ -282,7 +282,7 @@
             </button>
         </div>
         <div class="modal-body">
-          <p>
+          <h4>先後</h4>
           <div class="form-group">
             <div class="tab-wrap">
               <% if @order == "先行" %>
@@ -297,13 +297,13 @@
               <% end %>
             </div>
           </div>
-          </p>
+          <br>
           <h4>DP</h4>
           Min
           <input type="number" id="dpMin" class="form-control" value=<%= @dpMin != nil ? @dpMin : "" %>>
           Max
           <input type="number" id="dpMax" class="form-control" value=<%= @dpMax != nil ? @dpMax : "" %>>
-          <br>
+          <br><br>
           <h4>時刻</h4>
           Min
           <input type="datetime-local" id="timeMin" class="form-control" min=<%= @TIMEMIN %> max=<%= @TIMEMAX %> value=<%= @timeMin != nil ? @timeMin : @TIMEMIN %>>

@@ -292,6 +292,7 @@ class MasterController < ApplicationController
 
 
     #相性表
+    myHash = @data.group(:mydeck).count
     oppHash = @data.group(:oppdeck).count
     oppHash = oppHash.sort_by { |_, v| -v }.to_h
     @deckArray = Array.new()
@@ -323,8 +324,9 @@ class MasterController < ApplicationController
         j += 1
       }
       win_num = allWinHash.has_key?(key1) ? allWinHash[key1] : 0
-      @winRateHash[key1]["総計"] = (win_num * 100.to_f / val1).round(1)
-      @winRateHash["総計"][key1] = (win_num * 100.to_f / val1).round(1)
+      match_num = myHash.has_key?(key1) ? myHash[key1] + val1 : val1
+      @winRateHash[key1]["総計"] = (win_num * 100.to_f / match_num).round(1)
+      @winRateHash["総計"][key1] = ((match_num - win_num) * 100.to_f / match_num).round(1)
       @deckArray.push(key1)
       i += 1
     }
@@ -347,7 +349,7 @@ class MasterController < ApplicationController
     if params[:dc] != nil then
       return params[:dc]
     else
-      return "DC2022Aug"
+      return "UNKOWN"
     end
   end
   helper_method :dc
@@ -389,7 +391,7 @@ class MasterController < ApplicationController
 
   def update
     obj = MasterMatch.find(params[:id])
-    obj.update(master_match_params)
+    obj.update(match_params)
     obj.tag = params[:dc]
     obj.save()
     dpUpdate()

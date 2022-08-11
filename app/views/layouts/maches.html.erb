@@ -94,7 +94,7 @@
     <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
       <!-- Sidebar - Brand -->
-      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="./mychart">
+      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/links/<%= kc() %>/mychart">
         <%= image_tag asset_path("logo/logo2-2.png"), :height =>"40px" %>
         <div class="sidebar-brand-text mx-3">KC Chart</div>
       </a>
@@ -109,21 +109,21 @@
 
       <!-- Nav Item - Form -->
       <li class="nav-item">
-        <a class="nav-link" href="./form">
+        <a class="nav-link" href="/links/<%= kc() %>/form">
           <i class="fas fa-fw fa-paper-plane"></i>
           <span>Record</span></a>
       </li>
 
       <!-- Nav Item - My Charts -->
       <li class="nav-item">
-        <a class="nav-link" href="./mychart">
+        <a class="nav-link" href="/links/<%= kc() %>/mychart">
           <i class="fas fa-fw fa-user"></i>
           <span>My Page</span></a>
       </li>
 
       <!-- Nav Item - Total Charts -->
       <li class="nav-item">
-        <a class="nav-link" href="./totalchart">
+        <a class="nav-link" href="/links/<%= kc() %>/totalchart">
           <i class="fas fa-fw fa-users"></i>
           <span>Total Page</span></a>
       </li>
@@ -141,9 +141,9 @@
         <% if obj[0] != nil %>
           <li class="nav-item">
             <% if obj[1] == nil %>
-              <a class="nav-link" href="./<%= URI.escape(obj[0]) %>">
+              <a class="nav-link" href="/links/<%= kc() %>/<%= URI.escape(obj[0]) %>">
             <% else %>
-              <a class="nav-link" href="./<%= URI.escape(obj[1]) %>">
+              <a class="nav-link" href="/links/<%= kc() %>/<%= URI.escape(obj[1]) %>">
             <% end %>
             <%= obj[0] %></a>
           </li>

@@ -24,7 +24,7 @@
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">閉じる</button>
-            <a class="btn btn-danger" href="./delete?id=<%= @selectedData.id %>" role="button">削除する</a>
+            <a class="btn btn-danger" href="/master/<%= dc() %>/delete/<%= @selectedData.id %>" role="button">削除する</a>
         </div><!-- /.modal-footer -->
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
@@ -111,7 +111,7 @@
 <% end %>
 
 <style>
-    #match_dpChanging {
+    #master_match_dpChanging {
         font: 15px;
         width: 35px;
         padding: 0em;

@@ -289,6 +289,7 @@ class MachesController < ApplicationController
 
 
     #相性表
+    myHash = @data.group(:mydeck).count
     oppHash = @data.group(:oppdeck).count
     oppHash = oppHash.sort_by { |_, v| -v }.to_h
     @deckArray = Array.new()
@@ -320,8 +321,9 @@ class MachesController < ApplicationController
         j += 1
       }
       win_num = allWinHash.has_key?(key1) ? allWinHash[key1] : 0
-      @winRateHash[key1]["総計"] = (win_num * 100.to_f / val1).round(1)
-      @winRateHash["総計"][key1] = (win_num * 100.to_f / val1).round(1)
+      match_num = myHash.has_key?(key1) ? myHash[key1] + val1 : val1
+      @winRateHash[key1]["総計"] = (win_num * 100.to_f / match_num).round(1)
+      @winRateHash["総計"][key1] = ((match_num - win_num) * 100.to_f / match_num).round(1)
       @deckArray.push(key1)
       i += 1
     }
@@ -344,7 +346,7 @@ class MachesController < ApplicationController
     if params[:kc] != nil then
       return params[:kc]
     else
-      return "KCGT2022"
+      return "UNKOWN"
     end
   end
   helper_method :kc

@@ -70,6 +70,7 @@ class MasterController < ApplicationController
     redirect_to action: :sended_form
   end
 
+  # 対戦データの読み込み
   def getDuelData
     @data = MasterMatch.where(tag: params[:dc])
 
@@ -170,6 +171,7 @@ class MasterController < ApplicationController
     myWinHash = winData.group(:mydeck).count
     myWinHash2 = winData.group(:oppdeck).count
     doubleMyWin = winData.group(:mydeck, :oppdeck).count
+    doubleMyWin.default = 0;
     odata = @data.where.not(order: nil)
     omyHash = odata.group(:mydeck).count
     ooppHash = odata.group(:oppdeck).count
@@ -187,10 +189,9 @@ class MasterController < ApplicationController
     myHash.each{|key1, val1|
       j = 0
       oppHash.each{|key2, val2|
-        win_num = doubleMyWin.has_key?([key1, key2]) ? doubleMyWin[[key1, key2]] : 0
         if doubleMy.has_key?([key1, key2])
           # 勝率
-          @winRateHash[key1][key2] = (win_num * 100.to_f / doubleMy[[key1, key2]]).round(1)
+          @winRateHash[key1][key2] = (doubleMyWin[[key1, key2]] * 100.to_f / doubleMy[[key1, key2]]).round(1)
           # 対戦数
           @numberOfMatchHash[key1][key2] = doubleMy[[key1, key2]]
         end

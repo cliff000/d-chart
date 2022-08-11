@@ -1,7 +1,7 @@
 <!-- Page Heading -->
 <div class="d-sm-flex align-items-center justify-content-between mb-4">
   <h1>My Page</h1>
-  <a href="/mychart/my_duel_data.csv" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i> データをダウンロード</a>
+  <a href="/master/<%= dc() %>/mychart/my_duel_data.csv" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i> データをダウンロード</a>
 </div>
 
 <!-- Content Row -->
@@ -136,7 +136,7 @@
                   <% if @winRateHash[obj1][obj2] != nil %>
                     <!-- 勝率表示 -->
                     <% if @winRateHash[obj1][obj2] >= 55 %>
-                        <td class="win_rate"><font color='blue' ><%= @winRateHash[obj1][obj2] %>%</font></td>
+                        <td class="win_rate"><font color='blue'><%= @winRateHash[obj1][obj2] %>%</font></td>
                     <% elsif @winRateHash[obj1][obj2] <= 45 %>
                         <td class="win_rate"><font color='red'><%= @winRateHash[obj1][obj2] %>%</font></td>
                     <% else %>

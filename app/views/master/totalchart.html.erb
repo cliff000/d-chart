@@ -35,8 +35,15 @@
 
 <!-- 相性表(PC版) -->
 <div class="card shadow mb-4 d-none d-sm-block">
-    <div class="card-header py-3">
+    <div class="card-header d-flex align-items-center justify-content-between py-1">
         <h6 class="m-0 font-weight-bold text-primary">相性表</h6>
+        <div class="selectdiv">
+            <select name="rate_list" class="rate_list">
+                <option value="win_rate">勝率</option>
+                <option value="number_of_match">対戦数</option>
+                <option value="leading_rate">先行率</option>
+            </select>
+        </div>
     </div>
     <div class="card-body">
         <div class="text-nowrap table-responsive">
@@ -44,7 +51,7 @@
             <tbody>
             <tr>
                 <td></td>
-                <% @deckArray.each do |obj| %>
+                <% @oppDeckArray.each do |obj| %>
                     <!-- カード画像表示 -->
                     <% if @deck_image.has_key?(obj)%>
                         <td><%= image_tag asset_path("master/card/#{@deck_image[obj]}"), :size =>"64x64" %></td>
@@ -53,7 +60,7 @@
                     <% end %>
                 <% end %>
             </tr>
-            <% @deckArray.each do |obj1| %>
+            <% @myDeckArray.each do |obj1| %>
                 <tr>
                 <!-- カード画像表示 -->
                 <% if @deck_image.has_key?(obj1)%>
@@ -61,18 +68,21 @@
                 <% else %>
                     <td cellpadding="5"><%= obj1 %></td>
                 <% end %>
-                <% @deckArray.each do |obj2| %>
+                <% @oppDeckArray.each do |obj2| %>
                     <% if @winRateHash[obj1][obj2] != nil %>
-                        <% win_rate = @winRateHash[obj1][obj2] %>
-                        <% if win_rate >= 55 %>
-                            <td><font color='blue' ><%= win_rate %>%</font></td>
-                        <% elsif win_rate <= 45 %>
-                            <td><font color='red'><%= win_rate %>%</font></td>
-                        <% else %>
-                            <td><%= win_rate %>%</font></td>
-                        <% end %>
+                        <!-- 勝率表示 -->
+                        <td class="win_rate"><font color=<%= @winRateHash[obj1][obj2][1] %>><%= @winRateHash[obj1][obj2][0] %>%</font></td>
+                        <!-- 対戦数 -->
+                        <td class="number_of_match"><font color='black' %><%= @numberOfMatchHash[[obj1, obj2]] %></font></td>
+                    <% else%>
+                        <td class="win_rate"></td>
+                        <td class="number_of_match"></td>
+                    <% end %>
+                    <!-- 先行率 -->
+                    <% if @leadingRateHash[obj1][obj2] != nil %>
+                        <td class="leading_rate"><font color=<%= @leadingRateHash[obj1][obj2][1] %>><%= @leadingRateHash[obj1][obj2][0] %>%</font></td>
                     <% else %>
-                        <td></td>
+                        <td class="leading_rate"></td>
                     <% end %>
                 <% end %>
                 </tr>
@@ -85,8 +95,15 @@
 
 <!-- 相性表(スマホ版) -->
 <div class="card shadow mb-4 d-sm-none">
-    <div class="card-header py-3">
+    <div class="card-header d-flex align-items-center justify-content-between py-1">
         <h6 class="m-0 font-weight-bold text-primary">相性表</h6>
+        <div class="selectdiv">
+            <select name="rate_list" class="rate_list">
+                <option value="win_rate">勝率</option>
+                <option value="number_of_match">対戦数</option>
+                <option value="leading_rate">先行率</option>
+            </select>
+        </div>
     </div>
     <div class="card-body">
         <div class="text-nowrap table-responsive">
@@ -95,19 +112,21 @@
             <tr>
                 <td>自分</td>
                 <td>相手</td>
-                <td>勝率</td>
+                <td class="win_rate">勝率</td>
+                <td class="number_of_match">対戦数</td>
+                <td class="leading_rate">先行率</td>
             </tr>
-            <% tmp_deckArray = @deckArray - ["総計"] %>
-            <% tmp_deckArray.each do |obj1| %>
+            <% @myDeckArray.pop %>
+            <% @myDeckArray.each do |obj1| %>
                 <!-- カード画像表示 -->
                 <% if @deck_image.has_key?(obj1)%>
-                    <td id="pibot-mydeck" rowspan=<%= @winRateHash[obj1].length+1 %>>
+                    <td id="pibot-mydeck" rowspan=<%= @winRateHash[obj1].length < @oppDeckArray.length ?  @winRateHash[obj1].length+1 : @oppDeckArray.length+1 %>>
                     <%= image_tag asset_path("master/card/#{@deck_image[obj1]}"), :size =>"64x64" %>
                     </td>
                 <% else %>
-                    <td id="pibot-mydeck" rowspan=<%= @winRateHash[obj1].length %> cellpadding="5"><%= obj1 %></td>
+                    <td id="pibot-mydeck" rowspan=<%= @winRateHash[obj1].length < @oppDeckArray.length ?  @winRateHash[obj1].length+1 : @oppDeckArray.length+1 %> cellpadding="5"><%= obj1 %></td>
                 <% end %>
-                <% @deckArray.each do |obj2| %>
+                <% @oppDeckArray.each do |obj2| %>
                     <% if @winRateHash[obj1][obj2] != nil %>
                         <tr>
                         <!-- カード画像表示 -->
@@ -117,12 +136,14 @@
                             <td cellpadding="5">　<%= obj2 %>　</td>
                         <% end %>
                         <!-- 勝率表示 -->
-                        <% if @winRateHash[obj1][obj2] >= 55 %>
-                            <td><font color='blue' ><%= @winRateHash[obj1][obj2] %>%</font></td>
-                        <% elsif @winRateHash[obj1][obj2] <= 45 %>
-                            <td><font color='red'><%= @winRateHash[obj1][obj2] %>%</font></td>
+                        <td class="win_rate"><font color=<%= @winRateHash[obj1][obj2][1] %>><%= @winRateHash[obj1][obj2][0] %>%</font></td>
+                        <!-- 対戦数 -->
+                        <td class="number_of_match"><font color='black'><%= @numberOfMatchHash[[obj1, obj2]] %></font></td>
+                        <!-- 先行率 -->
+                        <% if @leadingRateHash[obj1][obj2] != nil %>
+                            <td class="leading_rate"><font color=<%= @leadingRateHash[obj1][obj2][1] %>><%= @leadingRateHash[obj1][obj2][0] %>%</font></td>
                         <% else %>
-                            <td><%= @winRateHash[obj1][obj2] %>%</td>
+                            <td class="leading_rate"></td>
                         <% end %>
                         </tr>
                     <% end %>
@@ -133,6 +154,31 @@
         </div>
     </div>
 </div>
+
+<script>
+    $(document).ready(function() {
+        // 相性表
+        $('.number_of_match').hide();
+        $('.leading_rate').hide();
+        $('.rate_list').change(function(){
+            if($(this).val() == "win_rate"){
+                $('.win_rate').show();
+                $('.number_of_match').hide();
+                $('.leading_rate').hide();
+            }
+            if($(this).val() == "number_of_match"){
+                $('.win_rate').hide();
+                $('.number_of_match').show();
+                $('.leading_rate').hide();
+            }
+            if($(this).val() == "leading_rate"){
+                $('.win_rate').hide();
+                $('.number_of_match').hide();
+                $('.leading_rate').show();
+            }
+        });
+    });
+</script>
 
 <!-- Draw Chart -->
 <%= javascript_include_tag asset_path("maches/totalchart.js") %>

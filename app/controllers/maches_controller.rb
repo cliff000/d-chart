@@ -129,6 +129,79 @@ class MachesController < ApplicationController
     @data = @data.where(dp: tmp_dpMin..tmp_dpMax)
   end
 
+  # 円グラフ作成のための関数
+  def pieChartData(match)
+    others_val = 0
+    oppdecks = match.group(:oppdeck).count.sort {|a,b| b[1]<=>a[1]}
+    graphData = Array.new()
+    i = 0
+    oppdecks.each{|key, value|
+      if !(key == "その他") && (i < 9) then
+        graphData.push({"category" => key, "column-1" => value})
+        i += 1
+      else
+        others_val += value
+      end
+    }
+    if !(others_val == 0) then
+      graphData.push({"category" => "その他", "column-1" => others_val})
+    end
+
+    return graphData
+  end
+
+  # 相性表作成のための関数
+  def calcRate(big, small)
+    big_double = big.group(:mydeck, :oppdeck).count
+    small_double = small.group(:mydeck, :oppdeck).count
+    small_double.default = 0;
+    returnData = Hash.new { |h,k| h[k] = {} }
+
+    big_my = Hash.new(0)
+    big_opp = Hash.new(0)
+    small_my = Hash.new(0)
+    small_opp = Hash.new(0)
+    big = 0
+    small = 0
+
+    big_double.each{|key, val|
+      wr = (small_double[key] * 100.to_f / val).round(1)
+      returnData[key[0]][key[1]] = [wr, rateColor(wr)]
+
+      big_my[key[0]] += val
+      big_opp[key[1]] += val
+      small_my[key[0]] += small_double[key]
+      small_opp[key[1]] += small_double[key]
+    }
+
+    big_my.each{|key, val|
+      wr = (small_my[key] * 100.to_f / val).round(1)
+      returnData[key]["総計"] = [wr, rateColor(wr)]
+      big += val
+    }
+    
+    big_opp.each{|key, val|
+      wr = (small_opp[key] * 100.to_f / val).round(1)
+      returnData["総計"][key] = [wr, rateColor(wr)]
+      small += small_opp[key]
+    }
+
+    wr = (small * 100.to_f / big).round(1)
+    returnData["総計"]["総計"] = [wr, rateColor(wr)]
+
+    return returnData
+  end
+
+  def rateColor(rate)
+    if rate >= 55
+      return 'blue'
+    elsif rate <= 45
+      return 'red'
+    else
+      return 'black'
+    end
+  end
+
   def mychart
     @account = current_account
     
@@ -136,22 +209,7 @@ class MachesController < ApplicationController
     @data = @data.where(playerid: current_account.id)
     
     #デッキ分布のデータ作成
-    others_val = 0
-    oppdecks = @data.group(:oppdeck).count.sort {|a,b| b[1]<=>a[1]}
-    oppdecks2 = Array.new()
-    i = 0
-    oppdecks.each{|key, value|
-      if !(key == "その他") && (i < 9) then
-        oppdecks2.push({"category" => key, "column-1" => value})
-        i += 1
-      else
-        others_val += value
-      end
-    }
-    if !(others_val == 0) then
-      oppdecks2.push({"category" => "その他", "column-1" => others_val})
-    end
-    gon.oppdecks_mychart = oppdecks2
+    gon.oppdecks_mychart = pieChartData(@data)
 
     #DP推移のデータ作成
     dpline = Array.new()
@@ -163,77 +221,27 @@ class MachesController < ApplicationController
     gon.dpline_mychart = dpline
 
     #相性表
-    myHash = @data.group(:mydeck).count
-    oppHash = @data.group(:oppdeck).count
-    myHash = myHash.sort_by { |_, v| -v }.to_h
-    oppHash = oppHash.sort_by { |_, v| -v }.to_h
-    @myDeckArray = Array.new()
-    @oppDeckArray = Array.new()
-    doubleMy = @data.group(:mydeck, :oppdeck).count
-    winData = @data.where(victory: "勝ち")
-    myWinHash = winData.group(:mydeck).count
-    myWinHash2 = winData.group(:oppdeck).count
-    doubleMyWin = winData.group(:mydeck, :oppdeck).count
-    odata = @data.where.not(order: nil)
-    omyHash = odata.group(:mydeck).count
-    ooppHash = odata.group(:oppdeck).count
-    odoubleMy = odata.group(:mydeck, :oppdeck).count
-    leadingData = @data.where(order: "先行")
-    myLeadingHash = leadingData.group(:mydeck).count
-    myLeadingHash2 = leadingData.group(:oppdeck).count
-    doubleMyLeading = leadingData.group(:mydeck, :oppdeck).count
-
-    @winRateHash = Hash.new { |h,k| h[k] = {} }
-    @numberOfMatchHash = Hash.new { |h,k| h[k] = {} }
-    @leadingRateHash = Hash.new { |h,k| h[k] = {} }
-    i = 0
-    j = 0
-    myHash.each{|key1, val1|
-      j = 0
-      oppHash.each{|key2, val2|
-        win_num = doubleMyWin.has_key?([key1, key2]) ? doubleMyWin[[key1, key2]] : 0
-        if doubleMy.has_key?([key1, key2])
-          # 勝率
-          @winRateHash[key1][key2] = (win_num * 100.to_f / doubleMy[[key1, key2]]).round(1)
-          # 対戦数
-          @numberOfMatchHash[key1][key2] = doubleMy[[key1, key2]]
-        end
-        leading_num = doubleMyLeading.has_key?([key1, key2]) ? doubleMyLeading[[key1, key2]] : 0
-        if odoubleMy.has_key?([key1, key2])
-          # 先行率
-          @leadingRateHash[key1][key2] = (leading_num * 100.to_f / odoubleMy[[key1, key2]]).round(1)
-        end
-        j += 1
-      }
-      win_num = myWinHash.has_key?(key1) ? myWinHash[key1] : 0
-      leading_num = myLeadingHash.has_key?(key1) ? myLeadingHash[key1] : 0
-      @winRateHash[key1]["総計"] = (win_num * 100.to_f / val1).round(1)
-      @numberOfMatchHash[key1]["総計"] = val1
-      if omyHash.has_key?(key1)
-        @leadingRateHash[key1]["総計"] = (leading_num * 100.to_f / omyHash[key1]).round(1)
-      end
-      @myDeckArray.push(key1)
-      i += 1
-    }
-    oppHash.each{|key2, val2|
-      win_num = myWinHash2.has_key?(key2) ? myWinHash2[key2] : 0
-      leading_num = myLeadingHash2.has_key?(key2) ? myLeadingHash2[key2] : 0
-      @winRateHash["総計"][key2] = (win_num * 100.to_f / val2).round(1)
-      @numberOfMatchHash["総計"][key2] = val2
-      if ooppHash.has_key?(key2)
-        @leadingRateHash["総計"][key2] = (leading_num * 100.to_f / ooppHash[key2]).round(1)
-      end
-      @oppDeckArray.push(key2)
-    }
-    @myDeckArray.push("総計")
+    myHash = @data.group(:mydeck).count.sort_by { |_, v| -v }.to_h
+    oppHash = @data.group(:oppdeck).count.sort_by { |_, v| -v }.to_h
+    @myDeckArray = myHash.keys
+    @oppDeckArray = oppHash.keys
     if @oppDeckArray.include?("その他")
       @oppDeckArray.delete("その他")
       @oppDeckArray.push("その他")
     end
+    @myDeckArray.push("総計")
     @oppDeckArray.push("総計")
-    @winRateHash["総計"]["総計"] = (winData.count * 100.to_f / @data.count).round(1)
-    @numberOfMatchHash["総計"]["総計"] = @data.count
-    @leadingRateHash["総計"]["総計"] = (leadingData.count * 100.to_f / odata.count).round(1)
+
+    @winRateHash = calcRate(@data, @data.where(victory: "勝ち"))
+    @leadingRateHash = calcRate(@data.where.not(order: nil), @data.where(order: "先行"))
+    @numberOfMatchHash = @data.group(:mydeck, :oppdeck).count
+    myHash.each{|key1, val1|
+      @numberOfMatchHash[[key1, "総計"]] = val1
+    }
+    oppHash.each{|key2, val2|
+      @numberOfMatchHash[["総計", key2]] = val2
+    }
+    @numberOfMatchHash[["総計", "総計"]] = @data.count
 
     #画像リスト読み込み
     @deck_image = {}
@@ -243,96 +251,56 @@ class MachesController < ApplicationController
   end
 
   def mydata_csv
-    @data = Match.where(tag: params[:kc]).where(playerid: current_account.id).where(created_at: datetime_detail()[0]..datetime_detail()[1])
+    getDuelData()
+    @data = @data.where(playerid: current_account.id)
   end
 
   def totalchart
     getDuelData()
-    
-    oppdecks = @data.group(:oppdeck).count.sort {|a,b| b[1]<=>a[1]}
-
     #デッキ分布のデータ作成
-    others_val = 0
-    oppdecks2 = Array.new()
-    i = 0
-    oppdecks.each{|key, value|
-      if !(key == "その他") && (i < 9) then
-        oppdecks2.push({"category" => key, "column-1" => value})
-        i += 1
-      else
-        others_val += value
-      end
-    }
-    if !(others_val == 0) then
-      oppdecks2.push({"category" => "その他", "column-1" => others_val})
-    end
-    gon.oppdecks_totalchart = oppdecks2
+    gon.oppdecks_totalchart = pieChartData(@data)
 
     #直近のデッキ分布のデータ作成
     @recentData = @data.where(created_at: (Time.now - 7200)..Float::INFINITY)
-    oppdecks = @recentData.group(:oppdeck).count.sort {|a,b| b[1]<=>a[1]}
-    others_val = 0
-    oppdecks2 = Array.new()
-    i = 0
-    oppdecks.each{|key, value|
-      if !(key == "その他") && (i < 9) then
-        oppdecks2.push({"category" => key, "column-1" => value})
-        i += 1
-      else
-        others_val += value
-      end
-    }
-    if !(others_val == 0) then
-      oppdecks2.push({"category" => "その他", "column-1" => others_val})
-    end
-    gon.recent_oppdecks_totalchart = oppdecks2
-
+    gon.recent_oppdecks_totalchart = pieChartData(@recentData)
 
     #相性表
-    myHash = @data.group(:mydeck).count
-    oppHash = @data.group(:oppdeck).count
-    oppHash = oppHash.sort_by { |_, v| -v }.to_h
-    @deckArray = Array.new()
-    doubleMy = @data.group(:mydeck, :oppdeck).count
-    doubleOpp = @data.group(:oppdeck, :mydeck).count
-    doubleAll = doubleOpp.merge(doubleMy) {|key, oldval, newval| oldval + newval}
-    winData = @data.where(victory: "勝ち")
-    loseData = @data.where(victory: "負け")
-    myWinHash = winData.group(:mydeck).count
-    oppWinHash = loseData.group(:oppdeck).count
-    allWinHash = oppWinHash.merge(myWinHash) {|key, oldval, newval| oldval + newval}
-    doubleMyWin = winData.group(:mydeck, :oppdeck).count
-    doubleOppWin = loseData.group(:oppdeck, :mydeck).count
-    doubleAllWin = doubleOppWin.merge(doubleMyWin) {|key, oldval, newval| oldval + newval}
-
-    
-    @winRateHash = Hash.new { |h,k| h[k] = {} }
+    myHash = @data.group(:mydeck).count.sort_by { |_, v| -v }.to_h
+    oppHash = @data.group(:oppdeck).count.sort_by { |_, v| -v }.to_h
+    myHash.default = 0;
+    oppHash.default = 0;
+    @myDeckArray = Array.new
+    @oppDeckArray = Array.new
     i = 0
-    j = 0
-    oppHash.each{|key1, val1|
-      break if i > 9
-      j = 0
-      oppHash.each{|key2, val2|
-        break if j > 9
-        win_num = doubleAllWin.has_key?([key1, key2]) ? doubleAllWin[[key1, key2]] : 0
-        if doubleAll.has_key?([key1, key2])
-          @winRateHash[key1][key2] = (win_num * 100.to_f / doubleAll[[key1, key2]]).round(1)
-        end
-        j += 1
-      }
-      win_num = allWinHash.has_key?(key1) ? allWinHash[key1] : 0
-      match_num = myHash.has_key?(key1) ? myHash[key1] + val1 : val1
-      @winRateHash[key1]["総計"] = (win_num * 100.to_f / match_num).round(1)
-      @winRateHash["総計"][key1] = ((match_num - win_num) * 100.to_f / match_num).round(1)
-      @deckArray.push(key1)
+    oppHash.each{|key, val|
+      if i < 10 && key != "その他"
+        @oppDeckArray.push(key)
+      end
       i += 1
     }
-    if @deckArray.include?("その他")
-      @deckArray.delete("その他")
-      @deckArray.push("その他")
+    if oppHash.include?("その他")
+      @oppDeckArray.push("その他")
     end
-    @deckArray.push("総計")
-    @winRateHash["総計"]["総計"] = 50.0
+    i = 0
+    myHash.each{|key, val|
+      if i < 10
+        @myDeckArray.push(key)
+      end
+      i += 1
+    }
+    @myDeckArray.push("総計")
+    @oppDeckArray.push("総計")
+
+    @winRateHash = calcRate(@data, @data.where(victory: "勝ち"))
+    @leadingRateHash = calcRate(@data.where.not(order: nil), @data.where(order: "先行"))
+    @numberOfMatchHash = @data.group(:mydeck, :oppdeck).count
+    myHash.each{|key1, val1|
+      @numberOfMatchHash[[key1, "総計"]] = val1
+    }
+    oppHash.each{|key2, val2|
+      @numberOfMatchHash[["総計", key2]] = val2
+    }
+    @numberOfMatchHash[["総計", "総計"]] = @data.count
 
     #画像リスト読み込み
     @deck_image = {}

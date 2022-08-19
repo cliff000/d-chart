@@ -312,6 +312,17 @@ class MasterController < ApplicationController
     }
     @numberOfMatchHash[["総計", "総計"]] = @data.count
 
+    @rowspan = Hash.new
+    @myDeckArray.each{|key1|
+      i = 0
+      @oppDeckArray.each{|key2|
+        if @winRateHash[key1].has_key?(key2)
+          i += 1
+        end
+      }
+      @rowspan[key1] = i + 1
+    }
+
     #画像リスト読み込み
     @deck_image = {}
     File.open("#{Rails.root}/config_duellinks/master/deck_image.json") do |file|

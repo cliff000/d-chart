@@ -119,11 +119,11 @@
             <% @myDeckArray.each do |obj1| %>
                 <!-- カード画像表示 -->
                 <% if @deck_image.has_key?(obj1)%>
-                    <td id="pibot-mydeck" rowspan=<%= @winRateHash[obj1].length < @oppDeckArray.length ?  @winRateHash[obj1].length+1 : @oppDeckArray.length+1 %>>
+                    <td id="pibot-mydeck" rowspan=<%= @rowspan[obj1] %>>
                     <%= image_tag asset_path("master/card/#{@deck_image[obj1]}"), :size =>"64x64" %>
                     </td>
                 <% else %>
-                    <td id="pibot-mydeck" rowspan=<%= @winRateHash[obj1].length < @oppDeckArray.length ?  @winRateHash[obj1].length+1 : @oppDeckArray.length+1 %> cellpadding="5"><%= obj1 %></td>
+                    <td id="pibot-mydeck" rowspan=<%= @rowspan[obj1] %> cellpadding="5"><%= obj1 %></td>
                 <% end %>
                 <% @oppDeckArray.each do |obj2| %>
                     <% if @winRateHash[obj1][obj2] != nil %>

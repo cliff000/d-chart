@@ -222,6 +222,10 @@ class MasterController < ApplicationController
     oppHash = @data.group(:oppdeck).count.sort_by { |_, v| -v }.to_h
     @myDeckArray = myHash.keys
     @oppDeckArray = oppHash.keys
+    if @oppDeckArray.include?("unknown")
+      @oppDeckArray.delete("unknown")
+      @oppDeckArray.push("unknown")
+    end
     if @oppDeckArray.include?("others")
       @oppDeckArray.delete("others")
       @oppDeckArray.push("others")
@@ -241,7 +245,7 @@ class MasterController < ApplicationController
     @numberOfMatchHash[["総計", "総計"]] = @data.count
     #画像リスト読み込み
     @deck_image = {}
-    File.open("#{Rails.root}/config_duellinks/deck_image.json") do |file|
+    File.open("#{Rails.root}/config_duellinks/master/deck_image.json") do |file|
       @deck_image = JSON.load(file)
     end
   end
@@ -270,18 +274,27 @@ class MasterController < ApplicationController
     @oppDeckArray = Array.new
     i = 0
     oppHash.each{|key, val|
-      if i < 10 && key != "others"
+      if i < 10
         @oppDeckArray.push(key)
+      else
+        break
       end
       i += 1
     }
-    if oppHash.include?("others")
+    if @oppDeckArray.include?("unknown")
+      @oppDeckArray.delete("unknown")
+      @oppDeckArray.push("unknown")
+    end
+    if @oppDeckArray.include?("others")
+      @oppDeckArray.delete("others")
       @oppDeckArray.push("others")
     end
     i = 0
     myHash.each{|key, val|
       if i < 10
         @myDeckArray.push(key)
+      else
+        break
       end
       i += 1
     }
@@ -301,7 +314,7 @@ class MasterController < ApplicationController
 
     #画像リスト読み込み
     @deck_image = {}
-    File.open("#{Rails.root}/config_duellinks/deck_image.json") do |file|
+    File.open("#{Rails.root}/config_duellinks/master/deck_image.json") do |file|
       @deck_image = JSON.load(file)
     end
   end

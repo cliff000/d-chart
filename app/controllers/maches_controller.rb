@@ -225,6 +225,10 @@ class MachesController < ApplicationController
     oppHash = @data.group(:oppdeck).count.sort_by { |_, v| -v }.to_h
     @myDeckArray = myHash.keys
     @oppDeckArray = oppHash.keys
+    if @oppDeckArray.include?("不明")
+      @oppDeckArray.delete("不明")
+      @oppDeckArray.push("不明")
+    end
     if @oppDeckArray.include?("その他")
       @oppDeckArray.delete("その他")
       @oppDeckArray.push("その他")
@@ -273,18 +277,27 @@ class MachesController < ApplicationController
     @oppDeckArray = Array.new
     i = 0
     oppHash.each{|key, val|
-      if i < 10 && key != "その他"
+      if i < 10
         @oppDeckArray.push(key)
+      else
+        break
       end
       i += 1
     }
-    if oppHash.include?("その他")
+    if @oppDeckArray.include?("不明")
+      @oppDeckArray.delete("不明")
+      @oppDeckArray.push("不明")
+    end
+    if @oppDeckArray.include?("その他")
+      @oppDeckArray.delete("その他")
       @oppDeckArray.push("その他")
     end
     i = 0
     myHash.each{|key, val|
       if i < 10
         @myDeckArray.push(key)
+      else
+        break
       end
       i += 1
     }

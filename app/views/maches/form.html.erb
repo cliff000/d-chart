@@ -1,7 +1,7 @@
 <h1>Record</h1>
 <!-- 日付が範囲外だと警告を出す -->
 <p><% if @inKC == false %>
-    <font color="red">※デュエリストカップ2ndStageの開催時間外です。注意してください。</font>
+    <font color="red">※KCカップ2ndStageの開催時間外です。注意してください。</font>
 <% end %></p>
 
 <%= form_for(@match, url:{controller:'maches', action:'create'}) do |form| %>

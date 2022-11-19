@@ -18,7 +18,7 @@
         <div class="card-body">
           <div class="row no-gutters align-items-center">
             <div class="col mr-2">
-              <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">先行率</div>
+              <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">先攻率</div>
                 <div class="h5 mb-0 font-weight-bold text-gray-800"><%= (order_data.where(order: "first").count.to_f * 100 / order_data.count).round(1) %>%</div>
               </div>
             <div class="col-auto">

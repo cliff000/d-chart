@@ -87,13 +87,13 @@
         <div class="form-group">
             <div class="tab-wrap">
                 <% if @selectedData.order == nil %>
-                    <%= form.radio_button :order, "first", :class => 'tab-switch' %><label class="tab-label1" for="master_match_order_first">先行</label>
+                    <%= form.radio_button :order, "first", :class => 'tab-switch' %><label class="tab-label1" for="master_match_order_first">先攻</label>
                     <%= form.radio_button :order, "second", :class => 'tab-switch' %><label class="tab-label2" for="master_match_order_second">後攻</label>
                 <% elsif @selectedData.order == "first" %>
-                    <%= form.radio_button :order, "first", :class => 'tab-switch', checked: true %><label class="tab-label1" for="master_match_order_first">先行</label>
+                    <%= form.radio_button :order, "first", :class => 'tab-switch', checked: true %><label class="tab-label1" for="master_match_order_first">先攻</label>
                     <%= form.radio_button :order, "second", :class => 'tab-switch' %><label class="tab-label2" for="master_match_order_second">後攻</label>
                 <% else %>
-                    <%= form.radio_button :order, "first", :class => 'tab-switch' %><label class="tab-label1" for="master_match_order_first">先行</label>
+                    <%= form.radio_button :order, "first", :class => 'tab-switch' %><label class="tab-label1" for="master_match_order_first">先攻</label>
                     <%= form.radio_button :order, "second", :class => 'tab-switch', checked: true %><label class="tab-label2" for="master_match_order_second">後攻</label>
                 <% end %>
             </div>

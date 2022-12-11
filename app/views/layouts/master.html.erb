@@ -182,18 +182,9 @@
               <ul class="dropdown-menu dropdown-menu-right">
                 <!-- <li><button class="dropdown-item select_kc_links" value="KCGT2020">KCGT2020</button></li>
                 <li><button class="dropdown-item select_kc_links" value="KC2020Sep">KC2020Sep</button></li> -->
-                <li><button class="dropdown-item" value="">--Duel Links--</button></li>
-                <li><button class="dropdown-item select_kc_links" value="KC2020Nov">KC2020Nov</button></li>
-                <li><button class="dropdown-item select_kc_links" value="KC2021Feb">KC2021Feb</button></li>
-                <li><button class="dropdown-item select_kc_links" value="KC2021Apr">KC2021Apr</button></li>
-                <li><button class="dropdown-item select_kc_links" value="KCGT2021">KCGT2021</button></li>
-                <li><button class="dropdown-item select_kc_links" value="KC2021Sep">KC2021Sep</button></li>
-                <li><button class="dropdown-item select_kc_links" value="KC2021Nov">KC2021Nov</button></li>
-                <li><button class="dropdown-item select_kc_links" value="KC2022Feb">KC2021Feb</button></li>
-                <li><button class="dropdown-item select_kc_links" value="KC2022Apr">KC2021Apr</button></li>
-                <li><button class="dropdown-item select_kc_links" value="KCGT2022">KCGT2022</button></li>
-                <li><button class="dropdown-item" value="">--Master Duel--</button></li>
-                <li><button class="dropdown-item select_kc_master" value="DC2022Aug">Duelist Cup</button></li>
+                <li><button class="dropdown-item select_kc_master" value="DC2022Aug">DC2022Aug</button></li>
+                <li><button class="dropdown-item select_kc_master" value="DC2022Dec">DC2022Dec</button></li>
+                <li><button class="dropdown-item select_kc_links" value="">DuelLinksへ</button></li>
               </ul>
             </div>
             <button type="button" class="btn btn-outline-primary" id="searchButton" data-toggle="modal" data-target="#searchModal">絞り込み</button>
@@ -202,10 +193,8 @@
               <!-- DC選択のスクリプト -->
               $(function(){
                 $('.select_kc_links').click(function(){
-                  var path = location.pathname.split('/');
-                  var endPath = path[path.length-1];
                   location.search = "";
-                  location.pathname = 'links/' + $(this).attr('value') + '/' + endPath;
+                  location.pathname = 'links/index';
                 })
                 $('.select_kc_master').click(function(){
                   var path = location.pathname.split('/');

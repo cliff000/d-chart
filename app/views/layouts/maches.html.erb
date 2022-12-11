@@ -208,7 +208,6 @@
               <ul class="dropdown-menu dropdown-menu-right">
                 <!-- <li><button class="dropdown-item select_kc_links" value="KCGT2020">KCGT2020</button></li>
                 <li><button class="dropdown-item select_kc_links" value="KC2020Sep">KC2020Sep</button></li> -->
-                <li><button class="dropdown-item" value="">--Duel Links--</button></li>
                 <li><button class="dropdown-item select_kc_links" value="KC2020Nov">KC2020Nov</button></li>
                 <li><button class="dropdown-item select_kc_links" value="KC2021Feb">KC2021Feb</button></li>
                 <li><button class="dropdown-item select_kc_links" value="KC2021Apr">KC2021Apr</button></li>
@@ -220,8 +219,7 @@
                 <li><button class="dropdown-item select_kc_links" value="KCGT2022">KCGT2022</button></li>
                 <li><button class="dropdown-item select_kc_links" value="KC2022Sep">KC2022Sep</button></li>
                 <li><button class="dropdown-item select_kc_links" value="KC2022Nov">KC2022Nov</button></li>
-                <li><button class="dropdown-item" value="">--Master Duel--</button></li>
-                <li><button class="dropdown-item select_kc_master" value="DC2022Aug">DC2022Aug</button></li>
+                <li><button class="dropdown-item select_kc_master" value="">MasterDuelへ</button></li>
               </ul>
             </div>
             <button type="button" class="btn btn-outline-primary" id="searchButton" data-toggle="modal" data-target="#searchModal">絞り込み</button>
@@ -236,10 +234,8 @@
                   location.pathname = 'links/' + $(this).attr('value') + '/' + endPath;
                 })
                 $('.select_kc_master').click(function(){
-                  var path = location.pathname.split('/');
-                  var endPath = path[path.length-1];
                   location.search = "";
-                  location.pathname = 'master/' + $(this).attr('value') + '/' + endPath;
+                  location.pathname = 'master/index';
                 })
               });
             </script>

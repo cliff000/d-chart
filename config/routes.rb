@@ -4,6 +4,9 @@ Rails.application.routes.draw do
   get 'mychart', to:'master#index'
   get 'totalchart', to:'master#index'
 
+  get 'links/index', to:'maches#index'
+  get 'master/index', to:'master#index'
+
   get 'links/:kc/form', to:'maches#form'
   post 'links/:kc/form', to:'maches#create'
   get 'links/:kc/sended_form', to:'maches#sended_form'

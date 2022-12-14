@@ -15,7 +15,8 @@
     "ignister":"ignister.png",
     "sky-striker-ace":"sky-striker-ace.png",
     "tri_zoodiac":"tri_zoodiac.png",
-    "tri_lyrilusc":"tri_lyrilusc.png",
+    "tri_lyrilusc":"lyrilusc.png",
+    "tri-brigade":"tri-brigade.png",
     "shaddoll":"shaddoll.png",
     "the-phantom-knights":"the-phantom-knights.png",
     "despia":"despia.png",
@@ -26,6 +27,10 @@
     "vaylantz":"vaylantz.png",
     "marincess":"marincess.png",
     "branded":"branded.png",
+    "dragon-link":"dragon-link.png",
+    "endymion":"endymion.png",
+    "magician":"magician.png",
+    "thunder-dragon":"thunder-dragon.png",
     "unknown":"unknown.jpg",
     "others":"others.jpg"
 } 

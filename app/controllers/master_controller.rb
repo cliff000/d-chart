@@ -149,7 +149,6 @@ class MasterController < ApplicationController
     if !(others_val == 0) then
       graphData.push({"category" => deckname["others"], "column-1" => others_val})
     end
-    if graphData.
 
     return graphData
   end

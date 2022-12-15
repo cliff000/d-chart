@@ -125,12 +125,15 @@ class MasterController < ApplicationController
       deckname = JSON.load(file)
     end
     others_val = 0
+    unknown_val = 0
     oppdecks = match.group(:oppdeck).count.sort {|a,b| b[1]<=>a[1]}
     graphData = Array.new()
     i = 0
     oppdecks.each{|key, value|
       if !(key == "others") && (i < 9) then
-        if(deckname.has_key?(key))
+        if(key == "unknown")
+          unknown_val += value
+        elsif(deckname.has_key?(key))
           graphData.push({"category" => deckname[key], "column-1" => value})
         else
           graphData.push({"category" => key, "column-1" => value})
@@ -140,9 +143,13 @@ class MasterController < ApplicationController
         others_val += value
       end
     }
+    if !(unknown_val == 0) then
+      graphData.push({"category" => deckname["unknown"], "column-1" => unknown_val})
+    end
     if !(others_val == 0) then
       graphData.push({"category" => deckname["others"], "column-1" => others_val})
     end
+    if graphData.
 
     return graphData
   end

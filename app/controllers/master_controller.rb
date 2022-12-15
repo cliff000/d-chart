@@ -143,11 +143,11 @@ class MasterController < ApplicationController
         others_val += value
       end
     }
-    if !(unknown_val == 0) then
-      graphData.push({"category" => deckname["unknown"], "column-1" => unknown_val})
-    end
     if !(others_val == 0) then
       graphData.push({"category" => deckname["others"], "column-1" => others_val})
+    end
+    if !(unknown_val == 0) then
+      graphData.push({"category" => deckname["unknown"], "column-1" => unknown_val})
     end
 
     return graphData
@@ -228,13 +228,13 @@ class MasterController < ApplicationController
     oppHash = @data.group(:oppdeck).count.sort_by { |_, v| -v }.to_h
     @myDeckArray = myHash.keys
     @oppDeckArray = oppHash.keys
-    if @oppDeckArray.include?("unknown")
-      @oppDeckArray.delete("unknown")
-      @oppDeckArray.push("unknown")
-    end
     if @oppDeckArray.include?("others")
       @oppDeckArray.delete("others")
       @oppDeckArray.push("others")
+    end
+    if @oppDeckArray.include?("unknown")
+      @oppDeckArray.delete("unknown")
+      @oppDeckArray.push("unknown")
     end
     @myDeckArray.push("総計")
     @oppDeckArray.push("総計")
@@ -287,13 +287,13 @@ class MasterController < ApplicationController
       end
       i += 1
     }
-    if @oppDeckArray.include?("unknown")
-      @oppDeckArray.delete("unknown")
-      @oppDeckArray.push("unknown")
-    end
     if @oppDeckArray.include?("others")
       @oppDeckArray.delete("others")
       @oppDeckArray.push("others")
+    end
+    if @oppDeckArray.include?("unknown")
+      @oppDeckArray.delete("unknown")
+      @oppDeckArray.push("unknown")
     end
     i = 0
     myHash.each{|key, val|

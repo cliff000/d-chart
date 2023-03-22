@@ -23,7 +23,7 @@
   "despia":"デスピア",
   "branded_despia":"烙印デスピア",
   "labrynth":"ラビュリンス",
-  "runick":"神碑",
+  "runick":"ルーン",
   "vaylantz":"ヴァリアンツ",
   "marincess":"海晶乙女",
   "branded":"烙印",
@@ -33,6 +33,14 @@
   "thunder-dragon":"サンダー・ドラゴン",
   "umi":"海",
   "spyral":"SPYRAL",
+  "frog_spright":"ガエルスプライト",
+  "tri_spright":"鉄獣スプライト",
+  "ishizu_punk":"イシズPUNK",
+  "ishizu_necro":"イシズネクロ",
+  "mathmech":"斬機",
+  "exosister":"エクソシスター",
+  "evil_spright":"イビルツインスプライト",
+  "runick_spright":"ルーンスプライト",
   "unknown":"不明",
   "others":"その他"
 } 

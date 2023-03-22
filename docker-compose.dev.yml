@@ -3,6 +3,7 @@ services:
   app:
     build:
       context: .
+    image: kc-chart-app
     env_file:
       - ./environments/db.dev.env
       - ./environments/app.dev.env
@@ -25,6 +26,7 @@ services:
   web:
     build:
       context: containers/nginx
+    image: kc-chart-web
     volumes:
       - public-data:/webapp/public
       - tmp-data:/webapp/tmp

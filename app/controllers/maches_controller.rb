@@ -405,7 +405,7 @@ class MachesController < ApplicationController
 
   def deckchart
     getDuelData()
-    @deckName = URI.unescape(params[:deck])
+    @deckName = CGI.unescape(params[:deck])
     @mydata = @data.where(mydeck: params[:deck])
     @oppdata = @data.where(oppdeck: params[:deck])
     

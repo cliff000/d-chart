@@ -1,21 +1,21 @@
-FROM ruby:2.5.1
+FROM ruby:3.2
 
-# ƒŠƒ|ƒWƒgƒŠ‚ğXV‚µˆË‘¶ƒ‚ƒWƒ…[ƒ‹‚ğƒCƒ“ƒXƒg[ƒ‹
-RUN curl -sL https://deb.nodesource.com/setup_10.x | bash - && apt-get update && apt-get install -y nodejs --no-install-recommends && rm -rf /var/lib/apt/lists/*
+# ï¿½ï¿½ï¿½|ï¿½Wï¿½gï¿½ï¿½ï¿½ï¿½ï¿½Xï¿½Vï¿½ï¿½ï¿½Ë‘ï¿½ï¿½ï¿½ï¿½Wï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½Xï¿½gï¿½[ï¿½ï¿½
+RUN curl -sL https://deb.nodesource.com/setup_20.x | bash - && apt-get update && apt-get install -y nodejs --no-install-recommends && rm -rf /var/lib/apt/lists/*
 
-# ƒ‹[ƒg’¼‰º‚Éwebapp‚Æ‚¢‚¤–¼‘O‚Åì‹ÆƒfƒBƒŒƒNƒgƒŠ‚ğì¬iƒRƒ“ƒeƒi“à‚ÌƒAƒvƒŠƒP[ƒVƒ‡ƒ“ƒfƒBƒŒƒNƒgƒŠj
+# ï¿½ï¿½ï¿½[ï¿½gï¿½ï¿½ï¿½ï¿½ï¿½ï¿½webappï¿½Æ‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Oï¿½Åï¿½Æƒfï¿½Bï¿½ï¿½ï¿½Nï¿½gï¿½ï¿½ï¿½ï¿½ï¿½ì¬ï¿½iï¿½Rï¿½ï¿½ï¿½eï¿½iï¿½ï¿½ï¿½ÌƒAï¿½vï¿½ï¿½ï¿½Pï¿½[ï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½fï¿½Bï¿½ï¿½ï¿½Nï¿½gï¿½ï¿½ï¿½j
 RUN mkdir /webapp
 WORKDIR /webapp
 
-# ƒzƒXƒg‚ÌGemfile‚ÆGemfile.lock‚ğƒRƒ“ƒeƒi‚ÉƒRƒs[
+# ï¿½zï¿½Xï¿½gï¿½ï¿½Gemfileï¿½ï¿½Gemfile.lockï¿½ï¿½ï¿½Rï¿½ï¿½ï¿½eï¿½iï¿½ÉƒRï¿½sï¿½[
 ADD Gemfile /webapp/Gemfile
 ADD Gemfile.lock /webapp/Gemfile.lock
 
-# bundle install‚ÌÀs
+# bundle installï¿½Ìï¿½ï¿½s
 RUN bundle install
 
-# ƒzƒXƒg‚ÌƒAƒvƒŠƒP[ƒVƒ‡ƒ“ƒfƒBƒŒƒNƒgƒŠ“à‚ğ‚·‚×‚ÄƒRƒ“ƒeƒi‚ÉƒRƒs[
+# ï¿½zï¿½Xï¿½gï¿½ÌƒAï¿½vï¿½ï¿½ï¿½Pï¿½[ï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½fï¿½Bï¿½ï¿½ï¿½Nï¿½gï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×‚ÄƒRï¿½ï¿½ï¿½eï¿½iï¿½ÉƒRï¿½sï¿½[
 ADD . /webapp
 
-# puma.sock‚ğ”z’u‚·‚éƒfƒBƒŒƒNƒgƒŠ‚ğì¬
+# puma.sockï¿½ï¿½zï¿½uï¿½ï¿½ï¿½ï¿½fï¿½Bï¿½ï¿½ï¿½Nï¿½gï¿½ï¿½ï¿½ï¿½ï¿½ì¬
 RUN mkdir -p tmp/sockets

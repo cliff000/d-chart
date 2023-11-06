@@ -1,8 +1,8 @@
 Rails.application.routes.draw do
   root to: 'index#introduction'
-  get 'form', to:'master#index'
-  get 'mychart', to:'master#index'
-  get 'totalchart', to:'master#index'
+  get 'form', to:'maches#index'
+  get 'mychart', to:'maches#index'
+  get 'totalchart', to:'maches#index'
 
   get 'links/index', to:'maches#index'
   get 'master/index', to:'master#index'

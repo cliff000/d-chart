@@ -49,6 +49,9 @@ class MasterController < ApplicationController
     @lastData = MasterMatch.where(playerid: current_account.id).last
   end
 
+  def close
+  end
+
   def create
     if request.post? then
       tmp = MasterMatch.new(match_params)

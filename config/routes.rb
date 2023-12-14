@@ -27,6 +27,7 @@ Rails.application.routes.draw do
   get 'master/:dc/edit/:id', to: 'master#edit'
   patch 'master/:dc/edit/:id', to: 'master#update'
   get 'master/:dc/delete/:id', to:'master#delete'
+  get 'master/:dc/close', to:'master#close'
   
   get 'admin/export', to:'admin#export'
   get 'admin/export/accounts.csv', to:'admin#export_accounts'

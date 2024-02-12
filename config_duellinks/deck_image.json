@@ -7,7 +7,7 @@
     "青眼":"blue-eyes.jpg",
     "ネオス":"neos.jpg",
     "霊獣":"ritual-beast.jpg",
-    "不知火":"shiranui.jpg",
+    "不知火":"shiranui.png",
     "ドラグニティ":"dragunity.jpg",
     "ウィッチクラフト":"witchcrafter.jpg",
     "バレットネオス":"bullet.jpg",
@@ -113,6 +113,7 @@
     "ユベルネオス":"kluger.png",
     "S-Force":"s-force.png",
     "魔鍵":"magikey.png",
+    "タキオン":"tachyon.png",
     "その他":"others.jpg",
     "不明":"unknown.jpg"
 } 

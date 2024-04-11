@@ -12,7 +12,7 @@
     "ウィッチクラフト":"witchcrafter.jpg",
     "バレットネオス":"bullet.jpg",
     "水晶機巧":"crystron.jpg",
-    "呪眼":"evil-eye.jpg",
+    "呪眼":"evil-eye.png",
     "天気":"weather-painter.jpg",
     "インフェルニティ":"infernity.jpg",
     "月光":"lunalight.jpg",
@@ -117,6 +117,9 @@
     "シャドール":"shaddoll.png",
     "銀河眼":"photon.jpg",
     "セイクリッド":"constellar.png",
+    "アンデアイズ":"zombies.png",
+    "閃刀姫":"sky-striker.png",
+    "Kozmo":"kozmo.png",
     "その他":"others.jpg",
     "不明":"unknown.jpg"
 } 
